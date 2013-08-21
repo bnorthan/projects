@@ -1,0 +1,15 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00"\x00C\x00O\x00S\x00M\x00-\x000\x00.\x007\x00.\x004\x00-\x00S\x00o\x00u\x00r\x00c\x00e)
+
+[CMake]
+BuildDirs=/home/bnorthan/Brian2012/Code/COSM-0.7.4-Source/build
+CMakeDir=/usr/share/cmake-2.8/Modules
+Current CMake Binary=file:///usr/bin/cmake
+CurrentBuildDir=file:///home/bnorthan/Brian2012/Code/COSM-0.7.4-Source/build
+CurrentBuildType=Release
+CurrentInstallDir=file:///usr/local
+Extra Arguments=
+ProjectRootRelative=./
+
+[MakeBuilder]
+Number Of Jobs=1

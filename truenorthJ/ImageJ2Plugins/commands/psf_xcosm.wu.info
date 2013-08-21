@@ -1,0 +1,8 @@
+                    binning factor: 1
+        Distance between apertures: 5.000000E+24
+aperture diameter(prebin,oversamp): -nan
+                     sample matrix:
+                               Vxx: 1.000000
+                               Vxy: -0.500000
+                               Vyx: 0.000000
+                               Vyy: 0.866025

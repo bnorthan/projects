@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.truenorth</groupId>
+		<artifactId>pom-truenorthJ</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>pom-ImageJ2Plugins</artifactId>
+	<packaging>pom</packaging>
+	
+	<name>ImageJ2 plugins</name>
+	<description>Umbrella project for imagej2 plugins.</description>
+
+	<modules>
+		<module>functions</module>
+		<module>commands</module>
+		<module>DeconvolutionTest</module>
+		<module>FuzzyDeconvolution</module>
+        </modules>
+
+	<!-- NB: for project parent, in case of partial checkout -->
+	<repositories>
+		<repository>
+			<id>imagej.releases</id>
+			<url>http://maven.imagej.net/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>imagej.snapshots</id>
+			<url>http://maven.imagej.net/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
+</project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+<plugin>
+  <groupId>com.googlecode.cmake-maven-project</groupId>
+  <artifactId>cmake-maven-plugin</artifactId>
+  <version>2.8.10.2-b1</version>
+  <executions>
+    <execution>
+      <id>cmake-generate</id>
+      <goals>
+        <goal>generate</goal>
+      </goals>
+      <configuration>
+        <sourcePath>
+          <!-- The directory containing CMakeLists -->
+        </sourcePath>
+        <targetPath>
+          <!-- The directory write the project files to -->
+        </targetPath>
+        <generator>
+          <!-- One of the generators defined at http://www.cmake.org/cmake/help/v2.8.10/cmake.html#section_Generators -->
+        </generator>
+        <environmentVariables>
+          <key>value</key>
+        </environmentVariables>
+        <options>
+          <!--
+            Optional: One or more options found at http://www.cmake.org/cmake/help/v2.8.10/cmake.html#section_Options
+            For example:
+          -->
+          <option>-DBUILD_THIRDPARTY:bool=on</option> 
+        </options>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+
+

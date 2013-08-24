@@ -6,8 +6,6 @@ import org.scijava.plugin.Plugin;
 
 import com.truenorth.commands.Constants;
 
-import imagej.ImageJ;
-
 import imagej.command.Command;
 import imagej.data.Dataset;
 import imagej.data.DatasetService;
@@ -220,10 +218,5 @@ public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements
 		output = datasetService.create(psfPlus);
 	}
 	
-	/** Launches imagej in order to test the command */
-	public static void main(final String... args) throws Exception {
-		// Launch ImageJ as usual.
-		final ImageJ ij = imagej.Main.launch(args);
-	}
-
+	
 }

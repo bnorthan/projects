@@ -4,19 +4,19 @@ import imagej.plugin.AbstractPreprocessorPlugin;
 import imagej.module.Module;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
-import net.imglib2.type.numeric.real.FloatType;
 
 import org.scijava.Priority;
 import org.scijava.plugin.Plugin;
 import imagej.plugin.PreprocessorPlugin;
 
 import com.truenorth.commands.fft.IterativeFilterCommand;
-import com.truenorth.functions.StaticFunctions;
-import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
-import imagej.module.ModuleItem;
-
+/**
+ * a preprocessor for deconvolution commands.
+ * @author bnorthan
+ *
+ */
 @Plugin(type = PreprocessorPlugin.class,priority = Priority.VERY_LOW_PRIORITY + 1)
 public class DeconvolutionPreprocessor extends AbstractPreprocessorPlugin
 {

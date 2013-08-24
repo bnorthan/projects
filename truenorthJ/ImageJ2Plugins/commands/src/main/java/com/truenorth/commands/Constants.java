@@ -3,7 +3,6 @@ package com.truenorth.commands;
 import com.truenorth.functions.psf.PsfGenerator.PsfType;
 import com.truenorth.functions.psf.PsfGenerator.PsfModel;
 
-
 /**
  * A list of constants that are used with commands
  * 
@@ -80,5 +79,4 @@ public class Constants
 		public static final String GibsonLanni="GibsonLanni";
 		public static final String Haeberle="Haeberle";
 	}
-
 }

@@ -13,14 +13,12 @@ import net.imglib2.Point;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
-import net.imglib2.type.NativeType;
-import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
 
 import net.imglib2.img.ImgPlus;
 
 /**
- * A simple command that creates a phantom
+ * A command that creates a phantom
  * 
  * Todo: Add some sophistication and perhaps expand this to multiple commands
  * (for example CreatBlankImage, then commands to place objects in the image (PutSphereCommand, PutPointCommand, etc.)
@@ -69,7 +67,7 @@ public class CreatePhantomCommand  implements Command
 		center.setPosition(zSize/2, 2);
 		
 		// draw a sphere in the center of the image
-	//	Phantoms.drawSphere(image, center, 50, 155);
+		//	Phantoms.drawSphere(image, center, 50, 155);
 		
 		// draw another sphere inside the first sphere
 		Phantoms.drawSphere(image, center, 25, 255);
@@ -80,5 +78,4 @@ public class CreatePhantomCommand  implements Command
 		// use the image plus to create an output dataset
 		output = datasetService.create(imgPlus);
 	}
-
 }

@@ -6,15 +6,12 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.RandomAccessibleInterval;
 
-import imagej.ui.UIService;
+//import imagej.ui.UIService;
 
-import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 
-import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
-
 
 /**
  * 
@@ -24,8 +21,8 @@ import com.truenorth.functions.fft.filters.IterativeFilterCallback;
  */
 public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {
-		@Parameter
-		private UIService uiService;
+		//@Parameter
+	//	private UIService uiService;
 
 		@Parameter
 		int iterations;

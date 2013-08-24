@@ -7,23 +7,27 @@ import net.imglib2.type.NativeType;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.fft.filters.FrequencyFilter;
-import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
+import com.truenorth.functions.fft.filters.TotalVariationRL;
 
 import imagej.command.Command;
 
 import net.imglib2.img.Img;
 
+import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
  * 
  * @author bnorthan
- * Richardson Lucy filter
+ * Total Variation Richardson Lucy filter
  * @param <T>
  */
 @Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Richardson Lucy")
-public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
-{	
+public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
+{
+	@Parameter
+	float regularizationFactor=0.002f;
+	
 	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
@@ -31,23 +35,22 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 			Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			Img<T> psfImg=(Img<T>)(psf.getImgPlus().getImg());
 		
-			// create a RichardsonLucy filter for the region
-			 RichardsonLucyFilter<T,T>richardsonLucy = new RichardsonLucyFilter<T,T>(region,
+			TotalVariationRL<T,T> totalVariationRL = new TotalVariationRL<T,T>(region,
 					psfImg, 
 					inputImg.factory(), 
 					psfImg.factory());
 			
 			// set the number of iterations and the callback
-			richardsonLucy.setMaxIterations(iterations);
-			richardsonLucy.setCallback(callback);
-		
+			totalVariationRL.setMaxIterations(iterations);
+			totalVariationRL.setCallback(callback);
+			totalVariationRL.setRegularizationFactor(regularizationFactor);
+			
 			// return the filter
-			return richardsonLucy;
+			return totalVariationRL;
 		}
 		catch (IncompatibleTypeException ex)
 		{
 			return null;
 		}
 	}
-
 }

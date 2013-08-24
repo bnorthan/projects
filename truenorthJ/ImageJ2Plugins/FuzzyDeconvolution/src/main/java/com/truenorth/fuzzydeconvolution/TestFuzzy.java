@@ -4,9 +4,9 @@ import java.io.*;
 
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.planar.PlanarImgFactory;
-import net.imglib2.io.ImgIOException;
-import net.imglib2.io.ImgOpener;
-import net.imglib2.io.ImgSaver;
+//import net.imglib2.io.ImgIOException;
+//import net.imglib2.io.ImgOpener;
+//import net.imglib2.io.ImgSaver;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgPlus;
@@ -22,12 +22,12 @@ class TestFuzzy
 	// args[0] is the name of the image
 	// args[1] is the directory to write the stats file too
 	
-	public static void main(String[] args) throws ImgIOException, IncompatibleTypeException, IOException
+	public static void main(String[] args) //throws ImgIOException, IncompatibleTypeException, IOException
 	{
-		System.out.println("Test Fuzzy");
+	/*	System.out.println("Test Fuzzy");
 		System.out.println("Number arguments..."+ args.length);
 		
-    	Img<FloatType> image = new ImgOpener().openImg(args[0], new PlanarImgFactory<FloatType>(), new FloatType() );
+    	Img<FloatType> image = null;//new ImgOpener().openImg(args[0], new PlanarImgFactory<FloatType>(), new FloatType() );
     	
 		float[] space=new float[3];
 		
@@ -35,17 +35,6 @@ class TestFuzzy
 		
 		// hard code the meta data Todo:  Read from file
 	
-		/*space[0]=(float)65;
-		space[1]=(float)65;
-		space[2]=(float)115;//165*104/144;;	
-		double emissionWavelength=541.0;
-		double numericalAperture=1.4;
-		double designImmersionOilRefractiveIndex=1.515;
-		double designSpecimenLayerRefractiveIndex=1.515;
-		double actualImmersionOilRefractiveIndex=1.515;
-		double actualSpecimenLayerRefractiveIndex=1.33;
-		double actualPointSourceDepthInSpecimenLayer=8;//104*160/2000;*/
-		
 		// todo: read dimensions and params properly from some args but for now 
 		// just use default values
 		
@@ -231,6 +220,6 @@ class TestFuzzy
 		
 		ImgPlus<FloatType> psfPlus=StaticFunctions.Wrap3DImg(fuzzy.getPsf(),"psf");
 		new ImgSaver().saveImg(psfFileName, psfPlus);
-		
+		*/
 	}
 }

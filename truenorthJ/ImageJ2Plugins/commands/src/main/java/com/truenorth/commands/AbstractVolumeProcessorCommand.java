@@ -14,41 +14,28 @@ import imagej.data.Dataset;
  
 import net.imglib2.algorithm.OutputAlgorithm;
 
-import net.imglib2.img.ImgPlus;
-//import net.imglib2.meta.ImgPlus;
-
 import net.imglib2.img.Img;
 import net.imglib2.meta.Axes;
-
 //import net.imglib2.meta.DefaultCalibratedAxis;
-
-import net.imglib2.img.Img;
-import net.imglib2.meta.Axes;
-
-import net.imglib2.img.Img;
-import net.imglib2.meta.Axes;
 
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
-import java.io.*;  
-
 /**
- * Abstract class for an input/output command that processes each 3d volume in a dataset
+ * Abstract class for an input/output command that processes each 3d x,y,z volume in a dataset
  * and creates a new output
  * 
  * a volume is considered to consist of a x,y,z 3d hyperslice.
  * 
  * For example a dataset with 10 timepoints and 3 channels would have 30 volumes.  
- * This class is used when applying an algorithm to each volume
+ * This class is used when it is desired to extract and apply a 3d algorithm to each volume
  * @author bnorthan
  *
  * @param <T>
  */
 public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & NativeType<T>> extends AbstractCommand
 {
-	
 	@Parameter
 	protected Dataset input;
 	
@@ -99,8 +86,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 						System.out.println("xyt dataset: Press 'y' to change time to z...");
 						BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 					
-//						String str=br.readLine();
-						
+//						String str=br.readLine();						
 //						if (str.toUpperCase().equals("Y"))
 						{
 
@@ -135,7 +121,8 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		System.out.println();
 		System.out.println("parsing axes: ");
 	
-		// Todo:  make this more generic so it will handle 5d+ datasets
+		// Todo:  rework all below code more generic so it will handle 5d+ datasets
+		
 		// loop through all dimensions looking for time and channel
 		for(int d=0;d<input.numDimensions();d++)
 		{ 	
@@ -205,7 +192,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				Img<T> result=processVolume(inputChannel);
 				
 				// here we copy the result into the output dataset
-				// Todo: examine if there is a better way to do this... give the algorithm direct access to the memory 
+				// Todo: work out a better way to do this... give the algorithm direct access to the memory 
 				// so we don't need to copy?? 
 				
 				if (!inPlace)

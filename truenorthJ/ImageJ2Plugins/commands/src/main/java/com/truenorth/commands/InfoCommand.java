@@ -16,7 +16,7 @@ import net.imglib2.meta.AxisType;
 import org.scijava.plugin.Plugin;
 
 /**
- * A simple command that prints out info about the dataset
+ * A simple command that displays a message box containing info about the dataset
  * 
  * @author bnorthan
  *

@@ -4,8 +4,10 @@ import org.scijava.plugin.Parameter;
 
 //import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.Axes;
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 
-public class ExtendCommandDimension extends ExtendCommand 
+public class ExtendCommandDimension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 
 	int dimensionX;

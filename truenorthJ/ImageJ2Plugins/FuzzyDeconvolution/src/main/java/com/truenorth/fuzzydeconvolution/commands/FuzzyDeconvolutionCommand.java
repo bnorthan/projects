@@ -5,7 +5,6 @@ import imagej.command.Command;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 //import net.imglib2.meta.ImgPlus;
-import net.imglib2.img.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -13,8 +12,6 @@ import org.scijava.plugin.Plugin;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 
-import com.truenorth.functions.StaticFunctions;
-import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
 
 import org.scijava.plugin.Parameter;

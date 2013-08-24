@@ -3,7 +3,6 @@ package com.truenorth.functions.fft;
 import net.imglib2.FinalDimensions;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.algorithm.fft2.FFTMethods;
-import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.RealType;

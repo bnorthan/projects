@@ -2,7 +2,6 @@ package com.truenorth.commands.dim;
 
 import org.scijava.plugin.Parameter;
 
-
 import net.imglib2.RandomAccessibleInterval;
 
 import net.imglib2.outofbounds.OutOfBoundsFactory;
@@ -26,7 +25,8 @@ import com.truenorth.commands.Constants.FFTOptimization;
 /**
  * 
  * @author bnorthan
- * given an xy extension, a z extension a boundary type, and possibly an fft optimization strategy extends the image
+ * 
+ * abstract class for extension commands
  * 
  * if the fft type is not 'none' then the image is extended further for the fft optimization strategy 
  * @param <T>
@@ -36,7 +36,7 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 	@Parameter(label="boundary type", choices = {Constants.Boundary.boundaryZero, Constants.Boundary.boundaryMirror})
 	private String boundaryType;
 	
-	@Parameter(label="fft type", choices={Constants.FFTOptimization.fftOptimizationNone, Constants.FFTOptimization.fftOptimizationSpeed, Constants.FFTOptimization.fftOptimizationSize})
+	@Parameter(label="fft type", choices={FFTOptimization.fftOptimizationNone, FFTOptimization.fftOptimizationSpeed, FFTOptimization.fftOptimizationSize})
 	private String fftType;
 	
 	Boundary boundary;
@@ -52,37 +52,7 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 	{
 		extendedDimensions = new long[input.numDimensions()];
 		extendedVolumeDimensions = new long[3];
-		
-		// calculate the new dimensions for the case where there is no fft optimization.
-		// in this case the new dimensions should of been passed in as parameters
-		/*if (fftType.equals(Constants.FFTOptimization.fftOptimizationNone))
-		{
-			System.out.println("fft none");
-			
-			int v=0;
-			
-			for(int d=0;d<input.numDimensions();d++)
-			{ 	
-							
-				if ( (input.axis(d)==Axes.X) || (input.axis(d)==Axes.Y))
-				{
-					extendedDimensions[d]=input.dimension(d)+extensionXY*2;
-					extendedVolumeDimensions[v]=input.dimension(d)+extensionXY*2;
-					v++;
-				}
-				else if ( (input.axis(d)==Axes.Z))
-				{
-					extendedDimensions[d]=input.dimension(d)+extensionZ*2;
-					extendedVolumeDimensions[v]=input.dimension(d)+extensionZ*2;
-					v++;
-				}
-				else
-				{
-					extendedDimensions[d]=input.dimension(d);
-				}
-			}
-		}*/
-		
+				
 		CalculateExtendedDimensions();
 		
 		// if the image should be extended further to the nearest FFT size

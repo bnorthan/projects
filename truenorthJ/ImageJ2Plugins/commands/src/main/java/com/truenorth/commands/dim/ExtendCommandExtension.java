@@ -3,8 +3,18 @@ package com.truenorth.commands.dim;
 import org.scijava.plugin.Parameter;
 
 import net.imglib2.meta.Axes;
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 
-public class ExtendCommandExtension extends ExtendCommand 
+/**
+ * 
+ * extend image by a specified number of voxels
+ * 
+ * @author bnorthan
+ *
+ * @param <T>
+ */
+public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 
 	int extensionXY;

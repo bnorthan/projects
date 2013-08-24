@@ -3,7 +3,6 @@ package com.truenorth.commands.fft;
 import imagej.data.Dataset;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
-import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.FrequencyFilter;
 
 import org.scijava.plugin.Parameter;
@@ -13,8 +12,6 @@ import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
 import net.imglib2.RandomAccessibleInterval;
-
-import com.truenorth.commands.AbstractVolumeProcessorCommand;
 
 /**
  * 

@@ -1,7 +1,5 @@
 package com.truenorth.commands.fft;
 
-import org.scijava.plugin.Parameter;
-
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
@@ -43,9 +41,4 @@ public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends Ab
 		}
 	}
 	
-	/* Test the convolution command... */
-	public static void main(final String... args) throws Exception
-	{
-		imagej.Main.launch(args);
-	}
 }

@@ -1,6 +1,9 @@
 package com.truenorth.commands.dim;
 
+import imagej.command.Command;
+
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
@@ -19,6 +22,7 @@ import com.truenorth.functions.StaticFunctions;
  *
  * @param <T>
  */
+@Plugin(type=Command.class, menuPath="Plugins>DCroppy")
 public class CropCommand<T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
 	@Parameter 

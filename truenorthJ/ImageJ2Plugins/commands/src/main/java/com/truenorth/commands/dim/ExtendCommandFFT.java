@@ -1,8 +1,10 @@
 package com.truenorth.commands.dim;
 
 import net.imglib2.meta.Axes;
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 
-public class ExtendCommandFFT extends ExtendCommand
+public class ExtendCommandFFT<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T>
 {
 	void CalculateExtendedDimensions()
 	{

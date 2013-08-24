@@ -21,7 +21,6 @@ import imagej.ImageJ;
 import imagej.data.Dataset;
 import imagej.command.CommandModule;
 
-import com.truenorth.commands.InputParser;
 import com.truenorth.commands.fft.IterativeFilterCommand;
 
 import java.util.concurrent.*;

@@ -104,12 +104,18 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		}
 		
 		// multiply output of correlation step and current estimate
-		StaticFunctions.InPlaceMultiply(estimate, correlation);
-			
+		//StaticFunctions.InPlaceMultiply(estimate, correlation);
+		ComputeEstimate(correlation);
+		
 		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
 		createReblurred();
 			
 		return true;
+	}
+	
+	protected void ComputeEstimate(Img<T> correlation)
+	{
+		StaticFunctions.InPlaceMultiply(estimate, correlation);
 	}
 
 }

@@ -46,11 +46,5 @@ public class InverseFilterCommand<T extends RealType<T>& NativeType<T>> extends 
 			return null;
 		}
 	}
-	
-	/* Test the inverse filter */
-	public static void main(final String... args) throws Exception
-	{
-		imagej.Main.launch(args);
-	}
 
 }

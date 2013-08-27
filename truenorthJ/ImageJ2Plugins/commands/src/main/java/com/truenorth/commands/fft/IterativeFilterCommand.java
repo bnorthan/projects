@@ -13,6 +13,8 @@ import org.scijava.plugin.Parameter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
+import imagej.data.Dataset;
+
 /**
  * 
  * @author bnorthan
@@ -26,6 +28,9 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 
 		@Parameter
 		int iterations;
+		
+		@Parameter(required=false)
+		Dataset truth=null;
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
 		

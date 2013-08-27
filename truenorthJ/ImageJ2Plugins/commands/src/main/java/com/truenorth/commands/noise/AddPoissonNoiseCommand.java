@@ -6,6 +6,7 @@ import org.scijava.plugin.Plugin;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
@@ -22,10 +23,12 @@ public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extend
 	protected void preProcess()
 	{
 		// Todo:  look over type safety at this step
-		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
-	
+		//Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		// use the input dataset to create an output dataset of the same dimensions
-		output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
+		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
+		
+		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
+		output=datasetService.create(imgPlusInput);
 		
 		inPlace=true;
 	}

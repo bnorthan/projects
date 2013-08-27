@@ -8,8 +8,8 @@ import org.scijava.plugin.Parameter;
 
 import imagej.command.Command;
 
-//import net.imglib2.meta.ImgPlus;
-import net.imglib2.img.ImgPlus;
+import net.imglib2.meta.ImgPlus;
+//import net.imglib2.img.ImgPlus;
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 
@@ -66,17 +66,17 @@ public class InfoCommand implements Command
 			for (int n=0;n<numDimensions;n++)
 			{
 				
-				if (plus.axis(n)==Axes.X)
+				if (plus.axis(n).type()==Axes.X)
 				{
 					xdim=(int)plus.dimension(n);
 				}
 				
-				else if (plus.axis(n)==Axes.Y)
+				else if (plus.axis(n).type()==Axes.Y)
 				{
 					ydim=(int)plus.dimension(n);
 				}
 				
-				else if (plus.axis(n)==Axes.Z)
+				else if (plus.axis(n).type()==Axes.Z)
 				{
 					zdim=(int)plus.dimension(n);
 				}

@@ -15,7 +15,8 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.real.FloatType;
 
-import net.imglib2.img.ImgPlus;
+//import net.imglib2.img.ImgPlus;
+import net.imglib2.meta.ImgPlus;
 
 /**
  * A command that creates a phantom

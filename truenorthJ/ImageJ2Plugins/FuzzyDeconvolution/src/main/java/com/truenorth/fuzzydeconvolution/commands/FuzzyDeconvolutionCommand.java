@@ -4,7 +4,7 @@ import imagej.command.Command;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
-//import net.imglib2.meta.ImgPlus;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -96,7 +96,11 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 		
 		// use the input dataset to create an output dataset of the same dimensions
-		output=datasetService.create(inputImg.firstElement(), input.getDims(), "output", input.getAxes());
+		//output=datasetService.create(inputImg.firstElement(), input.getDims(), "output", input.getAxes());
+		
+		ImgPlus<T> inputImgPlus=(ImgPlus<T>)(input.getImgPlus());
+		output=datasetService.create(inputImgPlus);
+		
 	}
 	
 	RichardsonLucyFuzzyFilter<T> createAlgorithm(RandomAccessibleInterval<T> region)

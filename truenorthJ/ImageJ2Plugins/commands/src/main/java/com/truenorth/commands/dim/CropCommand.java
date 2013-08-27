@@ -7,6 +7,7 @@ import org.scijava.plugin.Plugin;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -60,9 +61,11 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
      		start[i]=(dimensions[i]-newDimensions[i])/2;  
      	}
      	
-     	Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
+     	//Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
+     	//output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", input.getAxes());
      	
-     	output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", input.getAxes());
+     	ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
+		output=datasetService.create(imgPlusInput);
 	}
 	
 	@Override

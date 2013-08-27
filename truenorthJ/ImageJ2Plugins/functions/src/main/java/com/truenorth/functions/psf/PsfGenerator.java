@@ -9,8 +9,7 @@ import net.imglib2.Cursor;
 
 import net.imglib2.type.numeric.real.FloatType;
 
-//import net.imglib2.meta.ImgPlus;
-import net.imglib2.img.ImgPlus;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.psf.FlipPsfQuadrants;

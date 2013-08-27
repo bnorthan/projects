@@ -152,8 +152,7 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 			{
 				return result;
 			}
-			
-			
+					
 			// create reblurred image that is used to calculate the likelihood (it will also end up being ready for the 
 			// next iteration).
 			result = createReblurred();

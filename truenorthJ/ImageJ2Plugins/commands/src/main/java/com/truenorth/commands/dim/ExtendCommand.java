@@ -13,6 +13,7 @@ import net.imglib2.type.numeric.RealType;
 
 import net.imglib2.img.Img;
 import net.imglib2.meta.Axes;
+import net.imglib2.meta.AxisType;
 
 import com.truenorth.functions.dim.ExtendImage;
 
@@ -65,12 +66,13 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			
 			input.dimensions(originalDimensions);
 			
+			
 			int v=0;
 			
 			for (int d=0;d<originalDimensions.length;d++)
-			{
+			{	
 				// if it is a volume dimension
-				if ( (input.axis(d)==Axes.X) ||(input.axis(d)==Axes.Y)||(input.axis(d)==Axes.Z) ) 
+				if ( (input.axis(d).type()==Axes.X) ||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z) ) 
 				{
 					volumeDimensions[v]=extendedDimensions[d];//input.dimension(d);
 					v++;
@@ -84,7 +86,7 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			for (int d=0;d<originalDimensions.length;d++)
 			{
 				// if it is a volume dimension
-				if ((input.axis(d)==Axes.X)||(input.axis(d)==Axes.Y)||(input.axis(d)==Axes.Z)) 
+				if ((input.axis(d).type()==Axes.X)||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z)) 
 				{
 					extendedDimensions[d]=extendedVolumeDimensions[v];
 					v++;
@@ -102,7 +104,16 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 		
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		
-		output=datasetService.create(imgInput.firstElement(), extendedDimensions, "extended", input.getAxes());
+		AxisType[] axisType=new AxisType[extendedDimensions.length];
+		
+		for (int d=0;d<extendedDimensions.length;d++)
+		{
+			axisType[d]=input.axis(d).type();
+		}
+		
+		//input.getImgPlus().
+		output=datasetService.create(imgInput.firstElement(), extendedDimensions, "extended", axisType);//input.getAxes());
+		
 	}
 	
 	abstract void CalculateExtendedDimensions();

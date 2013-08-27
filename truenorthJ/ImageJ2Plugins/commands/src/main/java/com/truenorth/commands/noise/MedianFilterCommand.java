@@ -8,6 +8,7 @@ import imagej.command.Command;
 import imagej.data.Dataset;
 import imagej.data.DatasetService;
 import net.imglib2.img.Img;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -32,10 +33,12 @@ public class MedianFilterCommand<T extends RealType<T>& NativeType<T>> implement
 	public void run()
 	{
 		// Todo:  look over type safety at this step
-		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
-			
+		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());		
 		// use the input image to create an output image of the same dimensions
-		output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
+		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
+		
+		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
+		output=datasetService.create(imgPlusInput);
 		
 		long sizeArray[] = new long[imgInput.numDimensions()];
 		

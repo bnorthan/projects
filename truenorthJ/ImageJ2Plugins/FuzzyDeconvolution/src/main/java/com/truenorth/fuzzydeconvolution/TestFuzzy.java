@@ -9,7 +9,7 @@ import net.imglib2.img.planar.PlanarImgFactory;
 //import net.imglib2.io.ImgSaver;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.img.Img;
-import net.imglib2.img.ImgPlus;
+//import net.imglib2.img.ImgPlus;
 
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;

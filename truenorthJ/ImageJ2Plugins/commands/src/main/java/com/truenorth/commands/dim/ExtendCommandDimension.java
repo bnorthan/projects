@@ -7,6 +7,13 @@ import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
+/**
+ * extend image to specified dimensions
+ * 
+ * @author bnorthan
+ *
+ * @param <T>
+ */
 public class ExtendCommandDimension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 
@@ -27,20 +34,20 @@ public class ExtendCommandDimension<T extends RealType<T> & NativeType<T>> exten
 		{ 	
 						
 			//if ( input.axis(d).type()==Axes.X)
-			if (input.axis(d)==Axes.X)
+			if (input.axis(d).type()==Axes.X)
 			{
 				extendedDimensions[d]=dimensionX;
 				extendedVolumeDimensions[v]=dimensionX;
 				v++;
 			}
 			//else if (input.axis(d).type()==Axes.Y)
-			else if (input.axis(d)==Axes.Y)
+			else if (input.axis(d).type()==Axes.Y)
 			{
 				extendedDimensions[d]=dimensionY;
 				extendedVolumeDimensions[v]=dimensionY;
 				v++;			
 			}
-			else if ( input.axis(d)==Axes.Z)
+			else if ( input.axis(d).type()==Axes.Z)
 			{
 				extendedDimensions[d]=dimensionZ;
 				extendedVolumeDimensions[v]=dimensionZ;

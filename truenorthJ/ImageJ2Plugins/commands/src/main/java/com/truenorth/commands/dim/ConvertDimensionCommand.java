@@ -9,8 +9,9 @@ import imagej.data.Dataset;
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 
-import net.imglib2.img.ImgPlus;
-//import net.imglib2.meta.ImgPlus;
+//import net.imglib2.img.ImgPlus;
+import net.imglib2.meta.ImgPlus;
+import net.imglib2.meta.DefaultCalibratedAxis;
 
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
@@ -37,7 +38,7 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 			
 			dimensions[d]=input.dimension(d);
 			
-			if (input.axis(d)==Axes.TIME)
+			if (input.axis(d).type()==Axes.TIME)
 			{
 				try
 				{
@@ -46,9 +47,13 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 							
 					String str=br.readLine();
 								
-					if (str.toUpperCase().equals("Y"))
+					if (str.toUpperCase().equals("T"))
 					{
-						input.setAxis(Axes.Z, d);
+						DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+						axis.setType(Axes.Z);
+						input.setAxis(axis, d);
+
+//						input.setAxis(Axes.Z, d);
 						System.out.println("axes "+d+" has been changed to: "+input.axis(d));
 					}
 				}
@@ -64,8 +69,8 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 		
 		ImgPlus<T> imgInput=(ImgPlus<T>)(input.getImgPlus());
 		
-		//output=datasetService.create(imgInput);
-		output=datasetService.create(imgInput.firstElement(), dimensions, "converted", input.getAxes());
+		output=datasetService.create(imgInput);
+		//output=datasetService.create(imgInput.firstElement(), dimensions, "converted", input.getAxes());
 		
 		ImgPlus<T> imgOutput=(ImgPlus<T>)(output.getImgPlus());
 		
@@ -77,7 +82,7 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 			
 			dimensions[d]=input.dimension(d);
 			
-			if (output.axis(d)==Axes.TIME)
+			if (output.axis(d).type()==Axes.TIME)
 			{
 				try
 				{
@@ -88,7 +93,11 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 								
 					if (str.toUpperCase().equals("Y"))
 					{
-						output.setAxis(Axes.Z, d);
+						DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+						axis.setType(Axes.Z);
+						output.setAxis(axis, d);
+
+					//	output.setAxis(Axes.Z, d);
 						System.out.println("axes "+d+" has been changed to: "+output.axis(d));
 						}
 					}

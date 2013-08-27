@@ -139,6 +139,12 @@ public class InputParser
 					
 					//Dataset dataset = ij.io().loadDataset(split[1]);
 					Dataset dataset = ij.dataset().open(split[1]);
+					//Object obj=ij.io().open(split[1]);
+					
+		
+					
+					//Dataset dataset = (Dataset)obj;
+					
 					inputMap.put(split[0], dataset);
 				
 					inputDatasets.add(dataset);

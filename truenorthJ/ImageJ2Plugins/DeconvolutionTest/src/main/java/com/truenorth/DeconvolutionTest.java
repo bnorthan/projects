@@ -1,9 +1,9 @@
 package com.truenorth;
 
 import net.imglib2.img.Img;
-//import net.imglib2.meta.ImgPlus;
 
-import net.imglib2.img.ImgPlus;
+import net.imglib2.meta.ImgPlus;
+//import net.imglib2.img.ImgPlus;
 import net.imglib2.RandomAccessibleInterval;
 
 import net.imglib2.io.ImgSaver;

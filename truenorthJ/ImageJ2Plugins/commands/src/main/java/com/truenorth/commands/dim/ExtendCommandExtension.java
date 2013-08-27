@@ -32,14 +32,14 @@ public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> exten
 		{ 	
 						
 			//if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
-			if ( (input.axis(d)==Axes.X) || (input.axis(d)==Axes.Y))
+			if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			{
 				extendedDimensions[d]=input.dimension(d)+extensionXY*2;
 				extendedVolumeDimensions[v]=input.dimension(d)+extensionXY*2;
 				v++;
 			}
 			//else if ( (input.axis(d).type()==Axes.Z))
-			else if ( (input.axis(d)==Axes.Z))
+			else if ( (input.axis(d).type()==Axes.Z))
 			{
 				extendedDimensions[d]=input.dimension(d)+extensionZ*2;
 				extendedVolumeDimensions[v]=input.dimension(d)+extensionZ*2;

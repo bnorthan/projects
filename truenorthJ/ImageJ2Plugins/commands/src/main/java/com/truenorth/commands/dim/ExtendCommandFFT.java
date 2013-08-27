@@ -18,14 +18,14 @@ public class ExtendCommandFFT<T extends RealType<T> & NativeType<T>> extends Ext
 		{ 	
 						
 			//if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
-			if ( (input.axis(d)==Axes.X) || (input.axis(d)==Axes.Y))
+			if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			{
 				extendedDimensions[d]=input.dimension(d);
 				extendedVolumeDimensions[v]=input.dimension(d);
 				v++;
 			}
 			//else if ( (input.axis(d).type()==Axes.Z))
-			else if ( (input.axis(d)==Axes.Z))
+			else if ( (input.axis(d).type()==Axes.Z))
 			{
 				extendedDimensions[d]=input.dimension(d);
 				extendedVolumeDimensions[v]=input.dimension(d);

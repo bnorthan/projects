@@ -16,12 +16,13 @@ import net.imglib2.algorithm.OutputAlgorithm;
 
 import net.imglib2.img.Img;
 import net.imglib2.meta.Axes;
-//import net.imglib2.meta.DefaultCalibratedAxis;
+import net.imglib2.meta.DefaultCalibratedAxis;
 
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
+import java.io.IOException;
 /**
  * Abstract class for an input/output command that processes each 3d x,y,z volume in a dataset
  * and creates a new output
@@ -77,32 +78,33 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		{
 			for(int d=0;d<input.numDimensions();d++)
 			{ 	
-				System.out.println("axes "+d+" is: "+input.axis(d));
+				System.out.println("axes "+d+" is: "+input.axis(d).type());
 				
-				if (input.axis(d)==Axes.TIME)
+				
+				if (input.axis(d).type()==Axes.TIME)
 				{
-				//	try
+					try
 			    	{
 						System.out.println("xyt dataset: Press 'y' to change time to z...");
 						BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 					
-//						String str=br.readLine();						
-//						if (str.toUpperCase().equals("Y"))
+						String str=br.readLine();						
+						if (str.toUpperCase().equals("Y"))
 						{
 
-							//DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
-							//axis.setType(Axes.Z);
-							//input.setAxis(axis, d);
-
-							input.setAxis(Axes.Z, d);
-							System.out.println("axes "+d+" has been changed to: "+input.axis(d));
+							DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+							axis.setType(Axes.Z);
+							input.setAxis(axis, d);
+							//input.setAxis(Axes.Z, d);
+							
+							System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
 						}
 			    	}
-				//	catch (IOException ex)
+					catch (IOException ex)
 					{
 						
 					}
-					//StaticFunctions.Pause();
+					StaticFunctions.Pause();
 				}
 			}
 		}
@@ -129,14 +131,14 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 			System.out.println("axes "+d+" is: "+input.axis(d));
 			
 			// if the current axis is a channel or a timepoint...
-			if (input.axis(d)==Axes.CHANNEL)
+			if (input.axis(d).type()==Axes.CHANNEL)
 			{
 				channelPosition=d;
 				numChannels=input.dimension(d);
 						
 				System.out.println(numChannels+" channels found at pos: "+d);
 			}
-			else if (input.axis(d)==Axes.TIME)
+			else if (input.axis(d).type()==Axes.TIME)
 			{
 				System.out.println(input.dimension(d)+" timepoints found at pos: "+d);
 				

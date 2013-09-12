@@ -431,6 +431,93 @@ public class StaticFunctions
 		return likelihood;
 	}
 	
+	
+	public static <T extends RealType<T>> double squaredErrorWithOffset(final RandomAccessibleInterval<T> rnd1, final RandomAccessibleInterval<T> rnd2, long[] offset)
+	{
+		Double squaredError = 0.0;
+		Double temp;
+		
+		LocalizingZeroMinIntervalIterator i1 = new LocalizingZeroMinIntervalIterator(rnd1);
+		//LocalizingZeroMinIntervalIterator i2 = new LocalizingZeroMinIntervalIterator(rnd2);
+		
+		RandomAccess<T> access1 = rnd1.randomAccess();
+		RandomAccess<T> access2 = rnd2.randomAccess();
+		
+		double check1=0.0;
+		double check2=0.0;
+		
+		int currentSlice=0;
+		
+		long[] r2Pos=new long[i1.numDimensions()];
+		
+		while (i1.hasNext()) 
+		{
+		   i1.fwd();
+		   
+		   for (int j=0;j<i1.numDimensions();j++)
+		   {
+			   r2Pos[j]=(long)(i1.getFloatPosition(j))+offset[j];
+		   }
+		   
+		//   i2.fwd();
+		   access1.setPosition(i1);
+		   access2.setPosition(r2Pos);
+		   
+		   
+		
+		 //  if (access2.get().getRealDouble()>150)	
+		  // if (access1.get().getRealDouble()>200)
+		 /*  if (currentSlice!=i1.getFloatPosition(2))
+		   {
+			   System.out.println("currentSlice "+currentSlice);
+			   System.out.println("dimension z "+i1.dimension(2));
+			   System.out.print("I1 at: ");
+			   for (int n=0;n<i1.numDimensions();n++)
+			   {
+				   System.out.print(i1.getFloatPosition(n)+" ");
+			   }
+			   
+			   System.out.println();
+			   //System.out.print("I2 at: ");
+			  // for (int n=0;n<i2.numDimensions();n++)
+			   //{
+				//   System.out.print(i2.getFloatPosition(n)+" ");
+			   //}
+			   
+			   System.out.println("check1 "+check1);
+			   System.out.println("check2 "+check2);
+			   
+				   StaticFunctions.Pause();
+				   
+				   check1=0;
+				   check2=0;
+				   currentSlice=(int)(i1.getFloatPosition(2));
+			   
+			  
+			   System.out.println();
+			   //System.out.print("vals: "+access1.get().getRealDouble()+" "+access2.get().getRealDouble());
+			   System.out.println();
+			   
+			   //StaticFunctions.Pause();
+			   
+			   
+			  
+		   }*/
+			   
+		   check1=check1+access1.get().getRealDouble();
+		   check2=check2+access2.get().getRealDouble();
+		   
+		   temp=access1.get().getRealDouble()-access2.get().getRealDouble();
+			
+		   
+		   
+		   
+		   squaredError+=temp*temp;
+		}
+		
+		return squaredError;
+	}
+	
 	/*
 	 * return squared error between img1 and img2
 	 */
@@ -454,6 +541,35 @@ public class StaticFunctions
 		}
 		
 		return squaredError;
+	}
+	
+	public static <T extends RealType<T>> double squaredErrorCenter(final Img<T> img1, final Img<T> img2)
+	{
+		Double squaredError = 0.0;
+		
+		System.out.println("squared error center in progress... "+img1.dimension(0)+" "+img2.dimension(0));
+		
+	//	RandomAccessibleInterval<T> interval=
+		
+		return squaredError;
+		
+		
+		/*Cursor<T> cursor1 = img1.cursor();
+		Cursor<T> cursor2 = img2.cursor();
+		
+		double error;
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			
+			error=cursor1.get().getRealDouble()-cursor2.get().getRealDouble();
+			
+			squaredError += error*error;
+		}
+		
+		return squaredError;*/
 	}
 	
 	/*

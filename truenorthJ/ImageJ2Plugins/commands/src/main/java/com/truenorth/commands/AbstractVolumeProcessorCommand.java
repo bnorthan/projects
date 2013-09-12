@@ -23,6 +23,7 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
 import java.io.IOException;
+import java.util.ArrayList;
 /**
  * Abstract class for an input/output command that processes each 3d x,y,z volume in a dataset
  * and creates a new output
@@ -50,6 +51,8 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 	long numTimePoints;
 	
 	OutputAlgorithm<Img<T>> algorithm;
+	
+	ArrayList<Img<T>> imageList;
 	
 	protected boolean inPlace=false;
 	
@@ -83,13 +86,13 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				
 				if (input.axis(d).type()==Axes.TIME)
 				{
-					try
+					//try
 			    	{
 						System.out.println("xyt dataset: Press 'y' to change time to z...");
-						BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+						//BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 					
-						String str=br.readLine();						
-						if (str.toUpperCase().equals("Y"))
+						//String str=br.readLine();						
+						//if (str.toUpperCase().equals("Y"))
 						{
 
 							DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
@@ -100,11 +103,11 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 							System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
 						}
 			    	}
-					catch (IOException ex)
-					{
+					//catch (IOException ex)
+					//{
 						
-					}
-					StaticFunctions.Pause();
+					//}
+					//StaticFunctions.Pause();
 				}
 			}
 		}
@@ -117,6 +120,11 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 		Img<T> outputImg=(Img<T>)(output.getImgPlus().getImg());
 		
+		// construct image list
+		imageList=new ArrayList<Img<T>>();
+		imageList.add(inputImg);
+		imageList.add(outputImg);
+		
 		numChannels=1;
 		numTimePoints=1;
 		
@@ -128,7 +136,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		// loop through all dimensions looking for time and channel
 		for(int d=0;d<input.numDimensions();d++)
 		{ 	
-			System.out.println("axes "+d+" is: "+input.axis(d));
+			System.out.println("axes "+d+" is: "+input.axis(d).type());
 			
 			// if the current axis is a channel or a timepoint...
 			if (input.axis(d).type()==Axes.CHANNEL)
@@ -150,20 +158,33 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		// loop through all time points
 		for (int t=0;t<numTimePoints;t++)
 		{
+			
 			RandomAccessibleInterval<T> inputTimepoint;
 			RandomAccessibleInterval<T> outputTimepoint;
+			
+			ArrayList<RandomAccessibleInterval<T>> arrExtractedTimePoints=new ArrayList<RandomAccessibleInterval<T>>();
 			
 			// if multiple timepoints were found extract a hyperslice at the current time point
 			if (timePosition>-1)
 			{
 				inputTimepoint=Views.hyperSlice(inputImg, timePosition, t);
 				outputTimepoint=Views.hyperSlice(outputImg, timePosition, t);
+				
+				for (Img<T> img:imageList)
+				{
+					arrExtractedTimePoints.add(Views.hyperSlice(img, timePosition, t));
+				}
 			}
 			// otherwise there is only one timepoint, so no need to extract the hyperslice
 			else
 			{
 				inputTimepoint=inputImg;
 				outputTimepoint=outputImg;
+			
+				for (Img<T> img:imageList)
+				{
+					arrExtractedTimePoints.add(img);
+				}
 			}
 			
 			// loop through all channels
@@ -172,17 +193,29 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				RandomAccessibleInterval<T> inputChannel;
 				RandomAccessibleInterval<T> outputChannel;
 				
+				ArrayList<RandomAccessibleInterval<T>> arrExtractedChannels=new ArrayList<RandomAccessibleInterval<T>>();
+				
 				// if multiple channels were found extract a hyperslice at the current channel
 				if (channelPosition>-1)
 				{
 					inputChannel = Views.hyperSlice(inputTimepoint, channelPosition, c);
 					outputChannel = Views.hyperSlice(outputTimepoint, channelPosition, c);
+					
+					for (RandomAccessibleInterval<T> channel:arrExtractedTimePoints)
+					{
+						arrExtractedChannels.add(Views.hyperSlice(channel, channelPosition, c));
+					}
 				}
 				// otherwise there is just one channel so no need to extract the hyperslice
 				else
 				{
 					inputChannel = inputTimepoint;
 					outputChannel=outputTimepoint;
+					
+					for (RandomAccessibleInterval<T> channel:arrExtractedTimePoints)
+					{
+						arrExtractedChannels.add(channel);
+					}
 				}
 				
 				System.out.println("processing: c"+c+"t"+t);

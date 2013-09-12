@@ -26,57 +26,48 @@ import net.imglib2.meta.ImgPlus;
  * @author bnorthan
  *
  */
-public class CreatePhantomCommand  implements Command
+public class AddSphereCommand  implements Command
 {
 	@Parameter
 	protected DatasetService datasetService;
 	
+	@Parameter(type = ItemIO.INPUT)
+	protected Dataset input;
+	
 	@Parameter(type = ItemIO.OUTPUT)
 	protected Dataset output;
 	
+	// center of sphere
 	@Parameter
-	long xSize=256;
+	long xCenter=-1;
 	
 	@Parameter
-	long ySize=256;
+	long yCenter=-1;
 	
 	@Parameter
-	long zSize=128;
+	long zCenter=-1;
+	
+	@Parameter
+	long radius=20;
+	
+	@Parameter
+	double intensity=255;
 	
 	@Override
 	public void run()
-	{
-		long[] size = new long[3];
-		
-		size[0]=xSize;
-		size[1]=ySize;
-		size[2]=zSize;
-		
-		// create a planer image factory
-		ImgFactory<FloatType> imgFactory = new PlanarImgFactory<FloatType>();
-							
-		// use the image factory to create an img
-		Img<FloatType> image = imgFactory.create(size, new FloatType());
-		
-		StaticFunctions.set(image, 0);
+	{	
+		Img<FloatType> image=(Img<FloatType>)(input.getImgPlus().getImg());
 		
 		// create a center position
-		/*Point center = new Point(image.numDimensions());
+		Point center = new Point(image.numDimensions());
 		
-		center.setPosition(xSize/2,0);
-		center.setPosition(ySize/2,1);
-		center.setPosition(zSize/2, 2);
+		center.setPosition(xCenter,0);
+		center.setPosition(yCenter,1);
+		center.setPosition(zCenter, 2);
+			
+		// draw the sphere
+		Phantoms.drawSphere(image, center, (int)radius, intensity);
 		
-		// draw a sphere in the center of the image
-		//	Phantoms.drawSphere(image, center, 50, 155);
-		
-		// draw another sphere inside the first sphere
-		Phantoms.drawSphere(image, center, 25, 255);*/
-		
-		// wrap as an image plus
-		ImgPlus<FloatType> imgPlus=StaticFunctions.Wrap3DImg(image, "phantom");
-		
-		// use the image plus to create an output dataset
-		output = datasetService.create(imgPlus);
+		output=input;
 	}
 }

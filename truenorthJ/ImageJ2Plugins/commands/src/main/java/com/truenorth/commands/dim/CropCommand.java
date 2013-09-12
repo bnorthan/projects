@@ -8,11 +8,13 @@ import org.scijava.plugin.Plugin;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.meta.ImgPlus;
+import net.imglib2.meta.AxisType;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 import com.truenorth.functions.StaticFunctions;
+
 
 /**
  * Crops an image from it's original dimensions to xSize, ySize, and zSize
@@ -55,17 +57,23 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
 		dimensions = new int[input.numDimensions()];
      	start=new long[input.numDimensions()];
      	
+     	AxisType[] axes=new AxisType[input.numDimensions()];
+     	ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
+     	
      	for (int i=0;i<input.numDimensions();i++)
      	{
      		dimensions[i]=(int)input.dimension(i);
-     		start[i]=(dimensions[i]-newDimensions[i])/2;  
+     		start[i]=(dimensions[i]-newDimensions[i])/2;
+     		
+     		axes[i]=imgPlusInput.axis(i).type();
      	}
      	
-     	//Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
-     	//output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", input.getAxes());
+     	Img<T> imgInput=(Img<T>)(imgPlusInput.getImg());
      	
-     	ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
-		output=datasetService.create(imgPlusInput);
+     	output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", axes);
+     	
+     	//imgPlusInput.a
+		//output=datasetService.create(imgPlusInput);
 	}
 	
 	@Override

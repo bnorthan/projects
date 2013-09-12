@@ -51,7 +51,7 @@ public class InfoCommand implements Command
 	{
 		for(int d=0;d<input.numDimensions();d++)
 		{ 	
-			System.out.println("axes "+d+" is: "+input.axis(d));
+			System.out.println("axes "+d+" is: "+input.axis(d).type());
 		}
 	}
 	

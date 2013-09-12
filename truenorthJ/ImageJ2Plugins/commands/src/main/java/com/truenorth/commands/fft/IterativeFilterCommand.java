@@ -4,12 +4,14 @@ import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
+import net.imglib2.view.Views;
 import net.imglib2.RandomAccessibleInterval;
 
 //import imagej.ui.UIService;
 
 import org.scijava.plugin.Parameter;
 
+import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
@@ -29,8 +31,10 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter
 		int iterations;
 		
-		@Parameter(required=false)
+		@Parameter(required=false, persist=false)
 		Dataset truth=null;
+		
+		Img<T> imgTruth=null;
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
 		
@@ -44,6 +48,37 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 	//			uiService.getStatusService().showStatus(iteration, iterations, "Iteration: "+iteration);
 				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, true);
 				
+				if (truth!=null)
+				{
+					Img<T> truthImg=(Img<T>)(truth.getImgPlus().getImg());
+					
+					boolean sameSize=true;
+					
+					long[] imgSize=new long[image.numDimensions()];
+					long[] truthSize=new long[truthImg.numDimensions()];
+					
+					long[] start=new long[image.numDimensions()];
+					long[] finish=new long[image.numDimensions()];
+								
+					for (int i=0;i<image.numDimensions();i++)
+					{
+						imgSize[i]=image.dimension(i);
+						truthSize[i]=truth.dimension(i);
+						
+						if (imgSize[i]!=truthSize[i])
+						{
+							sameSize=false;	
+						}
+						
+						start[i]=(imgSize[i]-truthSize[i])/2;
+						finish[i]=start[i]+truthSize[i]-1;
+									
+						System.out.println("start/finish: "+start[i]+" "+finish[i]);
+					}
+					
+					double error=StaticFunctions.squaredErrorWithOffset(truthImg, estimate, start);
+					System.out.println("Error is: "+error);
+				}
 				System.out.println();
 			}
 		};
@@ -52,6 +87,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		protected void preProcess()
 		{
 			stats= new DeconvolutionStats<FloatType>(iterations);
+			
 			super.preProcess();
 		}
 }

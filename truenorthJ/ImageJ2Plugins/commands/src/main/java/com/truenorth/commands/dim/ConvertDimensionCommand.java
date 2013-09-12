@@ -54,7 +54,7 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 						input.setAxis(axis, d);
 
 //						input.setAxis(Axes.Z, d);
-						System.out.println("axes "+d+" has been changed to: "+input.axis(d));
+						System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
 					}
 				}
 					catch (IOException ex)

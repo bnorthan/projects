@@ -23,14 +23,18 @@ actualSpecimenLayerRefractiveIndex=1.47
 
 # make the ImageJ2 projects
 cd ../truenorthJ/ImageJ2Plugins/
-mvn
+
+mvn clean
+mvn install
+
 
 cd DeconvolutionTest
 
 # set the directories
 
-projectsDir=~/Brian2012/Round2/projects/
-rootImageDir=$projectsDir/Images/AllInOne/
+rootDir=~/Brian2014/Projects/deconware/
+projectsDir=$rootDir/code/projects/
+rootImageDir=$rootDir/Images/AllInOne/
 
 psfDir=$rootImageDir/psfs/
 mkdir $psfDir
@@ -52,16 +56,16 @@ deconvolvedName=deconvolved.ome.tif
 outputName=output.ome.tif
 
 # call deconvolution test with "CreatePhantomCommand" to create the phantom
-#mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.phantom.CreatePhantomCommand silent output=$phantomDir$phantomName xSize=$xSize ySize=$ySize zSize=$zSize"
+mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.phantom.CreatePhantomCommand silent output=$phantomDir$phantomName xSize=$xSize ySize=$ySize zSize=$zSize"
 
 # call deconvolution test with "CreatePsfCommand" to create the psf
-mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.psf.CreatePsfCommand silent output=$psfDir$psfName xSize=$xSize ySize=$ySize zSize=$zSize fftType=speed xySpace=40 zSpace=100 emissionWavelength=500.0 numericalAperture=1.3 designImmersionOilRefractiveIndex=1.515 designSpecimenLayerRefractiveIndex=1.515 actualImmersionOilRefractiveIndex=1.515 actualSpecimenLayerRefractiveIndex=$actualSpecimenLayerRefractiveIndex actualPointSourceDepthInSpecimenLayer=10"
+#mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.psf.CreatePsfCommand silent output=$psfDir$psfName xSize=$xSize ySize=$ySize zSize=$zSize fftType=speed xySpace=40 zSpace=100 emissionWavelength=500.0 numericalAperture=1.3 designImmersionOilRefractiveIndex=1.515 designSpecimenLayerRefractiveIndex=1.515 actualImmersionOilRefractiveIndex=1.515 actualSpecimenLayerRefractiveIndex=$actualSpecimenLayerRefractiveIndex actualPointSourceDepthInSpecimenLayer=10"
 
 # call deconvolution test with "ExtendCommand" to extend the phantom to the nearest fast fft size
 #mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.dim.ExtendCommand silent input=$phantomDir$phantomName psf=$psfDir$psfName output=$outputDir$extendedName extensionXY=20 extensionZ=10 boundaryType=boundaryZero fftType=speed"
 
 # call deconvolution test with the "ConvolutionCommand" to create an image
-mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.fft.ConvolutionCommand silent input=$outputDir$extendedName psf=$psfDir$psfName output=$outputDir$convName"
+#mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.fft.ConvolutionCommand silent input=$outputDir$extendedName psf=$psfDir$psfName output=$outputDir$convName"
 
 # call deconvolution test with the "AddPoissonNoise" command to create an image with noise
 #mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.noise.AddPoissonNoiseCommand silent input=$outputDir$convName output=$outputDir$noisyConvName"

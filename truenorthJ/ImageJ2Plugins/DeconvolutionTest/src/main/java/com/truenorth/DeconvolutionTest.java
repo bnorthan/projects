@@ -6,11 +6,11 @@ import net.imglib2.meta.ImgPlus;
 //import net.imglib2.img.ImgPlus;
 import net.imglib2.RandomAccessibleInterval;
 
-import net.imglib2.io.ImgSaver;
+import io.scif.img.ImgSaver;
 
 import net.imglib2.type.numeric.real.FloatType;
 
-import net.imglib2.io.ImgIOException;
+import io.scif.img.ImgIOException;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.StaticFunctions;

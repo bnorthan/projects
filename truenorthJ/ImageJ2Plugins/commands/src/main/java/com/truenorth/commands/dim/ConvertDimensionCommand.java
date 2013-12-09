@@ -11,7 +11,8 @@ import org.scijava.plugin.Parameter;
 
 //import net.imglib2.img.ImgPlus;
 import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.DefaultCalibratedAxis;
+import net.imglib2.meta.CalibratedAxis;
+import net.imglib2.meta.axis.DefaultLinearAxis;
 
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
@@ -27,7 +28,7 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 	
 	@Parameter(type=ItemIO.OUTPUT)
 	protected Dataset output;
-	
+
 	public void run()
 	{
 		long dimensions[]=new long[input.numDimensions()];
@@ -49,9 +50,10 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 								
 					if (str.toUpperCase().equals("T"))
 					{
-						DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+						CalibratedAxis axis=new DefaultLinearAxis();
 						axis.setType(Axes.Z);
 						input.setAxis(axis, d);
+						
 
 //						input.setAxis(Axes.Z, d);
 						System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
@@ -93,7 +95,7 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 								
 					if (str.toUpperCase().equals("Y"))
 					{
-						DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+						CalibratedAxis axis=new DefaultLinearAxis();
 						axis.setType(Axes.Z);
 						output.setAxis(axis, d);
 

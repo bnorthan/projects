@@ -115,9 +115,9 @@ public class FuzzyMedianFilterTrainer <T extends RealType<T>> implements MultiTh
 		difClosestFilter.process();
 		Img<T> difClosest = difClosestFilter.getResult();
 					
-		ComputeMinMax<T> maxmin = new ComputeMinMax<T>(noisy);
-		ComputeMinMax<T> maxminDifMedian = new ComputeMinMax<T>(difMedian);
-		ComputeMinMax<T> maxminDifClosest = new ComputeMinMax<T>(difClosest);
+		ComputeMinMax<T> maxmin = new ComputeMinMax<T>(noisy, noisy.firstElement(), noisy.firstElement());
+		ComputeMinMax<T> maxminDifMedian = new ComputeMinMax<T>(difMedian, difMedian.firstElement(), difMedian.firstElement());
+		ComputeMinMax<T> maxminDifClosest = new ComputeMinMax<T>(difClosest, difClosest.firstElement(), difClosest.firstElement());
 			
 		maxmin.process();
 		maxminDifMedian.process();

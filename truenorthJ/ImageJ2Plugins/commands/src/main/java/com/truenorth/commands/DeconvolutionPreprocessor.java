@@ -1,13 +1,14 @@
 package com.truenorth.commands;
 
-import imagej.plugin.AbstractPreprocessorPlugin;
+import imagej.module.process.AbstractPreprocessorPlugin;
 import imagej.module.Module;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 
 import org.scijava.Priority;
 import org.scijava.plugin.Plugin;
-import imagej.plugin.PreprocessorPlugin;
+
+import imagej.module.process.PreprocessorPlugin;
 
 import com.truenorth.commands.fft.IterativeFilterCommand;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;

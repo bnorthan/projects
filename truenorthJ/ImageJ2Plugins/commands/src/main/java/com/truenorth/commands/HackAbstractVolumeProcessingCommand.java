@@ -16,7 +16,8 @@ import net.imglib2.algorithm.OutputAlgorithm;
 
 import net.imglib2.img.Img;
 import net.imglib2.meta.Axes;
-import net.imglib2.meta.DefaultCalibratedAxis;
+import net.imglib2.meta.CalibratedAxis;
+import net.imglib2.meta.axis.DefaultLinearAxis;
 
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
@@ -151,7 +152,7 @@ public abstract class HackAbstractVolumeProcessingCommand<T extends RealType<T> 
 						if (str.toUpperCase().equals("Y"))
 						{
 
-							DefaultCalibratedAxis axis=new DefaultCalibratedAxis();
+							CalibratedAxis axis=new DefaultLinearAxis();
 							axis.setType(Axes.Z);
 							input.setAxis(axis, d);
 							//input.setAxis(Axes.Z, d);

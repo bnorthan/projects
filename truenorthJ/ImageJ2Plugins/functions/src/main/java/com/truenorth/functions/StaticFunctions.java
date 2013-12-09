@@ -727,8 +727,8 @@ public class StaticFunctions
 	 * rescale the image with a new max value
 	 */
 	public static <T extends RealType<T>> void rescaleWithNewMax(final Img<T> img, final double newMax)
-	{
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(img);
+	{	
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(img, img.firstElement(), img.firstElement());
 		
 		minmax.process();
 		
@@ -741,8 +741,10 @@ public class StaticFunctions
 	 * show the min, max and sum of an image
 	 */
 	public static <T extends RealType<T>> void showStats(RandomAccessibleInterval<T> image)
-	{
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(image);
+	{	
+		IterableInterval<T> it=Views.iterable(image);
+		
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(it, it.firstElement(), it.firstElement());
 		
 		minmax.process();
 		
@@ -757,8 +759,7 @@ public class StaticFunctions
 	 */
 	public static <T extends RealType<T>> double getMax(Img<T> image)
 	{
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(image);
-		
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(image, image.firstElement(), image.firstElement());
 		minmax.process();
 		
 		return minmax.getMax().getRealDouble();

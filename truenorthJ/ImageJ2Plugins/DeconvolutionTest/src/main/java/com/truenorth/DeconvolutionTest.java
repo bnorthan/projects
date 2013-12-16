@@ -1,31 +1,26 @@
 package com.truenorth;
 
-import net.imglib2.img.Img;
-
 import net.imglib2.meta.ImgPlus;
-//import net.imglib2.img.ImgPlus;
-import net.imglib2.RandomAccessibleInterval;
-
-import io.scif.img.ImgSaver;
-
 import net.imglib2.type.numeric.real.FloatType;
 
 import io.scif.img.ImgIOException;
-import net.imglib2.exception.IncompatibleTypeException;
-
 import com.truenorth.functions.StaticFunctions;
-import com.truenorth.functions.fft.filters.DeconvolutionStats;
-import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
 import imagej.ImageJ;
 import imagej.data.Dataset;
 import imagej.command.CommandModule;
-
-import com.truenorth.commands.fft.IterativeFilterCommand;
-
 import java.util.concurrent.*;
 
 import java.util.Map;
+
+import io.scif.SCIFIO;
+import io.scif.img.ImgIOException;
+import io.scif.img.ImgOpener;
+import io.scif.img.ImgOptions;
+import io.scif.img.ImgOptions.ImgMode;
+import io.scif.img.ImgSaver;
+import net.imglib2.exception.IncompatibleTypeException;
+import net.imglib2.meta.ImgPlus;
 
 /**
  * This is a class meant to test deconvolution commands.
@@ -121,7 +116,7 @@ public class DeconvolutionTest
 			// print out the type and size of each dimensions
 			for(int d=0;d<dataset.numDimensions();d++)
 			{
-				System.out.println("axes "+d+" is: "+dataset.axis(d));
+				System.out.println("axes "+d+" is: "+dataset.axis(d).type());
 			}
 			
 			if (!silent)
@@ -182,14 +177,21 @@ public class DeconvolutionTest
 			
 			for(int d=0;d<output.numDimensions();d++)
 			{ 	
-				System.out.println("axes "+d+" is: "+output.axis(d));
+				System.out.println("axes "+d+" is: "+output.axis(d).type());
 			}
 			
 			//StaticFunctions.Pause();
 			
-			ImgPlus<FloatType> outPlus=(ImgPlus<FloatType>)output.getImgPlus();
+			ImgPlus<FloatType> out=(ImgPlus<FloatType>)output.getImgPlus();
+			final ImgSaver saver = new ImgSaver();
+			saver.saveImg(outputName, (ImgPlus<FloatType>) out);
 			
-			new ImgSaver().saveImg(outputName, outPlus);
+		/*	ImgPlus<?> out=output.getImgPlus();
+			
+			final SCIFIO scifio = new SCIFIO();
+			final ImgSaver saver = new ImgSaver(scifio.getContext());
+			
+			saver.saveImg(outputName, (ImgPlus)out);*/
 		}
 		else
 		{

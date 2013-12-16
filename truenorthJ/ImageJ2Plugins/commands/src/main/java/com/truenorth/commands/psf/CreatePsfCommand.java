@@ -168,6 +168,7 @@ public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements
 														Constants.PsfStringToPsfType(scopeType),
 														Constants.PsfModelStringToModelType(psfModel));
 		
+		
 		if (centerPsf)
 		{
 			psf=FlipPsfQuadrants.flip(psf, psf.factory(), psfDim);
@@ -210,12 +211,13 @@ public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements
         
         // normalize the psf
      	StaticFunctions.norm(cropped);
-        
+     	
      	// wrap the psf as an image plus
 		ImgPlus<FloatType> psfPlus = StaticFunctions.Wrap3DImg(cropped, "psf");
 		
 		// use the image plus to create the output dataset
 		output = datasetService.create(psfPlus);
+			
 	}
 	
 	

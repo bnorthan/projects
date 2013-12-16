@@ -728,7 +728,14 @@ public class StaticFunctions
 	 */
 	public static <T extends RealType<T>> void rescaleWithNewMax(final Img<T> img, final double newMax)
 	{	
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(img, img.firstElement(), img.firstElement());
+		
+		T min=img.firstElement().copy();
+		min.setReal(min.getMaxValue());
+		
+		T max=img.firstElement().copy();
+
+		max.setReal(max.getMinValue());
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(img, min, max);
 		
 		minmax.process();
 		
@@ -744,7 +751,13 @@ public class StaticFunctions
 	{	
 		IterableInterval<T> it=Views.iterable(image);
 		
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(it, it.firstElement(), it.firstElement());
+		T min=it.firstElement().copy();
+		min.setReal(min.getMaxValue());
+		
+		T max=it.firstElement().copy();
+		max.setReal(max.getMinValue());
+		
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(it, min, max);
 		
 		minmax.process();
 		
@@ -759,7 +772,14 @@ public class StaticFunctions
 	 */
 	public static <T extends RealType<T>> double getMax(Img<T> image)
 	{
-		ComputeMinMax<T> minmax=new ComputeMinMax<T>(image, image.firstElement(), image.firstElement());
+		
+		T min=image.firstElement().copy();
+		min.setReal(min.getMaxValue());
+		
+		T max=image.firstElement().copy();
+		max.setReal(max.getMinValue());
+		
+		ComputeMinMax<T> minmax=new ComputeMinMax<T>(image, min, max);
 		minmax.process();
 		
 		return minmax.getMax().getRealDouble();

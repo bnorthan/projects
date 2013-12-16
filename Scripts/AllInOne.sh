@@ -24,9 +24,7 @@ actualSpecimenLayerRefractiveIndex=1.47
 # make the ImageJ2 projects
 cd ../truenorthJ/ImageJ2Plugins/
 
-mvn clean
-mvn install
-
+mvn
 
 cd DeconvolutionTest
 

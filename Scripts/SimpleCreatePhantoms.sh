@@ -17,16 +17,17 @@ sphere1Z=$(expr $zSize / 2)
 # make the ImageJ2 projects
 cd ../truenorthJ/ImageJ2Plugins/
 
-phantomName=../../../Images/Phantom.ome.tif
+phantomName=../../../Images/Phantom2.ome.tif
 
 mvn
 
 cd DeconvolutionTest
 
+
 # create the phantom
-mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.phantom.CreatePhantomCommand silent output=$phantomName xSize=$xSize ySize=$ySize zSize=$zSize"
+mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -DargLine="-Dscijava.log.level=none" -Dexec.args="com.truenorth.commands.phantom.CreatePhantomCommand silent output=$phantomName xSize=$xSize ySize=$ySize zSize=$zSize"
 
 # add the sphere
-mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.phantom.AddSphereCommand silent input=$phantomName output=$phantomName xCenter=$sphere1X yCenter=$sphere1Y zCenter=$sphere1Z radius=10 intensity=12.5"
+mvn exec:java -Dexec.mainClass=com.truenorth.DeconvolutionTest -Dexec.args="com.truenorth.commands.phantom.AddSphereCommand silent input=$phantomName output=$phantomName xCenter=$sphere1X yCenter=$sphere1Y zCenter=$sphere1Z radius=10 intensity=0.000363"
 
 

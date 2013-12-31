@@ -4,11 +4,11 @@ import imagej.command.Command;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.Parameter;
 
-@Plugin(type = Command.class, menuPath = "Plugins>Sandbox>Simple Test Two", headless=true)
+@Plugin(type = Command.class, menuPath = "Plugins>Sandbox>Simple Test 363", headless=true)
 public class SimpleToo implements Command
 {
 	@Parameter
-	private int thesimplest;
+	private int thesimpletest;
 
 	@Override
 	public void run() {

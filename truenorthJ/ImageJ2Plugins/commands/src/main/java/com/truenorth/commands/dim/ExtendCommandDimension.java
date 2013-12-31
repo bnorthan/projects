@@ -1,6 +1,9 @@
 package com.truenorth.commands.dim;
 
+import imagej.command.Command;
+
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 //import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.Axes;
@@ -8,12 +11,15 @@ import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * extend image to specified dimensions
+ * extends image to specified dimensions
+ * 
+ * if fft type is not none extends further for fft optimization
  * 
  * @author bnorthan
  *
  * @param <T>
  */
+@Plugin(type = Command.class, menuPath = "Plugins>Dimensions>Extend Dimensions")
 public class ExtendCommandDimension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 
@@ -36,26 +42,26 @@ public class ExtendCommandDimension<T extends RealType<T> & NativeType<T>> exten
 			//if ( input.axis(d).type()==Axes.X)
 			if (input.axis(d).type()==Axes.X)
 			{
-				extendedDimensions[d]=dimensionX;
-				extendedVolumeDimensions[v]=dimensionX;
+				initialExtendedDimensions[d]=dimensionX;
+			//	initialExtendedVolumeDimensions[v]=dimensionX;
 				v++;
 			}
 			//else if (input.axis(d).type()==Axes.Y)
 			else if (input.axis(d).type()==Axes.Y)
 			{
-				extendedDimensions[d]=dimensionY;
-				extendedVolumeDimensions[v]=dimensionY;
+				initialExtendedDimensions[d]=dimensionY;
+			//	initialExtendedVolumeDimensions[v]=dimensionY;
 				v++;			
 			}
 			else if ( input.axis(d).type()==Axes.Z)
 			{
-				extendedDimensions[d]=dimensionZ;
-				extendedVolumeDimensions[v]=dimensionZ;
+				initialExtendedDimensions[d]=dimensionZ;
+		//		initialExtendedVolumeDimensions[v]=dimensionZ;
 				v++;
 			}
 			else
 			{
-				extendedDimensions[d]=input.dimension(d);
+				initialExtendedDimensions[d]=input.dimension(d);
 			}
 		}
 	}

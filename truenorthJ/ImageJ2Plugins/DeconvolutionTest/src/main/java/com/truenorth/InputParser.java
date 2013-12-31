@@ -148,6 +148,7 @@ public class InputParser
 				}
 				catch(Exception ex)
 				{
+					System.out.println(ex.getMessage());
 				}
 				
 			}

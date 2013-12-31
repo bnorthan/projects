@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>${scifio.groupId}</groupId>
 			<artifactId>scifio</artifactId>
-			<version>0.7.5-SNAPSHOT</version>
+			<version>${scifio.version}</version>
 		</dependency>
   </dependencies>
 

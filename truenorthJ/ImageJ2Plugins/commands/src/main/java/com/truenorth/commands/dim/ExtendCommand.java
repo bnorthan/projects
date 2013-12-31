@@ -43,16 +43,19 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 	Boundary boundary;
 	
 	// the extended dimensions of the dataset (including channels, timepoints etc.)
-	long[] extendedDimensions;
-	
-	// the extended volume (x,y,z) dimensions of the dataset
-	long[] extendedVolumeDimensions;
+	long[] initialExtendedDimensions;
+	//long[] initialExtendedVolumeDimensions;
+	long[] finalExtendedVolumeDimensions;
 	
 	@Override 
 	protected void preProcess()
 	{
-		extendedDimensions = new long[input.numDimensions()];
-		extendedVolumeDimensions = new long[3];
+		initialExtendedDimensions = new long[input.numDimensions()];
+	
+	//	initialExtendedVolumeDimensions = new long[3];
+		finalExtendedVolumeDimensions= new long[3];
+		
+		long[] finalExtendedDimensions = new long[input.numDimensions()];
 				
 		CalculateExtendedDimensions();
 		
@@ -66,7 +69,6 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			
 			input.dimensions(originalDimensions);
 			
-			
 			int v=0;
 			
 			for (int d=0;d<originalDimensions.length;d++)
@@ -74,12 +76,12 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 				// if it is a volume dimension
 				if ( (input.axis(d).type()==Axes.X) ||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z) ) 
 				{
-					volumeDimensions[v]=extendedDimensions[d];//input.dimension(d);
+					volumeDimensions[v]=initialExtendedDimensions[d];//input.dimension(d);
 					v++;
 				}		
 			}
 			
-			extendedVolumeDimensions=SimpleFFTFactory.GetPaddedInputSizeLong(volumeDimensions);
+			finalExtendedVolumeDimensions=SimpleFFTFactory.GetPaddedInputSizeLong(volumeDimensions);
 			
 			v=0;
 			
@@ -88,12 +90,12 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 				// if it is a volume dimension
 				if ((input.axis(d).type()==Axes.X)||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z)) 
 				{
-					extendedDimensions[d]=extendedVolumeDimensions[v];
+					finalExtendedDimensions[d]=finalExtendedVolumeDimensions[v];
 					v++;
 				}		
 				else
 				{
-					extendedDimensions[d]=input.dimension(d);
+					finalExtendedDimensions[d]=input.dimension(d);
 				}
 			}
 		}
@@ -104,15 +106,15 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 		
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		
-		AxisType[] axisType=new AxisType[extendedDimensions.length];
+		AxisType[] axisType=new AxisType[finalExtendedDimensions.length];
 		
-		for (int d=0;d<extendedDimensions.length;d++)
+		for (int d=0;d<finalExtendedDimensions.length;d++)
 		{
 			axisType[d]=input.axis(d).type();
 		}
 		
 		//input.getImgPlus().
-		output=datasetService.create(imgInput.firstElement(), extendedDimensions, "extended", axisType);//input.getAxes());
+		output=datasetService.create(imgInput.firstElement(), finalExtendedDimensions, "extended", axisType);//input.getAxes());
 		
 	}
 	
@@ -143,7 +145,7 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 		}
 		
 		// call the extend routine on the volume
-		Img<T> extended=ExtendImage.Extend(volume, imgInput.factory(), extendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
+		Img<T> extended=ExtendImage.Extend(volume, imgInput.factory(), finalExtendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
 		
 		if (extended==null)
 		{

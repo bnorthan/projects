@@ -4,11 +4,11 @@ import imagej.command.Command;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.Parameter;
 
-@Plugin(type = Command.class, menuPath = "Plugins>Sandbox>Super Simple", headless=true)
+@Plugin(type = Command.class, menuPath = "Plugins>TrueNorthJ>Very Simple", headless=true)
 public class SuperSimple implements Command
 {
 	@Parameter
-	private int thesimplest;
+	private int thesimpleone;
 
 	@Override
 	public void run() {

@@ -8,7 +8,9 @@ import net.imglib2.type.numeric.RealType;
 
 /**
  * 
- * extend image by a specified number of voxels
+ * extends the image by a specified number of voxels
+ * 
+ * if fft type is not none extends further for fft optimization
  * 
  * @author bnorthan
  *
@@ -34,20 +36,20 @@ public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> exten
 			//if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			{
-				extendedDimensions[d]=input.dimension(d)+extensionXY*2;
-				extendedVolumeDimensions[v]=input.dimension(d)+extensionXY*2;
+				initialExtendedDimensions[d]=input.dimension(d)+extensionXY*2;
+			//	initialExtendedVolumeDimensions[v]=input.dimension(d)+extensionXY*2;
 				v++;
 			}
 			//else if ( (input.axis(d).type()==Axes.Z))
 			else if ( (input.axis(d).type()==Axes.Z))
 			{
-				extendedDimensions[d]=input.dimension(d)+extensionZ*2;
-				extendedVolumeDimensions[v]=input.dimension(d)+extensionZ*2;
+				initialExtendedDimensions[d]=input.dimension(d)+extensionZ*2;
+			//	initialExtendedVolumeDimensions[v]=input.dimension(d)+extensionZ*2;
 				v++;
 			}
 			else
 			{
-				extendedDimensions[d]=input.dimension(d);
+				initialExtendedDimensions[d]=input.dimension(d);
 			}
 		}
 	}

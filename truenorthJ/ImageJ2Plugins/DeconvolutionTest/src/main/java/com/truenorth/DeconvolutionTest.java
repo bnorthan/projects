@@ -183,16 +183,16 @@ public class DeconvolutionTest
 			
 			//StaticFunctions.Pause();
 			
-			ImgPlus<FloatType> out=(ImgPlus<FloatType>)output.getImgPlus();
-			final ImgSaver saver = new ImgSaver();
-			saver.saveImg(outputName, (ImgPlus<FloatType>) out);
+		//	ImgPlus<FloatType> out=(ImgPlus<FloatType>)output.getImgPlus();
+		//	final ImgSaver saver = new ImgSaver();
+		//	saver.saveImg(outputName, (ImgPlus<FloatType>) out);
 			
-		/*	ImgPlus<?> out=output.getImgPlus();
+			ImgPlus<?> out=output.getImgPlus();
 			
 			final SCIFIO scifio = new SCIFIO();
 			final ImgSaver saver = new ImgSaver(scifio.getContext());
 			
-			saver.saveImg(outputName, (ImgPlus)out);*/
+			saver.saveImg(outputName, (ImgPlus)out);
 		}
 		else
 		{

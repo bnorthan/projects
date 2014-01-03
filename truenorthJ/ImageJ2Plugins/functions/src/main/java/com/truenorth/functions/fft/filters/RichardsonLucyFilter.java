@@ -88,6 +88,10 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 	
 	protected boolean performIteration( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b )
 	{
+		double sum=StaticFunctions.sum2(image);
+		System.out.println("image sum: "+sum);
+		//StaticFunctions.Pause();
+		
 		// 1. Reblurred should have allready been created in previous iteration
 		
 		// 2.  divide observed image by reblurred
@@ -106,6 +110,11 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		// multiply output of correlation step and current estimate
 		//StaticFunctions.InPlaceMultiply(estimate, correlation);
 		ComputeEstimate(correlation);
+		
+		sum=StaticFunctions.sum2(estimate);
+		System.out.println("estimate sum: "+sum);
+	//	StaticFunctions.Pause();
+		
 		
 		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
 		createReblurred();

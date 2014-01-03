@@ -53,6 +53,4 @@ public abstract class InputOutputVolumeProcessorCommand<T extends RealType<T> & 
 	//	constructImageList();
 	
 	}
-	
-
 }

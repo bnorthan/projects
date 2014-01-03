@@ -1,6 +1,8 @@
 package com.truenorth.functions.fft.filters;
 
 
+import com.truenorth.functions.StaticFunctions;
+
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;

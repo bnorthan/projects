@@ -31,7 +31,7 @@ public class DeconvolutionStats<T extends RealType<T>>
 		InitializeStatsArrays(numIterations);
 	}
 	
-	public void CalculateStats(int iteration, RandomAccessibleInterval<T> image, Img<T> estimate, Img<T> reblurred, Img<T> lastEstimate, Img<T> truth, boolean printStats)
+	public void CalculateStats(int iteration, RandomAccessibleInterval<T> image, Img<T> estimate, Img<T> reblurred, Img<T> lastEstimate, Img<T> truth, Img<T> psf, boolean printStats)
 	{
 		if (truth!=null)
 		{

@@ -46,7 +46,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				System.out.println("Iteration: "+iteration);
 				
 	//			uiService.getStatusService().showStatus(iteration, iterations, "Iteration: "+iteration);
-				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, true);
+				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, null, true);
 				
 				if (truth!=null)
 				{

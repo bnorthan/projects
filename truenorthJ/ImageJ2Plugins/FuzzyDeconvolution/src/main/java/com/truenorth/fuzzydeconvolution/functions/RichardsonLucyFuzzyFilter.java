@@ -195,9 +195,9 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			rlCandidate.performIterations(i);
 			
 			// calculate stats of estimate produced with current ri
-			stats1.CalculateStats(i-1, image, rl.getEstimate(), rl.getReblurred(), null, null, false);
+			stats1.CalculateStats(i-1, image, rl.getEstimate(), rl.getReblurred(), null, null, null, false);
 			// calculate stats of estimate produced with candidate ri
-			stats2.CalculateStats(i-1, image, rlCandidate.getEstimate(), rlCandidate.getReblurred(), null, null, false);
+			stats2.CalculateStats(i-1, image, rlCandidate.getEstimate(), rlCandidate.getReblurred(), null, null, null, false);
 		
 			std_T=(stats1.getArrayStdEstimate()[i-1]+stats2.getArrayStdEstimate()[i-1])/2;
 			max_T=(stats1.getArrayMax()[i-1]+stats2.getArrayMax()[i-1])/2;

@@ -17,6 +17,7 @@ import net.imglib2.img.ImgFactory;
 
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
+import net.imglib2.view.Views;
 
 /**
  * Base class for Fourier based filters
@@ -126,7 +127,11 @@ public abstract class FrequencyFilter<T extends RealType<T>, S extends RealType<
 	{	
 		// the first thing we need to do is flip the PSF quadrants (and as we are doing this make the kernel
 		// the right size)
-			
+		
+		StaticFunctions.norm(Views.iterable(kernel));
+		double sum=StaticFunctions.sum2(kernel);
+		System.out.println("sum: "+sum);
+		
 		final int kernelTemplateDim[] = new int[ numDimensions ];
 		
 		// set the kernel fft dimensions to be the same size as the image fft dimensions

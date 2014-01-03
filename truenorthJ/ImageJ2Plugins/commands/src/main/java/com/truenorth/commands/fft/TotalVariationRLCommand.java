@@ -22,11 +22,11 @@ import org.scijava.plugin.Plugin;
  * Total Variation Richardson Lucy filter
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Richardson Lucy")
+@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Total Variation Richardson Lucy")
 public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
 {
 	@Parameter
-	float regularizationFactor=0.002f;
+	float regularizationFactor=0.002f;      
 	
 	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 	{

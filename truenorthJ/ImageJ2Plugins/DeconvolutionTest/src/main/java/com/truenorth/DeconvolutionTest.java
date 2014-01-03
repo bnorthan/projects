@@ -1,7 +1,6 @@
 package com.truenorth;
 
 import net.imglib2.meta.ImgPlus;
-import net.imglib2.type.numeric.real.FloatType;
 
 import io.scif.img.ImgIOException;
 import com.truenorth.functions.StaticFunctions;
@@ -12,15 +11,13 @@ import imagej.command.CommandModule;
 import java.util.concurrent.*;
 
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import io.scif.SCIFIO;
-import io.scif.img.ImgIOException;
-import io.scif.img.ImgOpener;
-import io.scif.img.ImgOptions;
-import io.scif.img.ImgOptions.ImgMode;
 import io.scif.img.ImgSaver;
 import net.imglib2.exception.IncompatibleTypeException;
-import net.imglib2.meta.ImgPlus;
 
 /**
  * This is a class meant to test deconvolution commands.
@@ -31,6 +28,8 @@ import net.imglib2.meta.ImgPlus;
  * 1. fully qualified name of class
  * 2. parameters in the format: {parameter}={value}"
  * 
+ * Or alternatively put multiple commands in a script (use extension .hackscript)
+ * 
  * the parameter names correspond to the actual parameter names in the class
  * 
  * For example to test com.truenorth.commands.fft.ConvolutionCommand
@@ -40,6 +39,9 @@ import net.imglib2.meta.ImgPlus;
  */
 public class DeconvolutionTest 
 {	
+	// Launch main instance of imagej
+	ImageJ ij=null;
+	
     public void Test( String[] args ) throws ImgIOException, IncompatibleTypeException
     {
     	System.out.println("Deconvolution Test Program" );
@@ -54,21 +56,20 @@ public class DeconvolutionTest
 				silent=true;
 			}
 		}
+    		
+		if (ij==null)
+		{
+			if (!silent)
+			{
+				ij = imagej.Main.launch(args);
+			}
+			else
+			{
+				System.out.println("silent mode...");
+				ij=new ImageJ();
+			}
+		}
     	
-		// Launch main instance of imagej
-    	ImageJ ij;
-    	
-    	if (!silent)
-    	{
-    		ij = imagej.Main.launch(args);
-    	}
-    	else
-    	{
-    		System.out.println("silent mode...");
-    		ij=new ImageJ();
-    	}
-    	
-        
         System.out.println("Number of arguments: "+args.length);
     
 		Class cl=null;
@@ -139,6 +140,7 @@ public class DeconvolutionTest
 		
 		// run the command and get the future
 		Future<CommandModule> future =ij.command().run(cl, parser.getInputMap());
+		//Future<Module> future =ij.command().run(args[0], parser.getInputMap());
 				
 		CommandModule commandModule=null;
 		
@@ -163,8 +165,6 @@ public class DeconvolutionTest
 		{
 			output=(Dataset)outputs.get("output");
 		}
-
-		//Dataset output=(Dataset)commandModule.getOutput("output"
 		
 		// get the name of the output file
 		String outputName = (String)(parser.getOutputMap().get("output"));
@@ -180,13 +180,7 @@ public class DeconvolutionTest
 			{ 	
 				System.out.println("axes "+d+" is: "+output.axis(d).type());
 			}
-			
-			//StaticFunctions.Pause();
-			
-		//	ImgPlus<FloatType> out=(ImgPlus<FloatType>)output.getImgPlus();
-		//	final ImgSaver saver = new ImgSaver();
-		//	saver.saveImg(outputName, (ImgPlus<FloatType>) out);
-			
+						
 			ImgPlus<?> out=output.getImgPlus();
 			
 			final SCIFIO scifio = new SCIFIO();
@@ -209,7 +203,55 @@ public class DeconvolutionTest
 	}
     
     public static void main( String[] args ) throws ImgIOException, IncompatibleTypeException
-    {
+    {	
+    	// if args length is 1 check for a script
+    	if (args.length==1)
+    	{
+    		// check to see if the first input is a script
+    		String extension = "";
+
+    		int i = args[0].lastIndexOf('.');
+    		if (i > 0) {
+    			extension = args[0].substring(i+1);
+    		}
+    
+    		// if there is a script run it
+    		if (extension.equals("hackscript"))
+    		{
+    			System.out.println("hack script detected");
+    			
+    			// create a new instance of the test class
+    			DeconvolutionTest deconvolutionTest=new DeconvolutionTest();
+    			
+    			try
+    			{
+    				BufferedReader br = new BufferedReader(new FileReader(args[0]));
+    				String line;
+    				
+    				// Each line of the script should be a command and (optionally) parameters
+    				// loop through it running each command
+    				while ((line = br.readLine()) != null) 
+    				{
+    					System.out.println(line);
+    					deconvolutionTest.Test(line.split(" "));
+    				}
+    				
+    				br.close();
+    				
+    				return;
+    			}
+    			catch (IOException e)
+    			{
+    				// if something went wrong reading the script print a message and return
+    				System.out.println("error reading script");
+    				return;
+    			}
+    		}
+    	}
+    	
+    	// if we get this far there wasn't a script so just pass all the arguments
+    	// on to the test class
+    	
     	new DeconvolutionTest().Test(args);
     	
     	return;

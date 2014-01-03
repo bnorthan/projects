@@ -40,5 +40,4 @@ public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends Ab
 			return null;
 		}
 	}
-	
 }

@@ -1,6 +1,9 @@
 package com.truenorth.commands.dim;
 
+import imagej.command.Command;
+
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
@@ -16,6 +19,7 @@ import net.imglib2.type.numeric.RealType;
  *
  * @param <T>
  */
+@Plugin(type = Command.class, menuPath = "Plugins>Dimensions>Extend to Extension")
 public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 

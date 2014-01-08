@@ -22,7 +22,7 @@ import org.scijava.plugin.Plugin;
  * Inverse Filter
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Process>Inverse Filter Test")
+@Plugin(type=Command.class, menuPath="Process>Inverse Filter")
 public class InverseFilterCommand<T extends RealType<T>& NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {
 	/**

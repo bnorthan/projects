@@ -2,6 +2,7 @@ package com.truenorth.commands.phantom;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.phantom.Phantoms;
@@ -26,6 +27,7 @@ import net.imglib2.meta.ImgPlus;
  * @author bnorthan
  *
  */
+@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Add Sphere")
 public class AddSphereCommand  implements Command
 {
 	@Parameter

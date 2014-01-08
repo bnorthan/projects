@@ -1,5 +1,9 @@
 package com.truenorth.commands.dim;
 
+import imagej.command.Command;
+
+import org.scijava.plugin.Plugin;
+
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
@@ -12,6 +16,7 @@ import net.imglib2.type.numeric.RealType;
  *
  * @param <T>
  */
+@Plugin(type = Command.class, menuPath = "Plugins>Dimensions>Extend for FFT")
 public class ExtendCommandFFT<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T>
 {
 	void CalculateExtendedDimensions()

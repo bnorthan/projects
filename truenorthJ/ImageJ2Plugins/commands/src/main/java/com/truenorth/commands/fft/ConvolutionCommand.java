@@ -1,5 +1,9 @@
 package com.truenorth.commands.fft;
 
+import imagej.command.Command;
+
+import org.scijava.plugin.Plugin;
+
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
@@ -16,6 +20,7 @@ import net.imglib2.RandomAccessibleInterval;
  * Convolution command
  * @param <T>
  */
+@Plugin(type=Command.class, menuPath="Process>Convolution")
 public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {	
 	/**

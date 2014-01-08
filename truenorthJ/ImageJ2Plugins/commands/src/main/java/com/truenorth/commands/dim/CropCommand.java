@@ -25,7 +25,7 @@ import com.truenorth.functions.StaticFunctions;
  *
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>DCroppy")
+@Plugin(type=Command.class, menuPath="Plugins>Crop")
 public class CropCommand<T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
 	@Parameter 

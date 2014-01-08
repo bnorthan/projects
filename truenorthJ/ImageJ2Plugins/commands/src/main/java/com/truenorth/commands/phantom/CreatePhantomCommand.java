@@ -2,6 +2,7 @@ package com.truenorth.commands.phantom;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.phantom.Phantoms;
@@ -19,13 +20,11 @@ import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.meta.ImgPlus;
 
 /**
- * A command that creates a phantom
  * 
- * Todo: Add some sophistication and perhaps expand this to multiple commands
- * (for example CreatBlankImage, then commands to place objects in the image (PutSphereCommand, PutPointCommand, etc.)
- * @author bnorthan
- *
+ * A command that creates an empty phantom
+ * 
  */
+@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Create empty phantom")
 public class CreatePhantomCommand  implements Command
 {
 	@Parameter
@@ -58,20 +57,8 @@ public class CreatePhantomCommand  implements Command
 		// use the image factory to create an img
 		Img<FloatType> image = imgFactory.create(size, new FloatType());
 		
+		// create a blank phantom
 		StaticFunctions.set(image, 0);
-		
-		// create a center position
-		/*Point center = new Point(image.numDimensions());
-		
-		center.setPosition(xSize/2,0);
-		center.setPosition(ySize/2,1);
-		center.setPosition(zSize/2, 2);
-		
-		// draw a sphere in the center of the image
-		//	Phantoms.drawSphere(image, center, 50, 155);
-		
-		// draw another sphere inside the first sphere
-		Phantoms.drawSphere(image, center, 25, 255);*/
 		
 		// wrap as an image plus
 		ImgPlus<FloatType> imgPlus=StaticFunctions.Wrap3DImg(image, "phantom");

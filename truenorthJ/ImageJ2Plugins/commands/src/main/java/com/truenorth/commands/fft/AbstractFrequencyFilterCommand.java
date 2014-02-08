@@ -32,7 +32,16 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	 * @return
 	 */
 	abstract FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region);
-
+	
+	/**
+	 * virtual function used to set parameters of the algorithm
+	 * override to set algrorithm specific parameters 
+	 */
+	protected void setParameters(FrequencyFilter filter)
+	{
+		
+	}
+	
 	@Override 
 	protected void preProcess()
 	{
@@ -49,6 +58,8 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	{
 		// create the specific algorithm that will be applied
 		FrequencyFilter filter=createAlgorithm(volume);
+		
+		setParameters(filter);
 		
 		// process the volume
 		filter.process();

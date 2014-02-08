@@ -24,8 +24,7 @@ import net.imglib2.view.Views;
  */
 public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends LinearFilter<T,S>
 {
-	// takes image and kernel and returns the result
-	
+	// takes image and kernel and returns the result	
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final Img<T> img, final Img<S> kernel) throws IncompatibleTypeException
 	{
 		final InverseFilter<T,S> inverse = new InverseFilter<T,S>(img, kernel);

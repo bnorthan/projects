@@ -4,6 +4,8 @@ import imagej.command.Command;
 
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.plugin.Menu;
+import imagej.menu.MenuConstants;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
@@ -25,7 +27,12 @@ import com.truenorth.functions.StaticFunctions;
  *
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Crop")
+//@Plugin(type=Command.class, menuPath="Plugins>Dimensions>Crop!!")
+@Plugin(type=Command.class, menu = {
+    @Menu(label = MenuConstants.PLUGINS_LABEL,
+            weight = MenuConstants.PLUGINS_WEIGHT,
+            mnemonic = MenuConstants.PLUGINS_MNEMONIC),
+        @Menu(label = "Truenorth", mnemonic = 't'), @Menu(label = "Crop354", weight = 1) })
 public class CropCommand<T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
 	@Parameter 

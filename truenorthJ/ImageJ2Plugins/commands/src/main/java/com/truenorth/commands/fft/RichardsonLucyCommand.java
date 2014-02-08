@@ -7,7 +7,11 @@ import net.imglib2.type.NativeType;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.fft.filters.FrequencyFilter;
+import com.truenorth.functions.fft.filters.IterativeFilter;
+import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
+
+import com.truenorth.commands.Constants;
 
 import imagej.command.Command;
 
@@ -32,7 +36,7 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 			Img<T> psfImg=(Img<T>)(psf.getImgPlus().getImg());
 		
 			// create a RichardsonLucy filter for the region
-			 RichardsonLucyFilter<T,T>richardsonLucy = new RichardsonLucyFilter<T,T>(region,
+			RichardsonLucyFilter<T,T>richardsonLucy = new RichardsonLucyFilter<T,T>(region,
 					psfImg, 
 					inputImg.factory(), 
 					psfImg.factory());
@@ -40,6 +44,34 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 			// set the number of iterations and the callback
 			richardsonLucy.setMaxIterations(iterations);
 			richardsonLucy.setCallback(callback);
+			
+			if (this.firstGuessType.equals(Constants.FirstGuess.measuredImage))
+			{
+				richardsonLucy.setFirstGuessType(FirstGuessType.MEASURED);
+			}
+			else if (this.firstGuessType.equals(Constants.FirstGuess.constant))
+			{
+				richardsonLucy.setFirstGuessType(FirstGuessType.CONSTANT);
+			}
+			else if (this.firstGuessType.equals(Constants.FirstGuess.blurredInputImage))
+			{
+				richardsonLucy.setFirstGuessType(FirstGuessType.BLURRED_INPUT);
+			}
+			else if (this.firstGuessType.equals(Constants.FirstGuess.input))
+			{
+				if (firstGuess!=null)
+				{
+					// TODO: handle multi-volume first guess data set -- this code will only work
+					// for the case of 1 volume.
+					Img<T> firstGuessImg=(Img<T>)(firstGuess.getImgPlus().getImg());
+					richardsonLucy.setFirstGuessType(FirstGuessType.INPUT_IMAGE);
+					richardsonLucy.setEstimate(firstGuessImg);
+				}
+				else
+				{
+					richardsonLucy.setFirstGuessType(FirstGuessType.MEASURED);
+				}	
+			}
 		
 			// return the filter
 			return richardsonLucy;

@@ -1,0 +1,1 @@
+com.truenorth.commands.phantom.CreatePhantomCommand silent output=/home/bnorthan/Brian2014/Projects/deconware//Images//Tests/multiSphereTest/doubleSphereLowSignal.ome.tif xSize=360 ySize=360 zSize=150

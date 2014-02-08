@@ -5,18 +5,15 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import com.truenorth.functions.StaticFunctions;
-import com.truenorth.functions.phantom.Phantoms;
 
 import imagej.command.Command;
 import imagej.data.Dataset;
 import imagej.data.DatasetService;
-import net.imglib2.Point;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.real.FloatType;
 
-//import net.imglib2.img.ImgPlus;
 import net.imglib2.meta.ImgPlus;
 
 /**
@@ -42,6 +39,9 @@ public class CreatePhantomCommand  implements Command
 	@Parameter
 	long zSize=128;
 	
+	@Parameter
+	double background=0.0;
+	
 	@Override
 	public void run()
 	{
@@ -58,7 +58,7 @@ public class CreatePhantomCommand  implements Command
 		Img<FloatType> image = imgFactory.create(size, new FloatType());
 		
 		// create a blank phantom
-		StaticFunctions.set(image, 0);
+		StaticFunctions.set(image, background);
 		
 		// wrap as an image plus
 		ImgPlus<FloatType> imgPlus=StaticFunctions.Wrap3DImg(image, "phantom");

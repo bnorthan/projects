@@ -14,10 +14,10 @@ import net.imglib2.img.Img;
 import net.imglib2.type.numeric.real.FloatType;
 
 /**
- * A command that adds a sphere to an image
+ * A command that adds a cube to an image
  */
-@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Add Sphere")
-public class AddSphereCommand  implements Command
+@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Add Cube")
+public class AddCubeCommand  implements Command
 {
 	@Parameter
 	protected DatasetService datasetService;
@@ -28,19 +28,26 @@ public class AddSphereCommand  implements Command
 	@Parameter(type = ItemIO.OUTPUT)
 	protected Dataset output;
 	
-	// center of sphere
+	// start of cube
 	@Parameter
-	long xCenter=-1;
+	long xStart=-1;
 	
 	@Parameter
-	long yCenter=-1;
+	long yStart=-1;
 	
 	@Parameter
-	long zCenter=-1;
+	long zStart=-1;
 	
+	// size of cube
 	@Parameter
-	long radius=20;
-	
+	long xSize=-1;
+		
+	@Parameter
+	long ySize=-1;
+		
+	@Parameter
+	long zSize=-1;
+		
 	@Parameter
 	double intensity=255;
 	
@@ -49,15 +56,22 @@ public class AddSphereCommand  implements Command
 	{	
 		Img<FloatType> image=(Img<FloatType>)(input.getImgPlus().getImg());
 		
-		// create a center position
-		Point center = new Point(image.numDimensions());
+		// create a start position
+		Point start = new Point(image.numDimensions());
 		
-		center.setPosition(xCenter,0);
-		center.setPosition(yCenter,1);
-		center.setPosition(zCenter, 2);
-			
+		start.setPosition(xStart,0);
+		start.setPosition(yStart,1);
+		start.setPosition(zStart, 2);
+		
+		// create a size position
+		Point size = new Point(image.numDimensions());
+		
+		size.setPosition(xSize,0);
+		size.setPosition(ySize,1);
+		size.setPosition(zSize, 2);
+		
 		// draw the sphere
-		Phantoms.drawSphere(image, center, (int)radius, intensity);
+		Phantoms.drawCube(image, start, size, intensity);
 		
 		output=input;
 	}

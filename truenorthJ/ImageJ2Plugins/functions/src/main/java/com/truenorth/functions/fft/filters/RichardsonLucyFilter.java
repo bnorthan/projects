@@ -62,13 +62,45 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 	
 	public boolean initialize()
 	{
-		// create a new fft
-		
+		// create a new fft		
 		fftInput = 
 				new SimpleImgLib2FFT<T, ComplexFloatType>(image, imgFactory, fftImgFactory, new ComplexFloatType() );
-		
-				
+					
 		return super.initialize();
+	}
+	
+	
+	protected boolean performIteration( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b )
+	{
+		// 1. Reblurred should have allready been created in previous iteration
+		
+		// 2.  divide observed image by reblurred
+		
+		StaticFunctions.InPlaceDivide(reblurred, image);
+		
+		// 3. correlate psf with the output of step 2.			
+		Img<T> correlation = correlationStep();
+		
+		if (correlation==null)
+		{
+			return false;
+		}
+		
+		// multiply output of correlation step and current estimate
+		ComputeEstimate(correlation);
+		
+	//	StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalization.tif");
+	//	StaticFunctions.SaveImg(estimate, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/estimate.tif");
+		
+		//if (this.normalizationType==NormalizationType.NO_BOUNDARY)
+		{
+			StaticFunctions.InPlaceDivide2(normalization, estimate);
+		}
+				
+		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
+		createReblurred();
+			
+		return true;
 	}
 	
 	protected Img<T> correlationStep()
@@ -79,47 +111,10 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		
 		Img<ComplexFloatType> temp1FFT= fftTemp.forward(reblurred);
 		
-		// complex conjugate multiply fft of output of step 2 and fft of psf.  
-		
+		// complex conjugate multiply fft of output of step 2 and fft of psf.  		
 		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
 		
 		return fftInput.inverse(temp1FFT);
-	}
-	
-	protected boolean performIteration( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b )
-	{
-		double sum=StaticFunctions.sum2(image);
-		System.out.println("image sum: "+sum);
-		//StaticFunctions.Pause();
-		
-		// 1. Reblurred should have allready been created in previous iteration
-		
-		// 2.  divide observed image by reblurred
-		
-		StaticFunctions.InPlaceDivide(reblurred, image);
-		
-		// 3. correlate psf with the output of step 2.	
-		
-		Img<T> correlation = correlationStep();
-		
-		if (correlation==null)
-		{
-			return false;
-		}
-		
-		// multiply output of correlation step and current estimate
-		//StaticFunctions.InPlaceMultiply(estimate, correlation);
-		ComputeEstimate(correlation);
-		
-		sum=StaticFunctions.sum2(estimate);
-		System.out.println("estimate sum: "+sum);
-	//	StaticFunctions.Pause();
-		
-		
-		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
-		createReblurred();
-			
-		return true;
 	}
 	
 	protected void ComputeEstimate(Img<T> correlation)

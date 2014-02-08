@@ -170,6 +170,11 @@ public class InputParser
 				// cast the value to a double and put it into the map
 				inputMap.put(split[0], Double.parseDouble(split[1]));
 			}
+			if (cl==float.class)
+			{
+				// cast the value to a double and put it into the map
+				inputMap.put(split[0], Float.parseFloat(split[1]));
+			}
 			// if the input parameter is a string
 			if (cl==String.class)
 			{

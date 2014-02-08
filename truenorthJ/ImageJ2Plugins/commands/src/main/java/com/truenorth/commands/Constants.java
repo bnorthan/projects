@@ -26,6 +26,14 @@ public class Constants
 		public static final String boundaryMirror="mirror";
 	}
 	
+	public class FirstGuess
+	{
+		public static final String measuredImage="measured image";
+		public static final String constant="constant";
+		public static final String blurredInputImage="blurred input image";
+		public static final String input="input";
+	}
+	
 	public class PsfTypeStrings
 	{
 		public static final String widefield="Widefield";

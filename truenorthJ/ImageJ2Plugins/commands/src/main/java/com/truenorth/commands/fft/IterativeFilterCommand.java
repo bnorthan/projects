@@ -11,7 +11,9 @@ import net.imglib2.RandomAccessibleInterval;
 
 import org.scijava.plugin.Parameter;
 
+import com.truenorth.commands.Constants;
 import com.truenorth.functions.StaticFunctions;
+import com.truenorth.functions.fft.filters.FrequencyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
@@ -25,21 +27,26 @@ import imagej.data.Dataset;
  */
 public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {
-		//@Parameter
-	//	private UIService uiService;
-
 		@Parameter
 		int iterations;
 		
 		@Parameter(required=false, persist=false)
 		Dataset truth=null;
 		
+		@Parameter(required=false, persist=false)
+		Dataset firstGuess=null;
+		
+		//@Parameter(required=false, persist=false)
+		//Dataset firstGuess=null;
+		
+		@Parameter(label="first guess", choices = {Constants.FirstGuess.measuredImage, Constants.FirstGuess.constant, Constants.FirstGuess.blurredInputImage, Constants.FirstGuess.input})
+		String firstGuessType;
+				
 		Img<T> imgTruth=null;
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
-		
 		DeconvolutionStats<FloatType> stats;
-		
+			
 		IterativeFilterCallback callback=new IterativeFilterCallback() {
 			public void DoCallback(int iteration, RandomAccessibleInterval image, Img estimate, Img reblurred)
 			{
@@ -52,8 +59,6 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				{
 					Img<T> truthImg=(Img<T>)(truth.getImgPlus().getImg());
 					
-					boolean sameSize=true;
-					
 					long[] imgSize=new long[image.numDimensions()];
 					long[] truthSize=new long[truthImg.numDimensions()];
 					
@@ -64,12 +69,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 					{
 						imgSize[i]=image.dimension(i);
 						truthSize[i]=truth.dimension(i);
-						
-						if (imgSize[i]!=truthSize[i])
-						{
-							sameSize=false;	
-						}
-						
+							
 						start[i]=(imgSize[i]-truthSize[i])/2;
 						finish[i]=start[i]+truthSize[i]-1;
 									
@@ -89,5 +89,11 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 			stats= new DeconvolutionStats<FloatType>(iterations);
 			
 			super.preProcess();
+		}
+		
+		@Override
+		protected void setParameters(FrequencyFilter filter)
+		{
+			
 		}
 }

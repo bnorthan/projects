@@ -1,7 +1,5 @@
 package com.truenorth.commands;
 
-import imagej.ImageJ;
-
 /**
  * Launches ImageJ
  * 
@@ -13,7 +11,7 @@ public class LaunchImageJ
 	/** Launches imagej. */
 	public static void main(final String... args) throws Exception 
 	{
-		// Launch ImageJ as usual.
-		final ImageJ ij = imagej.Main.launch(args);
+		// Launch ImageJ
+		imagej.Main.launch(args);
 	}
 }

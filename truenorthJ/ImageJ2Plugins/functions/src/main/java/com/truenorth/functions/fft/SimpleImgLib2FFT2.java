@@ -37,6 +37,7 @@ public class SimpleImgLib2FFT2 <T extends RealType<T>, S extends ComplexType<S>>
 	
 	public SimpleImgLib2FFT2(RandomAccessibleInterval<T> input, ImgFactory<T> imgImgFactory, ImgFactory<S> fftImgFactory, final S complexType)
 	{
+		
 		this.fftImgFactory=fftImgFactory;
 		this.complexType = complexType;
 		

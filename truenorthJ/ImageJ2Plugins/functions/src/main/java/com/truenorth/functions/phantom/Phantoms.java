@@ -36,12 +36,56 @@ public class Phantoms
 			final Point position,
 			final double intensity)
 	{
-		System.out.println("Adding a Point at: ");
-		
 		RandomAccess<T> randomAccess= randomAccessible.randomAccess();
 		
 		randomAccess.setPosition(position);
 		
 		randomAccess.get().setReal(intensity);	
+	}
+	
+	public static <T extends RealType<T> > void drawCube(final RandomAccessibleInterval<T> randomAccessible, final Point start,
+		final Point size, final double intensity)
+	{
+		// assume 2-D or 3-D space for now
+		if (start.numDimensions()==2)
+		{
+			Point position=new Point(2);
+			
+			int yStart=start.getIntPosition(1);
+			int xStart=start.getIntPosition(0);
+			
+			for (int y=0;y<size.getIntPosition(1);y++)
+			{		
+				position.setPosition(y+yStart,1);
+				for (int x=0;x<size.getIntPosition(0);x++)
+				{
+					position.setPosition(x+xStart,0);
+					drawPoint(randomAccessible, position, intensity);
+				}
+			}
+		}
+		if (start.numDimensions()==3)
+		{
+			Point position=new Point(3);
+			
+			int zStart=start.getIntPosition(2);
+			int yStart=start.getIntPosition(1);
+			int xStart=start.getIntPosition(0);
+			
+			for (int z=0;z<size.getIntPosition(2);z++)
+			{
+				position.setPosition(z+zStart,2);
+				for (int y=0;y<size.getIntPosition(1);y++)
+				{	
+					position.setPosition(y+yStart,1);
+					for (int x=0;x<size.getIntPosition(0);x++)
+					{
+						position.setPosition(x+xStart,0);
+						drawPoint(randomAccessible, position, intensity);
+					}
+				}
+			}
+		}
+			
 	}
 }

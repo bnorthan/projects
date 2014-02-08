@@ -59,49 +59,58 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 				
 		CalculateExtendedDimensions();
 		
-		// if the image should be extended further to the nearest FFT size
+		long[] originalDimensions = new long[input.numDimensions()];
+		
+		int v=0;
+		
+		long[] volumeDimensions = new long[3];
+		
+		input.dimensions(originalDimensions);
+		
+		for (int d=0;d<originalDimensions.length;d++)
+		{	
+			// if it is a volume dimension
+			if ( (input.axis(d).type()==Axes.X) ||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z) ) 
+			{
+				volumeDimensions[v]=initialExtendedDimensions[d];//input.dimension(d);
+				v++;
+			}		
+		}
+			
+		v=0;
+	
+		// if the image should be extended further to the nearest FFT size that is optimized for speed
 		if (fftType.equals(Constants.FFTOptimization.fftOptimizationSpeed))
 		{
-			long[] originalDimensions = new long[input.numDimensions()];
-			long[] volumeDimensions = new long[3];
-			
 			System.out.println("fft speed");
-			
-			input.dimensions(originalDimensions);
-			
-			int v=0;
-			
-			for (int d=0;d<originalDimensions.length;d++)
-			{	
-				// if it is a volume dimension
-				if ( (input.axis(d).type()==Axes.X) ||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z) ) 
-				{
-					volumeDimensions[v]=initialExtendedDimensions[d];//input.dimension(d);
-					v++;
-				}		
-			}
-			
+				
 			finalExtendedVolumeDimensions=SimpleFFTFactory.GetPaddedInputSizeLong(volumeDimensions);
-			
-			v=0;
-			
-			for (int d=0;d<originalDimensions.length;d++)
-			{
-				// if it is a volume dimension
-				if ((input.axis(d).type()==Axes.X)||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z)) 
-				{
-					finalExtendedDimensions[d]=finalExtendedVolumeDimensions[v];
-					v++;
-				}		
-				else
-				{
-					finalExtendedDimensions[d]=input.dimension(d);
-				}
-			}
 		}
+		// if the image should be extended further to the nearest FFT size that is optimized for volume
 		else if (fftType.equals(Constants.FFTOptimization.fftOptimizationSize))
 		{
 			System.out.println("fft size");
+		}
+		// if not optimizing for fft the final extended volume dimensions don't need to be adjusted any further
+		else if (fftType.equals(Constants.FFTOptimization.fftOptimizationNone))
+		{
+			System.out.println("fft none");
+			
+			finalExtendedVolumeDimensions=volumeDimensions;
+		}
+		
+		for (int d=0;d<originalDimensions.length;d++)
+		{
+			// if it is a volume dimension
+			if ((input.axis(d).type()==Axes.X)||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z)) 
+			{
+				finalExtendedDimensions[d]=finalExtendedVolumeDimensions[v];
+				v++;
+			}		
+			else
+			{
+				finalExtendedDimensions[d]=input.dimension(d);
+			}
 		}
 		
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());

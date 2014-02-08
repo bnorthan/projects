@@ -15,8 +15,11 @@ import net.imglib2.img.Img;
  * @param <T>
  * @param <S>
  */
+
 public interface SimpleFFT<T extends RealType<T>, S extends ComplexType<S>> 
 {
+	public static enum FFTType{SPEED, SIZE, NONE};
+
 	// returns forward fft of "input"
 	public Img<S> forward(final RandomAccessibleInterval<T> input);
 	

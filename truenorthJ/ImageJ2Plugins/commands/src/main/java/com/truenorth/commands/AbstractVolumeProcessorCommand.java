@@ -228,7 +228,6 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				Img<T> result=processVolume(inputChannel);
 				
 				StaticFunctions.showStats(inputChannel);
-				StaticFunctions.showStats(result);
 				
 				// here we copy the result into the output dataset
 				// Todo: work out a better way to do this... give the algorithm direct access to the memory 
@@ -236,6 +235,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				
 				if (!inPlace)
 				{
+					StaticFunctions.showStats(result);
 					StaticFunctions.copy3(result, outputChannel);
 				}
 				else

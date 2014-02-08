@@ -139,7 +139,7 @@ public class DeconvolutionTest
 		System.out.println();
 		
 		// run the command and get the future
-		Future<CommandModule> future =ij.command().run(cl, parser.getInputMap());
+		Future<CommandModule> future =ij.command().run(cl, true, parser.getInputMap());
 		//Future<Module> future =ij.command().run(args[0], parser.getInputMap());
 				
 		CommandModule commandModule=null;
@@ -187,6 +187,7 @@ public class DeconvolutionTest
 			final ImgSaver saver = new ImgSaver(scifio.getContext());
 			
 			saver.saveImg(outputName, (ImgPlus)out);
+		
 		}
 		else
 		{

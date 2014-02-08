@@ -21,11 +21,14 @@ import net.imglib2.algorithm.gradient.PartialDerivative;
 
 import net.imglib2.iterator.LocalizingZeroMinIntervalIterator;
 
+import io.scif.SCIFIO;
+import io.scif.img.ImgSaver;
+
 import java.text.NumberFormat;
 
 import java.io.*;  
 
-/**
+/*z*
  * class to be used for quick implementation and prototyping of math and utility functions
  * 
  * @author bnorthan
@@ -89,7 +92,7 @@ public class StaticFunctions
 	}
 		
 	/*
-	 * divide numerator by divisorOutput and place result in divisorOutput
+	 * divide numerator by denominatorOutput and place result in denominatorOutput
 	 */
 	public static<T extends RealType<T>> void InPlaceDivide(final Img<T> denominatorOutput, final RandomAccessible<T> numerator) 
 	{
@@ -111,10 +114,47 @@ public class StaticFunctions
 			}
 			else
 			{ 
+				res = 0;
 				// Todo: handle divide by zero??
 			}
 				
 			cursorDenominatorOutput.get().setReal(res);
+		}
+	}
+	
+	/*
+	 * divide numeratorOutput by denominator and place result in numeratorOutput
+	 */
+	public static<T extends RealType<T>> void InPlaceDivide2(final Img<T> denominator, final Img<T> numeratorOutput) 
+	{
+		final Cursor<T> cursorDenominator = denominator.cursor();
+		Cursor< T > cursorNumeratorOutput = numeratorOutput.cursor();
+		 
+		while (cursorDenominator.hasNext())
+		{
+			cursorDenominator.fwd();
+			cursorNumeratorOutput.fwd();
+			
+			float num = cursorNumeratorOutput.get().getRealFloat();
+			float div = cursorDenominator.get().getRealFloat();
+			float res =0;
+			
+			if (div>0e-7&&num>0e-7)
+			{
+				res = num/div;
+				
+				if (num>10)
+				{
+					int stop=5;
+				}
+			}
+			else
+			{ 
+				res = 0;
+				// Todo: handle divide by zero??
+			}
+				
+			cursorNumeratorOutput.get().setReal(res);
 		}
 	}
 	
@@ -147,7 +187,7 @@ public class StaticFunctions
 			random.setPosition(tmpPosition);
 			
 			double value = random.get().getRealDouble();
-			
+			http://tweg.com/?v=sos_webinar	
 			cursor.get().setReal(value);
 		}
 		return cropped;
@@ -377,8 +417,7 @@ public class StaticFunctions
 		double std = java.lang.Math.sqrt(variance);
 		
 		return std;
-	}
-	
+	}	
 	/*
 	 * compute the sum of likelihood of a process with observation i and mean r
 	 */
@@ -661,6 +700,7 @@ public class StaticFunctions
 		Cursor<T> ycursor = ygradient.cursor();
 		Cursor<T> zcursor = zgradient.cursor();
 		
+		
 		while (xcursor.hasNext())
 		{
 			xcursor.fwd();ycursor.fwd();zcursor.fwd();
@@ -783,6 +823,23 @@ public class StaticFunctions
 		minmax.process();
 		
 		return minmax.getMax().getRealDouble();
+	}
+	
+	public static <T extends RealType<T>> void SaveImg(Img<T> image, String name)
+	{
+		final SCIFIO scifio = new SCIFIO();
+		final ImgSaver saver = new ImgSaver(scifio.getContext());
+		
+		ImgPlus<T> imgPlus=Wrap3DImg(image, "temp");
+		
+		try
+		{
+			saver.saveImg(name, imgPlus);
+		}
+		catch (Exception ex)
+		{
+			
+		}
 	}
 	
 	/*

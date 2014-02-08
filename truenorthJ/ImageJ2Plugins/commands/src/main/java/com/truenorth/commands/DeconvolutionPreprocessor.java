@@ -11,6 +11,7 @@ import org.scijava.plugin.Plugin;
 import imagej.module.process.PreprocessorPlugin;
 
 import com.truenorth.commands.fft.IterativeFilterCommand;
+import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 
 /**
@@ -24,7 +25,7 @@ public class DeconvolutionPreprocessor extends AbstractPreprocessorPlugin
 	@Override
 	public void process(final Module module) 
 	{
-		System.out.println("deconvolution preprocessing!");
+		System.out.println("deconvolution preprocessing!!!!!!!");
 		System.out.println(module.getInfo().getDelegateClassName());
 		
 		Class cl;

@@ -14,10 +14,12 @@ import net.imglib2.img.Img;
 import net.imglib2.type.numeric.real.FloatType;
 
 /**
- * A command that adds a sphere to an image
+ * A command that adds a shell to a image
+ * @author bnorthan
+ *
  */
-@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Add Sphere")
-public class AddSphereCommand  implements Command
+@Plugin(type=Command.class, menuPath="Plugins>Phantoms>Add Shell")
+public class AddShellCommand  implements Command
 {
 	@Parameter
 	protected DatasetService datasetService;
@@ -44,6 +46,9 @@ public class AddSphereCommand  implements Command
 	@Parameter
 	double intensity=255;
 	
+	@Parameter
+	long innerRadius=15;
+	
 	@Override
 	public void run()
 	{	
@@ -58,7 +63,9 @@ public class AddSphereCommand  implements Command
 			
 		// draw the sphere
 		Phantoms.drawSphere(image, center, (int)radius, intensity);
+		Phantoms.drawSphere(image, center, (int)innerRadius, 0);
 		
 		output=input;
 	}
 }
+

@@ -21,7 +21,6 @@ public class NormalizeCommand<T extends RealType<T> & NativeType<T>> extends Abs
 	{
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		
-		// normalize the psf
      	StaticFunctions.norm(Views.iterable(volume));
      		
 		return null;

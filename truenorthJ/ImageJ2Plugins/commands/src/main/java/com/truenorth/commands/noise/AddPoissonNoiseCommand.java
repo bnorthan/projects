@@ -13,8 +13,7 @@ import net.imglib2.view.Views;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 
-import com.truenorth.functions.NoiseGenerator;
-import com.truenorth.functions.noise.AddPoissonNoise;
+import com.truenorth.functions.noise.NoiseGenerator;
 
 @Plugin(type=Command.class, menuPath="Plugins>Noise>Add Poisson Noise")
 public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extends AbstractVolumeProcessorCommand<T>
@@ -37,13 +36,7 @@ public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extend
 	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
 	{
 		NoiseGenerator.AddPoissonNoise(Views.iterable(volume));
-		
-		/*AddPoissonNoise<T> noise=new AddPoissonNoise<T>(Views.iterable(volume));
-		
-		noise.process();
-		
-		System.out.println("Processing time is: "+noise.getProcessingTime());*/
-		
+				
 		return null;
 	}
 }

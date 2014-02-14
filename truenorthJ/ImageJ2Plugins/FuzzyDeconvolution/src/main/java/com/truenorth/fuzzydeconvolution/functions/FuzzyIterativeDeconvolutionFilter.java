@@ -22,21 +22,24 @@ import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 
+import com.truenorth.functions.fft.filters.IterativeFilterFactory;
+import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilterType;
+
 /**
  * Implements the fuzzy logic deconvolution routine presented at Photonics West 2013
  * 
  * Brian Northan "Fuzzy Logic Components for Iterative Deconvolution Systems" 
- * Progress in BiomeRichardsonLucydical Optics and Imaging Vol. 14., No. 25
+ * Progress in Biomedical Optics and Imaging Vol. 14., No. 25
  * 
  * 
  * @author bnorthan
  *
  * @param <T>
  */
-public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark
-{
-	IterativeFilter<T,FloatType> rl;
-	IterativeFilter<T,FloatType> rlCandidate;
+public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends RealType<S>> implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark
+{	
+	IterativeFilter<T,FloatType> iterativeFilter;
+	IterativeFilter<T,FloatType> iterativeFilterCandidate;
 	
 	RandomAccessibleInterval<T> image;
 	ImgFactory<T> imgFactory;
@@ -75,7 +78,9 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 	
 	IterativeFilterCallback callback=null;
 	
-	public RichardsonLucyFuzzyFilter(Img<T> image,
+	IterativeFilterType type;
+	
+	public FuzzyIterativeDeconvolutionFilter(Img<T> image,
 			float[] space,
 			double emissionWavelength,
 			double numericalAperture,
@@ -84,7 +89,8 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			double actualImmersionOilRefractiveIndex,
 			double actualSpecimenLayerRefractiveIndex,
 			double actualPointSourceDepthInSpecimenLayer,
-			double firstRIToTry)
+			double firstRIToTry,
+			IterativeFilterType type)
 	{
 		this(image,
 				image.factory(),
@@ -96,10 +102,11 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 				actualImmersionOilRefractiveIndex,
 				actualSpecimenLayerRefractiveIndex,
 				actualPointSourceDepthInSpecimenLayer,
-				firstRIToTry);
+				firstRIToTry,
+				type);
 	}
 	
-	public RichardsonLucyFuzzyFilter(RandomAccessibleInterval<T> image,
+	public FuzzyIterativeDeconvolutionFilter(RandomAccessibleInterval<T> image,
 			ImgFactory<T> imgFactory,
 			float[] space,
 			double emissionWavelength,
@@ -109,10 +116,14 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			double actualImmersionOilRefractiveIndex,
 			double actualSpecimenLayerRefractiveIndex,
 			double actualPointSourceDepthInSpecimenLayer,
-			double firstRIToTry)
+			double firstRIToTry,
+			IterativeFilterType type)
 	{
 		this.image=image;
 		this.imgFactory=imgFactory;
+		this.type=type;//=(F)(new RichardsonLucyFilter<T, FloatType>(image, kernelOne, imgFactory, kernelOne.factory()));
+		//rl = new RichardsonLucyFilter<T, FloatType>(image, kernelOne, imgFactory, kernelOne.factory());
+		
 		
 		this.firstRIToTry=firstRIToTry;
 		
@@ -145,38 +156,30 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 		double ri=firstRIToTry;
 		double riCandidate=ri-inc;
 			
-		try
-		{
-			System.out.println("generating kernel 1: ");
+		System.out.println("generating kernel 1: ");
 			
-			// generate kernel 1
-			kernelOne=generator.CallGeneratePsf(ri);
+		// generate kernel 1
+		kernelOne=generator.CallGeneratePsf(ri);
 			
-			System.out.println("generating kernel 2: ");
+		System.out.println("generating kernel 2: ");
 			
-			// generate kernel 2
-			kernelTwo=generator.CallGeneratePsf(riCandidate);
+		// generate kernel 2
+		kernelTwo=generator.CallGeneratePsf(riCandidate);
 				
-			rl = new RichardsonLucyFilter<T, FloatType>(image, kernelOne, imgFactory, kernelOne.factory());
+		iterativeFilter = IterativeFilterFactory.GetIterativeFilter(type, image, kernelOne, imgFactory, kernelOne.factory());		
+		iterativeFilterCandidate = IterativeFilterFactory.GetIterativeFilter(type, image, kernelTwo, imgFactory, kernelTwo.factory());
 			
-			rlCandidate = new RichardsonLucyFilter<T, FloatType>(image, kernelTwo, imgFactory, kernelTwo.factory());
-			
-			rl.setFlipKernel(false);
-			rlCandidate.setFlipKernel(false);
-		}
-		catch (IncompatibleTypeException ex)
-		{
-			return false;
-		}   
+		iterativeFilter.setFlipKernel(false);
+		iterativeFilterCandidate.setFlipKernel(false);
 				
-		rl.setMaxIterations(iterations);
-		rlCandidate.setMaxIterations(iterations);
+		iterativeFilter.setMaxIterations(iterations);
+		iterativeFilterCandidate.setMaxIterations(iterations);
 				
-		rl.initialize();
-		rlCandidate.initialize();
+		iterativeFilter.initialize();
+		iterativeFilterCandidate.initialize();
 		
-		rl.setTruth(truth);
-		rlCandidate.setTruth(truth);
+		iterativeFilter.setTruth(truth);
+		iterativeFilterCandidate.setTruth(truth);
 				
 		final DeconvolutionStats<T> stats1 = new DeconvolutionStats<T>(iterations);
 		final DeconvolutionStats<T> stats2 = new DeconvolutionStats<T>(iterations);
@@ -192,14 +195,14 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			System.out.println("Iteration: "+(i));
 			
 			System.out.println("Perform iteration with current RI: ="+ri);
-			rl.performIterations(i);
+			iterativeFilter.performIterations(i);
 			System.out.println("Perform iteration with candidate RI: ="+riCandidate);
-			rlCandidate.performIterations(i);
+			iterativeFilterCandidate.performIterations(i);
 			
 			// calculate stats of estimate produced with current ri
-			stats1.CalculateStats(i-1, image, rl.getEstimate(), rl.getReblurred(), null, null, null, false);
+			stats1.CalculateStats(i-1, image, iterativeFilter.getEstimate(), iterativeFilter.getReblurred(), null, null, null, false);
 			// calculate stats of estimate produced with candidate ri
-			stats2.CalculateStats(i-1, image, rlCandidate.getEstimate(), rlCandidate.getReblurred(), null, null, null, false);
+			stats2.CalculateStats(i-1, image, iterativeFilterCandidate.getEstimate(), iterativeFilterCandidate.getReblurred(), null, null, null, false);
 		
 			std_T=(stats1.getArrayStdEstimate()[i-1]+stats2.getArrayStdEstimate()[i-1])/2;
 			max_T=(stats1.getArrayMax()[i-1]+stats2.getArrayMax()[i-1])/2;
@@ -249,8 +252,8 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 				kernelTwo=generator.CallGeneratePsf(riCandidate);
 				
 				// set the kernel and current image
-				rlCandidate.setKernel(kernelTwo);
-				rlCandidate.setEstimate(rl.getEstimate());	
+				iterativeFilterCandidate.setKernel(kernelTwo);
+				iterativeFilterCandidate.setEstimate(iterativeFilter.getEstimate());	
 				
 				j=0;
 				
@@ -274,17 +277,17 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 					riCandidate=ri-inc;
 				}
 				
-				// switch rl and rlCandidate
-				IterativeFilter<T,FloatType> temp = rl;
-				rl=rlCandidate;
-				rlCandidate=temp;
+				// switch iterativeFilter and iterativeFilterCandidate
+				IterativeFilter<T,FloatType> temp = iterativeFilter;
+				iterativeFilter=iterativeFilterCandidate;
+				iterativeFilterCandidate=temp;
 				
 				// generate a new kernel with the new ri
 				kernelTwo=generator.CallGeneratePsf(riCandidate);
 				
 				// set the kernel and current image
-				rlCandidate.setKernel(kernelTwo);
-				rlCandidate.setEstimate(rl.getEstimate());
+				iterativeFilterCandidate.setKernel(kernelTwo);
+				iterativeFilterCandidate.setEstimate(iterativeFilter.getEstimate());
 				j=0;
 				
 				std_T=stats2.getArrayStdEstimate()[i-1];
@@ -301,7 +304,7 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			
 			if (callback != null)
 			{
-				callback.DoCallback(i, image, rl.getEstimate(), rl.getReblurred());
+				callback.DoCallback(i, image, iterativeFilter.getEstimate(), iterativeFilter.getReblurred());
 			}
 			// write data to the log file
 			if (dataDirectory!=null)
@@ -335,7 +338,7 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 				
 					if (tempName!=null)
 					{
-						Img<T> temp=rl.getEstimate();
+						Img<T> temp=iterativeFilter.getEstimate();
 						//new ImgSaver<T>().saveImg(tempName, temp);
 					}
 				}
@@ -346,7 +349,7 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 			}
 		}
 		
-		output = rl.getEstimate();
+		output = iterativeFilter.getEstimate();
 		
 		return result;
 	}
@@ -419,14 +422,14 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 		return errorMessage; 
 	}
 	
-	public IterativeFilter<T,FloatType> getRL()
+	public IterativeFilter<T,FloatType> getIterativeFilter()
 	{
-		return rl;
+		return iterativeFilter;
 	}
 	
-	public IterativeFilter<T,FloatType> getRLCandidate()
+	public IterativeFilter<T,FloatType> getIterativeFilterCandidate()
 	{
-		return rlCandidate;
+		return iterativeFilterCandidate;
 	}
 	
 	public void setDataDirectory(String dataDirectory)
@@ -464,4 +467,5 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 		this.callback = callback;
 	}
 }
+
 

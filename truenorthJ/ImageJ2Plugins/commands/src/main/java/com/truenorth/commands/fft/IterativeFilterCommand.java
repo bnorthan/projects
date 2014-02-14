@@ -64,7 +64,6 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter(required=false, persist=false)
 		long psfWindowZ=-1;
 		
-		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
 		DeconvolutionStats<FloatType> stats;
 		
@@ -135,7 +134,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				l[1]=psfWindowY;
 				l[2]=psfWindowZ;
 				
-				iterativeFilter.setNonCirculantConvolutionWindow(k, l);
+				iterativeFilter.setNonCirculantConvolutionStrategy(k, l);
 			}
 			
 			//StaticFunctions.Pause();

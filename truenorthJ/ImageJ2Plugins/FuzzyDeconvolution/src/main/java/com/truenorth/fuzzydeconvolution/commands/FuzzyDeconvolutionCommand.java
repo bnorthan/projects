@@ -8,12 +8,17 @@ import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
+import net.imglib2.type.numeric.real.FloatType;
+
 import org.scijava.plugin.Plugin;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
+import com.truenorth.fuzzydeconvolution.functions.FuzzyIterativeDeconvolutionFilter;
+
+import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilterType;
 
 import org.scijava.plugin.Parameter;
 
@@ -25,7 +30,7 @@ import org.scijava.plugin.Parameter;
  * @param <T>
  */
 @Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Fuzzy Deconvolution")
-public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
+public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>//IterativeFilterCommand<T>
 {
 		// x, y, spacing measured in nm
 		@Parameter
@@ -51,7 +56,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		@Parameter
 		double designSpecimenLayerRefractiveIndex=1.515;
 		
-		// actual index of refraction of the immersion oil
+		// actual index of refraction of the immersion oilimport net.imglib2.type.numeric.real.FloatType;
 		@Parameter
 		double actualImmersionOilRefractiveIndex=1.515;
 		
@@ -116,20 +121,11 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		System.out.println("actualSpecimenLayerRefractiveIndex: "+actualSpecimenLayerRefractiveIndex);
 		System.out.println("actualPointSourceDepthInSpecimenLayer: "+actualPointSourceDepthInSpecimenLayer);
 		
-		//StaticFunctions.Pause();
-		
 		float[] space=new float[3];
 		space[0]=(float)xySpace;
 		space[1]=(float)xySpace;
 		space[2]=(float)zSpace;	
-/*		double emissionWavelength=500.0;
-		double numericalAperture=1.3;
-		double designImmersionOilRefractiveIndex=1.515;
-		double designSpecimenLayerRefractiveIndex=1.515;
-		double actualImmersionOilRefractiveIndex=1.515;
-		double actualSpecimenLayerRefractiveIndex=1.33;
-		double actualPointSourceDepthInSpecimenLayer=10;*/
-			
+		
 		// create a RichardsonLucy filter for the region
 		RichardsonLucyFuzzyFilter<T> fuzzy = new RichardsonLucyFuzzyFilter<T>(inputImg,
 				space,
@@ -152,13 +148,58 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 			
 		return fuzzy;
 	}
+	
+	FuzzyIterativeDeconvolutionFilter<T, FloatType> createAlgorithmTemp(RandomAccessibleInterval<T> region)
+	{
+		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
+			
+		System.out.println("xySpace: "+xySpace);
+		System.out.println("zSpace: "+zSpace);
+		System.out.println("emissionWavelength: "+emissionWavelength);
+		System.out.println("numericalAperture: "+numericalAperture);
+		System.out.println("designImmersionOilRefractiveIndex: "+designImmersionOilRefractiveIndex);
+		System.out.println("actualSpecimenLayerRefractiveIndex: "+actualSpecimenLayerRefractiveIndex);
+		System.out.println("actualPointSourceDepthInSpecimenLayer: "+actualPointSourceDepthInSpecimenLayer);
+		
+		//StaticFunctions.Pause();
+		
+		float[] space=new float[3];
+		space[0]=(float)xySpace;
+		space[1]=(float)xySpace;
+		space[2]=(float)zSpace;	
+			
+		// create a RichardsonLucy filter for the region
+		FuzzyIterativeDeconvolutionFilter<T, FloatType> fuzzy = new FuzzyIterativeDeconvolutionFilter<T, FloatType>(inputImg,
+				space,
+				emissionWavelength,
+				numericalAperture,
+				designImmersionOilRefractiveIndex,
+				designSpecimenLayerRefractiveIndex,
+				actualImmersionOilRefractiveIndex,
+				actualSpecimenLayerRefractiveIndex,
+				actualPointSourceDepthInSpecimenLayer,
+				firstRIToTry,
+				IterativeFilterType.RICHARDSON_LUCY);
+		
+		// set the data directory and data file name
+		fuzzy.setDataDirectory(dataDirectory);
+		String dataFileName = dataFileBase+"_"+firstRIToTry+".txt";
+		fuzzy.setDataFileName(dataFileName);
+		
+		// set the number of iterations
+		fuzzy.setIterations(iterations);
+			
+		return fuzzy;
+	}
 
 	@Override
 	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
 	{
 		// create the specific algorithm that will be applied
-		RichardsonLucyFuzzyFilter<T> filter=createAlgorithm(volume);
-	
+		
+		//RichardsonLucyFuzzyFilter<T> filter=createAlgorithm(volume);
+		FuzzyIterativeDeconvolutionFilter<T, FloatType> filter=createAlgorithmTemp(volume);
+		
 		// process the volume
 		filter.process();
 	

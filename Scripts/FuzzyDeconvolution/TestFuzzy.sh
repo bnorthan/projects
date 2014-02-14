@@ -31,11 +31,12 @@ phantomPrefix=sphere
 experimentPrefix=$actualSpecimenLayerRefractiveIndex.$actualPointSourceDepthInSpecimenLayer
 
 imageName=$phantomPrefix.$experimentPrefix.image.noisy.ome.tif
-outputName=fuzzyOutput.ome.tif
+iterations=23
+outputName=fuzzyOutput2.$iterations.ome.tif
 
 firstRIToTry=1.45
 dataFileBase=$phantomPrefix.$experimentPrefix.DataTest
-iterations=20
+
 
 scriptName=$scriptDir/TestFuzzy.hackscript
 

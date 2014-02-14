@@ -36,6 +36,7 @@ import net.imglib2.Point;
 public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<S>> extends FrequencyFilter<T,S>
 {
 	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_INPUT, INPUT_IMAGE};
+	
 	public static enum ConvolutionStrategy{CIRCULANT, NON_CIRCULANT};
 
 	public IterativeFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
@@ -386,22 +387,12 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		this.firstGuessType=firstGuessType;
 	}
 	
-	public void setNormalizationType(ConvolutionStrategy convolutionStrategy)
-	{
-		this.convolutionStrategy=convolutionStrategy;
-	}
-	
-	public void setNormalization(Img<T> normalization)
-	{
-		this.normalization=normalization;
-	}
-	
 	/**
 	 * 
 	 * @param k - measurement window size
 	 * @param l - psf window size
 	 */
-	public void setNonCirculantConvolutionWindow(long[] k, long[] l)
+	public void setNonCirculantConvolutionStrategy(long[] k, long[] l)
 	{
 		this.k=k;
 		this.l=l;

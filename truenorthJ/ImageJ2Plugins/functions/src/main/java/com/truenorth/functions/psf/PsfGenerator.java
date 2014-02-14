@@ -295,6 +295,17 @@ public class PsfGenerator
         	start[2]=0;
 	
 		}
+		// else if they are the same size
+		else
+		{
+			this.symsize[0]=this.size[0];
+			this.symsize[1]=this.size[1];
+			this.symsize[2]=this.size[2];
+			
+			start[0]=0;
+        	start[1]=0;
+        	start[2]=0;
+		}
 	}
 	
 	Img<FloatType> cropSymmetricPsf(Img<FloatType> psfSym)

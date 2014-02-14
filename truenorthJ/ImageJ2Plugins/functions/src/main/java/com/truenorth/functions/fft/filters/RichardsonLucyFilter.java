@@ -92,7 +92,7 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 	//	StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalization.tif");
 	//	StaticFunctions.SaveImg(estimate, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/estimate.tif");
 		
-		//if (this.normalizationType==NormalizationType.NO_BOUNDARY)
+		if (this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
 		{
 			StaticFunctions.InPlaceDivide2(normalization, estimate);
 		}

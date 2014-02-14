@@ -7,7 +7,7 @@ import net.imglib2.type.NativeType;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.commands.Constants;
-import com.truenorth.functions.fft.filters.FrequencyFilter;
+import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.TotalVariationRL;
 import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
 
@@ -30,7 +30,7 @@ public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> exte
 	@Parameter(persist=false)
 	float regularizationFactor;      
 	
-	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
+	IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
 		{
@@ -42,40 +42,7 @@ public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> exte
 					inputImg.factory(), 
 					psfImg.factory());
 			
-			// set the number of iterations and the callback
-			totalVariationRL.setMaxIterations(iterations);
-			totalVariationRL.setCallback(callback);
 			totalVariationRL.setRegularizationFactor(regularizationFactor);
-			
-			if (this.firstGuessType.equals(Constants.FirstGuess.measuredImage))
-			{
-				totalVariationRL.setFirstGuessType(FirstGuessType.MEASURED);
-			}
-			else if (this.firstGuessType.equals(Constants.FirstGuess.constant))
-			{
-				totalVariationRL.setFirstGuessType(FirstGuessType.CONSTANT);
-			}
-			else if (this.firstGuessType.equals(Constants.FirstGuess.blurredInputImage))
-			{
-				totalVariationRL.setFirstGuessType(FirstGuessType.BLURRED_INPUT);
-			}
-			else if (this.firstGuessType.equals(Constants.FirstGuess.input))
-			{
-				if (firstGuess!=null)
-				{
-					// TODO: handle multi-volume first guess data set -- this code will only work
-					// for the case of 1 volume.
-					Img<T> firstGuessImg=(Img<T>)(firstGuess.getImgPlus().getImg());
-					totalVariationRL.setFirstGuessType(FirstGuessType.INPUT_IMAGE);
-					totalVariationRL.setEstimate(firstGuessImg);
-					
-				}
-				else
-				{
-					totalVariationRL.setFirstGuessType(FirstGuessType.MEASURED);
-				}
-			}
-			
 			
 			// return the filter
 			return totalVariationRL;

@@ -26,6 +26,12 @@ public class Constants
 		public static final String boundaryMirror="mirror";
 	}
 	
+	public class ConvolutionStrategy
+	{
+		public static final String circulant="circulant";
+		public static final String noncirculant="noncirculant";
+	}
+	
 	public class FirstGuess
 	{
 		public static final String measuredImage="measured image";

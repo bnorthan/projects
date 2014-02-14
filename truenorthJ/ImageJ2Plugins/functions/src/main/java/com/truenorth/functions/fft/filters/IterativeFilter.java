@@ -36,7 +36,7 @@ import net.imglib2.Point;
 public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<S>> extends FrequencyFilter<T,S>
 {
 	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_INPUT, INPUT_IMAGE};
-	public static enum BoundaryStrategy{NONE, NO_WRAP};
+	public static enum ConvolutionStrategy{CIRCULANT, NON_CIRCULANT};
 
 	public IterativeFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
@@ -81,13 +81,13 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 	boolean keepOldEstimate=false;
 	
 	FirstGuessType firstGuessType=FirstGuessType.MEASURED;
-	BoundaryStrategy boundaryStrategy=BoundaryStrategy.NONE;
+	ConvolutionStrategy convolutionStrategy=ConvolutionStrategy.CIRCULANT;
 	
 	// size of PSF space
-	long[] k;
 	long[] l;
 	
 	// size of measured image space
+	long[] k;
 	
 	Img<T> normalization=null;
 	
@@ -136,94 +136,21 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 				
 				final double sum=StaticFunctions.sum(iterableImage);
 				
-				final long numImagePixels=192*192*64;//image.dimension(0)*image.dimension(1)*image.dimension(2);
 				final long numPixels=image.dimension(0)*image.dimension(1)*image.dimension(2);
 				
-				final double constant=0.5*sum/(numImagePixels);
+				final double constant=sum/(numPixels);
 				
 				StaticFunctions.set(iterableEstimate, constant);
-				
-			/*	System.out.println("sum is: "+sum);
-				System.out.println("numPixels is: "+numPixels);
-				System.out.println("constant is: "+constant);
-				
-				final double sumEstimate1=StaticFunctions.sum(iterableEstimate);
-				
-				double summer=0.0;
-				
-				for (final T t:iterableEstimate)
-				{
-					t.setReal(constant);
-					summer+=constant;
-				}
-				
-				final double sumEstimate2=StaticFunctions.sum(iterableEstimate);
-				
-				System.out.println("summer is: "+summer);
-				System.out.println("sum estimate1 is: "+sumEstimate1);
-				System.out.println("sum estimate2 is: "+sumEstimate2);*/
-				
+						
 				createReblurred();
 				
 			}
-
 		}
 		
 		// create normalization if needed
-		// TEMP code for testing
+		if(this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
 		{
-			final T type = Util.getTypeFromInterval(image);
-			normalization = imgFactory.create(image, type);
-			
-			Img<T> mask = imgFactory.create(image, type);
-			
-			////////////////////////////////////////////
-			// TESTS
-			
-			Point size=new Point(3);
-			
-			size.setPosition(192, 0);
-			size.setPosition(192, 1);
-			size.setPosition(64, 2);
-			
-			Point start=new Point(3);
-			
-			start.setPosition(72, 0);
-			start.setPosition(84, 1);
-			start.setPosition(73, 2);
-			
-			Point maskSize=new Point(3);
-			
-			maskSize.setPosition(319, 0);
-			maskSize.setPosition(319, 1);
-			maskSize.setPosition(190, 2);
-			
-			Point maskStart=new Point(3);
-			
-			maskStart.setPosition(9, 0);
-			maskStart.setPosition(21, 1);
-			maskStart.setPosition(11, 2);
-			
-			Phantoms.drawCube(normalization, start, size, 1.0);
-			Phantoms.drawCube(mask, maskStart, maskSize, 1.0);
-			
-			
-			SimpleFFT<T, ComplexFloatType> fftTemp = 
-					new SimpleImgLib2FFT<T, ComplexFloatType>(normalization, imgFactory, fftImgFactory, new ComplexFloatType() );
-			
-			Img<ComplexFloatType> temp1FFT= fftTemp.forward(normalization);
-			
-			StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalcube.tif");
-			StaticFunctions.SaveImg(mask, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/mask.tif");
-			
-			// complex conjugate multiply fft of output of step 2 and fft of psf.  		
-			StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
-			
-			normalization = fftTemp.inverse(temp1FFT);
-			StaticFunctions.InPlaceMultiply(normalization, mask);
-			
-			StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalfirst.tif");
-			
+			this.CreateNormalizationImage();
 		}
 					
 		if (!result)
@@ -341,7 +268,7 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 	}
 	
 
-	protected void CreateNormalizationImage() throws IncompatibleTypeException
+	protected void CreateNormalizationImage() 
 	{
 		int length=k.length;
 	
@@ -376,12 +303,15 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		maskSize.setPosition(n[0], 0); //319
 		maskSize.setPosition(n[1], 1); //319
 		maskSize.setPosition(n[2], 2); //190
+		//maskSize.setPosition(319, 0); //319
+		//maskSize.setPosition(319, 1); //319
+		//maskSize.setPosition(190, 2); //190
 	
 		Point maskStart=new Point(3);
 	
-		maskStart.setPosition((fft_n[0]-n[0])/2, 0); //9
-		maskStart.setPosition((fft_n[1]-n[1])/2, 1); //21
-		maskStart.setPosition((fft_n[2]-n[2])/2, 2); //11
+		maskStart.setPosition((fft_n[0]-n[0])/2+1, 0); //9
+		maskStart.setPosition((fft_n[1]-n[1])/2+1, 1); //21
+		maskStart.setPosition((fft_n[2]-n[2])/2+1, 2); //11
 	
 		Phantoms.drawCube(normalization, start, size, 1.0);
 		Phantoms.drawCube(mask, maskStart, maskSize, 1.0);
@@ -391,16 +321,18 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		
 		Img<ComplexFloatType> temp1FFT= fftTemp.forward(normalization);
 		
-		StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalcube.tif");
-		StaticFunctions.SaveImg(mask, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/mask.tif");
+		//StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalcube_.tif");
+		//StaticFunctions.SaveImg(mask, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/mask_.tif");
 		
 		// complex conjugate multiply fft of output of step 2 and fft of psf.  		
 		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
 		
 		normalization = fftTemp.inverse(temp1FFT);
+		StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalconv_.tif");
 		StaticFunctions.InPlaceMultiply(normalization, mask);
 		
-		StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalfirst.tif");
+		
+		//StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalfirst_.tif");
 			
 	}
 	
@@ -454,9 +386,9 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		this.firstGuessType=firstGuessType;
 	}
 	
-	public void setNormalizationType(BoundaryStrategy boundaryStrategy)
+	public void setNormalizationType(ConvolutionStrategy convolutionStrategy)
 	{
-		this.boundaryStrategy=boundaryStrategy;
+		this.convolutionStrategy=convolutionStrategy;
 	}
 	
 	public void setNormalization(Img<T> normalization)
@@ -464,12 +396,19 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		this.normalization=normalization;
 	}
 	
-	public void setUpForNoWrap(long[] k, long[] l)
+	/**
+	 * 
+	 * @param k - measurement window size
+	 * @param l - psf window size
+	 */
+	public void setNonCirculantConvolutionWindow(long[] k, long[] l)
 	{
 		this.k=k;
 		this.l=l;
 		
-		this.boundaryStrategy=BoundaryStrategy.NO_WRAP;
+		this.convolutionStrategy=ConvolutionStrategy.NON_CIRCULANT;
+		
+		System.out.println("set noncirculant convolution window");
 	}
 		
 	protected abstract boolean performIteration( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b );

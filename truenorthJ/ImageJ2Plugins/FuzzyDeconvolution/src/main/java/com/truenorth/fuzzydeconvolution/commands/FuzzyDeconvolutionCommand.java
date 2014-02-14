@@ -12,6 +12,7 @@ import org.scijava.plugin.Plugin;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 
+import com.truenorth.functions.StaticFunctions;
 import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
 
 import org.scijava.plugin.Parameter;
@@ -107,17 +108,27 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 	{
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			
+		System.out.println("xySpace: "+xySpace);
+		System.out.println("zSpace: "+zSpace);
+		System.out.println("emissionWavelength: "+emissionWavelength);
+		System.out.println("numericalAperture: "+numericalAperture);
+		System.out.println("designImmersionOilRefractiveIndex: "+designImmersionOilRefractiveIndex);
+		System.out.println("actualSpecimenLayerRefractiveIndex: "+actualSpecimenLayerRefractiveIndex);
+		System.out.println("actualPointSourceDepthInSpecimenLayer: "+actualPointSourceDepthInSpecimenLayer);
+		
+		//StaticFunctions.Pause();
+		
 		float[] space=new float[3];
-		space[0]=40;
-		space[1]=40;
-		space[2]=100;	
-		double emissionWavelength=500.0;
+		space[0]=(float)xySpace;
+		space[1]=(float)xySpace;
+		space[2]=(float)zSpace;	
+/*		double emissionWavelength=500.0;
 		double numericalAperture=1.3;
 		double designImmersionOilRefractiveIndex=1.515;
 		double designSpecimenLayerRefractiveIndex=1.515;
 		double actualImmersionOilRefractiveIndex=1.515;
 		double actualSpecimenLayerRefractiveIndex=1.33;
-		double actualPointSourceDepthInSpecimenLayer=10;
+		double actualPointSourceDepthInSpecimenLayer=10;*/
 			
 		// create a RichardsonLucy filter for the region
 		RichardsonLucyFuzzyFilter<T> fuzzy = new RichardsonLucyFuzzyFilter<T>(inputImg,

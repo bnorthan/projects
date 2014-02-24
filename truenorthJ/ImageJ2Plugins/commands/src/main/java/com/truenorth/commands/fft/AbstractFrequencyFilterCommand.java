@@ -50,7 +50,19 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 		// use the input dataset to create an output dataset of the same dimensions
 		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
+		
 		output=datasetService.create(imgPlusInput);
+		
+		setName();
+		
+	}
+	
+	protected void setName()
+	{
+		if (output!=null)
+		{
+			output.setName("frequency filter");
+		}
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.view.Views;
+import net.imglib2.view.Views; 
 import net.imglib2.RandomAccessibleInterval;
 
 //import imagej.ui.UIService;

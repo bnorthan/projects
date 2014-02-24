@@ -28,7 +28,7 @@ public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extend
 		
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
 		output=datasetService.create(imgPlusInput);
-		
+		output.setName("Poisson Noise");
 		inPlace=true;
 	}
 	

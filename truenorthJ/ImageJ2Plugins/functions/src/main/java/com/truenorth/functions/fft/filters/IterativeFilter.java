@@ -329,7 +329,7 @@ public abstract class IterativeFilter<T extends RealType<T>, S extends RealType<
 		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
 		
 		normalization = fftTemp.inverse(temp1FFT);
-		StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalconv_.tif");
+		//StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalconv_.tif");
 		StaticFunctions.InPlaceMultiply(normalization, mask);
 		
 		

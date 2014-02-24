@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.truenorth</groupId>
+		<artifactId>pom-ImageJ2Plugins</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+  <artifactId>ScriptTest</artifactId>
+  <packaging>jar</packaging>
+  <name>ScriptTest</name>
+
+  <dependencies>
+    <dependency>
+      		<groupId>junit</groupId>
+      			<artifactId>junit</artifactId>
+      			<version>3.8.1</version>
+      			<scope>test</scope>
+    		</dependency>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij-app</artifactId>
+			<version>${imagej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij-core</artifactId>
+			<version>${imagej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${scifio.groupId}</groupId>
+			<artifactId>scifio</artifactId>
+			<version>${scifio.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.truenorth</groupId>
+			<artifactId>commands</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+  </dependencies>
+
+<repositories>
+		<repository>
+			<id>imagej.releases</id>
+			<url>http://maven.imagej.net/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>imagej.snapshots</id>
+			<url>http://maven.imagej.net/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
+
+</project>

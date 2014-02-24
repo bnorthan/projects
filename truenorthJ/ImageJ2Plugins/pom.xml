@@ -19,6 +19,7 @@
 		<module>commands</module>
 		<module>DeconvolutionTest</module>
 		<module>FuzzyDeconvolution</module>
+		<module>ScriptTest</module>
         </modules>
 
 	<!-- NB: for project parent, in case of partial checkout -->

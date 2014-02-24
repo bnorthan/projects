@@ -7,6 +7,7 @@ import com.truenorth.functions.StaticFunctions;
 
 import imagej.ImageJ;
 import imagej.data.Dataset;
+import imagej.plugins.commands.app.ImageJWebsite;
 import imagej.command.CommandModule;
 import java.util.concurrent.*;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 import io.scif.SCIFIO;
 import io.scif.img.ImgSaver;
+import io.scif.AbstractSCIFIOPlugin;
 import net.imglib2.exception.IncompatibleTypeException;
 
 /**
@@ -56,7 +58,7 @@ public class DeconvolutionTest
 				silent=true;
 			}
 		}
-    		
+			
 		if (ij==null)
 		{
 			if (!silent)
@@ -69,7 +71,9 @@ public class DeconvolutionTest
 				ij=new ImageJ();
 			}
 		}
+		
     	
+		
         System.out.println("Number of arguments: "+args.length);
     
 		Class cl=null;
@@ -100,7 +104,7 @@ public class DeconvolutionTest
 		catch (ClassNotFoundException ex)
 		{
 			// if the input parser couldn't be created because the class wasn't found quit
-			System.out.println("class not found!");
+			System.out.println("cl io.scif.AbstractSCIFIOPluginass not found!");
 			return;
 		}
 		
@@ -130,6 +134,7 @@ public class DeconvolutionTest
 			}
 		}
 		
+		
 		System.out.println();
 		System.out.println("inputs are: ");
 		for (Object obj: parser.getInputMap().values())
@@ -144,7 +149,7 @@ public class DeconvolutionTest
 				
 		CommandModule commandModule=null;
 		
-		// use the future to block until the command is finished
+		// use the future to block io.scif.AbstractSCIFIOPlugin until the command is finished
 		try
 		{
 			commandModule=future.get();
@@ -160,6 +165,8 @@ public class DeconvolutionTest
 		Map<String, Object> outputs=commandModule.getOutputs();
 		
 		Dataset output=null;
+		
+		Object test=outputs.values().toArray()[0];
 		
 		if (outputs.containsKey("output"))
 		{

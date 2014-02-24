@@ -45,4 +45,13 @@ public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends Ab
 			return null;
 		}
 	}
+	
+	@Override
+	protected void setName()
+	{
+		if (output!=null)
+		{
+			output.setName("convolution");
+		}
+	}
 }

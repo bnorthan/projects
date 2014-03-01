@@ -3,6 +3,7 @@ package com.truenorth.commands.psf;
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.plugin.Attr;
 
 import com.truenorth.commands.Constants;
 
@@ -29,7 +30,7 @@ import com.truenorth.functions.psf.PsfGenerator;
  *
  * @param <T>
  */
-@Plugin(type = Command.class, menuPath = "Plugins>Deconvolution>Create PSF")
+@Plugin(type = CreatePsfCommand.class, menuPath = "Plugins>Deconvolution>Create PSF")
 public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements Command
 {
 	@Parameter
@@ -38,7 +39,7 @@ public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements
 	@Parameter(type = ItemIO.OUTPUT)
 	protected Dataset output;
 	
-	@Parameter
+	@Parameter(attrs=@Attr(name="ShowInChainedGUI", value="false"))
 	long xSize=256;
 	
 	@Parameter

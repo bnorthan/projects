@@ -10,6 +10,7 @@ import net.imglib2.RandomAccessibleInterval;
 //import imagej.ui.UIService;
 
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Attr;
 
 import com.truenorth.commands.Constants;
 import com.truenorth.functions.StaticFunctions;
@@ -61,7 +62,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter(required=false, persist=false)
 		long psfWindowY=-1;
 		
-		@Parameter(required=false, persist=false)
+		@Parameter(required=false, persist=false, attrs=@Attr(name="test", value="test"))
 		long psfWindowZ=-1;
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
@@ -142,7 +143,6 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 			return iterativeFilter;
 		}
 
-			
 		IterativeFilterCallback callback=new IterativeFilterCallback() {
 			public void DoCallback(int iteration, RandomAccessibleInterval image, Img estimate, Img reblurred)
 			{

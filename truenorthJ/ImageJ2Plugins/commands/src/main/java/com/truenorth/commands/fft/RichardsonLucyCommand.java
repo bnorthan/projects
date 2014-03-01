@@ -7,10 +7,7 @@ import net.imglib2.type.NativeType;
 import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.fft.filters.IterativeFilter;
-import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
-
-import com.truenorth.commands.Constants;
 
 import imagej.command.Command;
 
@@ -24,7 +21,7 @@ import org.scijava.plugin.Plugin;
  * Richardson Lucy filter
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Richardson Lucy")
+@Plugin(type=AbstractFrequencyFilterCommand.class, menuPath="Plugins>Deconvolution>Richardson Lucy")
 public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
 {	
 	IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)

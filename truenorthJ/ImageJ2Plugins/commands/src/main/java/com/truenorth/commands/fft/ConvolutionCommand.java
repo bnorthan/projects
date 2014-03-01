@@ -20,7 +20,7 @@ import net.imglib2.RandomAccessibleInterval;
  * Convolution command
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Convolution")
+@Plugin(type=AbstractFrequencyFilterCommand.class, menuPath="Plugins>Deconvolution>Convolution")
 public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {	
 	/**

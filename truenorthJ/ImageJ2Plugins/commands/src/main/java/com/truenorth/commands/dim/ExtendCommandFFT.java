@@ -16,7 +16,7 @@ import net.imglib2.type.numeric.RealType;
  *
  * @param <T>
  */
-@Plugin(type = Command.class, menuPath = "Plugins>Dimensions>Extend for FFT")
+@Plugin(type = ExtendCommand.class, menuPath = "Plugins>Dimensions>Extend for FFT")
 public class ExtendCommandFFT<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T>
 {
 	void CalculateExtendedDimensions()

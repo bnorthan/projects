@@ -19,7 +19,7 @@ import net.imglib2.type.numeric.RealType;
  *
  * @param <T>
  */
-@Plugin(type = Command.class, menuPath = "Plugins>Dimensions>Extend to Extension")
+@Plugin(type = ExtendCommand.class, menuPath = "Plugins>Dimensions>Extend to Extension")
 public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 

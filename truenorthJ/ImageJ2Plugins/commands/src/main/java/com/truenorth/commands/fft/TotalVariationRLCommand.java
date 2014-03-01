@@ -24,7 +24,7 @@ import org.scijava.plugin.Plugin;
  * Total Variation Richardson Lucy filter
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Total Variation Richardson Lucy")
+@Plugin(type=AbstractFrequencyFilterCommand.class, menuPath="Plugins>Deconvolution>Total Variation Richardson Lucy")
 public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
 {
 	@Parameter(persist=false)

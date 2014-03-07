@@ -2,9 +2,13 @@ package com.truenorth.commands.fft;
 
 import imagej.data.Dataset;
 
+import com.truenorth.commands.CommandUtilities;
+
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
 import com.truenorth.functions.fft.filters.FrequencyFilter;
+import com.truenorth.functions.fft.filters.AbstractFrequencyFilter;
 
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Parameter;
 
 import net.imglib2.img.Img;
@@ -23,7 +27,7 @@ import net.imglib2.RandomAccessibleInterval;
 public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
 	
-	@Parameter
+	@Parameter(attrs=@Attr(name="ShowInChainedGUI", value="false"))
 	protected Dataset psf;
 	
 	/**
@@ -46,12 +50,11 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	protected void preProcess()
 	{
 		// Todo:  look over type safety at this step
-		//Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		// use the input dataset to create an output dataset of the same dimensions
 		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
-		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
 		
-		output=datasetService.create(imgPlusInput);
+		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());	
+		output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
 		
 		setName();
 		
@@ -69,7 +72,7 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
 	{
 		// create the specific algorithm that will be applied
-		FrequencyFilter filter=createAlgorithm(volume);
+		FrequencyFilter<T, T> filter=createAlgorithm(volume);
 		
 		setParameters(filter);
 		

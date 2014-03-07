@@ -37,18 +37,14 @@ public class ExtendCommandExtension<T extends RealType<T> & NativeType<T>> exten
 		for(int d=0;d<input.numDimensions();d++)
 		{ 	
 						
-			//if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			if ( (input.axis(d).type()==Axes.X) || (input.axis(d).type()==Axes.Y))
 			{
 				initialExtendedDimensions[d]=input.dimension(d)+extensionXY*2;
-			//	initialExtendedVolumeDimensions[v]=input.dimension(d)+extensionXY*2;
 				v++;
 			}
-			//else if ( (input.axis(d).type()==Axes.Z))
 			else if ( (input.axis(d).type()==Axes.Z))
 			{
 				initialExtendedDimensions[d]=input.dimension(d)+extensionZ*2;
-			//	initialExtendedVolumeDimensions[v]=input.dimension(d)+extensionZ*2;
 				v++;
 			}
 			else

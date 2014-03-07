@@ -72,8 +72,6 @@ public class DeconvolutionTest
 			}
 		}
 		
-    	
-		
         System.out.println("Number of arguments: "+args.length);
     
 		Class cl=null;
@@ -133,7 +131,6 @@ public class DeconvolutionTest
 				ij.display().createDisplay(dataset.getName(), dataset);	
 			}
 		}
-		
 		
 		System.out.println();
 		System.out.println("inputs are: ");

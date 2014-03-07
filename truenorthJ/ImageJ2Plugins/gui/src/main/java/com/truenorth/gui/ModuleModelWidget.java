@@ -13,9 +13,6 @@ import imagej.plugins.uis.swing.widget.SwingInputHarvester;
 import imagej.widget.InputPanel;
 import imagej.widget.WidgetModel;
 
-import net.imglib2.type.NativeType;
-import net.imglib2.type.numeric.RealType;
-
 import org.scijava.plugin.PluginInfo;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.PluginService;
@@ -34,8 +31,7 @@ import com.truenorth.commandmodels.ModuleModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-//@Plugin(type = InputWidget.class)
-public abstract class ModuleModelWidget<T extends RealType<T> & NativeType<T>> extends SwingInputWidget<ModuleModel> 	
+public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel> 	
 		implements ActionListener
 {
 	@Parameter
@@ -94,8 +90,6 @@ public abstract class ModuleModelWidget<T extends RealType<T> & NativeType<T>> e
 			createModel();
 		}
 		
-		//createModel();
-		
 		commandList=new JComboBox<String>();
 		
 		Class baseClass=moduleModel.getBaseClass();
@@ -140,7 +134,7 @@ public abstract class ModuleModelWidget<T extends RealType<T> & NativeType<T>> e
 		// get the preprocessor plugins
 		List<? extends PreprocessorPlugin> pre=pluginService.createInstancesOfType(PreprocessorPlugin.class);
 		
-		// apply all preprocessors except for the SwingInputHavester.  The SwingInputHavester will be called in the next step
+		// apply all preprocessors except for the SwingInputHavester.  The SwingInputHavester will be called in the updateJPanel function
 		// and the resulting JPanel inserted recursively (instead of in it's own dialog). 
 		for (PreprocessorPlugin p:pre)
 		{
@@ -150,13 +144,11 @@ public abstract class ModuleModelWidget<T extends RealType<T> & NativeType<T>> e
 			}
 		}
 		
-		// update model
 		updateModel();
 		
 		updateJPanel();
 		
 		commandList.addActionListener(this);
-	
 		
 		this.getComponent().setLayout(new BoxLayout(this.getComponent(), BoxLayout.PAGE_AXIS) );
 		
@@ -193,12 +185,10 @@ public abstract class ModuleModelWidget<T extends RealType<T> & NativeType<T>> e
 		this.getComponent().revalidate();
 	}
 	
-	
 	@Override
 	public boolean supports(final WidgetModel model) 
 	{
 		return false;
-		//return model.isType(ModuleModel.class);
 	}
 	
 	@Override

@@ -26,7 +26,6 @@ import net.imglib2.view.Views;
 public class Convolution<T extends RealType<T>, S extends RealType<S>> extends LinearFilter<T,S>
 {
 	// takes image and kernel and returns the result
-	
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final Img<T> img, final Img<S> kernel) throws IncompatibleTypeException
 	{
 		final Convolution<T,S> convolution = new Convolution<T,S>(img, kernel);
@@ -35,7 +34,6 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
@@ -45,7 +43,6 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -60,7 +57,6 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region	
 	// and performs the convolution in place
-
 	public static<T extends RealType<T>, S extends RealType<S>> void convolveInPlace(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -79,6 +75,7 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 		StaticFunctions.copy(iterableSource, iterableTarget);
 		
 	} 
+	
 	public Convolution( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
 			   final ImgFactory<ComplexFloatType> fftImgFactory )
@@ -105,8 +102,10 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 	}
 	
 	/**
-	 * @param a
-	 * @param b
+	 * Override frequency operation for convolution, multiply a and b in the frequency domain 
+	 * 
+	 * @param a - input signal  
+	 * @param b - input signal
 	 */
 	@Override
 	protected void frequencyOperation( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b ) 

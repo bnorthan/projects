@@ -9,7 +9,7 @@ import net.imglib2.exception.IncompatibleTypeException;
 import com.truenorth.commands.Constants;
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.TotalVariationRL;
-import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
+import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
 import imagej.command.Command;
 
@@ -30,7 +30,7 @@ public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> exte
 	@Parameter(persist=false)
 	float regularizationFactor;      
 	
-	IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
+	protected IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
 		{
@@ -50,6 +50,16 @@ public class TotalVariationRLCommand<T extends RealType<T> & NativeType<T>> exte
 		catch (IncompatibleTypeException ex)
 		{
 			return null;
+		}
+	}
+	
+	@Override
+	protected void setName()
+	{
+		if (output!=null)
+		{
+			String name=input.getName()+" TVRL";
+			output.setName(name);
 		}
 	}
 }

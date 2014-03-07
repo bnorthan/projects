@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import imagej.command.Command;
 import imagej.data.Dataset;
+import imagej.data.DatasetService;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 
-//import net.imglib2.img.ImgPlus;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.axis.DefaultLinearAxis;
@@ -18,11 +19,14 @@ import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
-import com.truenorth.commands.AbstractCommand;
+import com.truenorth.commands.CommandUtilities;
 import com.truenorth.functions.StaticFunctions;
 
-public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> extends AbstractCommand
+public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> implements Command
 {
+	@Parameter
+	protected DatasetService datasetService;
+	
 	@Parameter
 	protected Dataset input;
 	
@@ -71,7 +75,9 @@ public class ConvertDimensionCommand<T extends RealType<T> & NativeType<T>> exte
 		
 		ImgPlus<T> imgInput=(ImgPlus<T>)(input.getImgPlus());
 		
-		output=datasetService.create(imgInput);
+		output=CommandUtilities.create(datasetService, input, imgInput.getImg().firstElement());
+		
+		//output=datasetService.create(imgInput);
 		//output=datasetService.create(imgInput.firstElement(), dimensions, "converted", input.getAxes());
 		
 		ImgPlus<T> imgOutput=(ImgPlus<T>)(output.getImgPlus());

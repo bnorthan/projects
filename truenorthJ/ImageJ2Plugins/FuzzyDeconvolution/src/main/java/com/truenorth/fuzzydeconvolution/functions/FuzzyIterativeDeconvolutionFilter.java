@@ -23,6 +23,7 @@ import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 
 import com.truenorth.functions.fft.filters.IterativeFilterFactory;
+import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilterType;
 
 /**
@@ -36,7 +37,8 @@ import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilte
  *
  * @param <T>
  */
-public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends RealType<S>> implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark
+public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends RealType<S>> 
+	implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark, IterativeFilter<T, T>
 {	
 	IterativeFilter<T,FloatType> iterativeFilter;
 	IterativeFilter<T,FloatType> iterativeFilterCandidate;
@@ -466,6 +468,69 @@ public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends
 	{
 		this.callback = callback;
 	}
+	
+	public void setEstimateImg(Img<T> estimate)
+	{
+		
+	}
+	
+	public void setKernel(RandomAccessibleInterval<T> kernel)
+	{
+		
+	}
+	
+	public void setFlipKernel(boolean flipKernel)
+	{
+		
+	}
+	
+	public void setEstimate(RandomAccessibleInterval<T> estimate)
+	{
+		
+	}
+	
+	public void setNonCirculantConvolutionStrategy(long[] k, long[] l)
+	{
+		this.iterativeFilter.setNonCirculantConvolutionStrategy(k, l);
+		this.iterativeFilterCandidate.setNonCirculantConvolutionStrategy(k, l);
+	}
+	
+	public void setMaxIterations(int maxIterations)
+	{
+		
+	}
+	
+	public int getMaxIterations()
+	{
+		return -1;
+	}
+	
+	public Img<T> getEstimate()
+	{
+		return this.iterativeFilter.getEstimate();
+	}
+	
+	public Img<T> getReblurred()
+	{
+		return this.iterativeFilter.getReblurred();
+	}
+	
+	public void setFirstGuessType(FirstGuessType firstGuessType)
+	{
+		//this.iterativeFilter.setFirstGuessType(firstGuessType);
+		//this.iterativeFilterCandidate.setFirstGuessType(firstGuessType);
+	}
+	
+	public boolean initialize()
+	{
+		return false;
+	}
+		
+	public boolean performIterations(int n)
+	{
+		return false;
+	}
+	
 }
 
 

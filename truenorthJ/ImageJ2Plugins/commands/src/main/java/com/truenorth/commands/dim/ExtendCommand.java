@@ -122,8 +122,10 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			axisType[d]=input.axis(d).type();
 		}
 		
+		String name= input.getName()+" extended";
+		
 		//input.getImgPlus().
-		output=datasetService.create(imgInput.firstElement(), finalExtendedDimensions, "extended", axisType);//input.getAxes());
+		output=datasetService.create(imgInput.firstElement(), finalExtendedDimensions, name, axisType);//input.getAxes());
 		
 	}
 	

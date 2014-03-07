@@ -28,7 +28,6 @@ import net.imglib2.view.Views;
 public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends LinearFilter<T,S>
 {
 	// takes image and kernel and returns the result
-	
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final Img<T> img, final Img<S> kernel) throws IncompatibleTypeException
 	{
 		final WienerFilter<T,S> inverse = new WienerFilter<T,S>(img, kernel);
@@ -37,7 +36,6 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
@@ -47,7 +45,6 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -62,7 +59,6 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region	
 	// and performs the inverse in place
-
 	public static<T extends RealType<T>, S extends RealType<S>> void convolveInPlace(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -99,10 +95,10 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 		super( image, kernel );
 	}
 	
-	double regularizationFactor=10000000000000.0;
+	double regularizationFactor=1.0;
 	
 	/**
-	 * Divide in Fourier Space
+	 * Wiener Filter - 
 	 * 
 	 * @param a
 	 * @param b
@@ -154,7 +150,6 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 			{
 				cursorA.get().set(zero);
 			}
-			
 		}
 	}
 	

@@ -36,7 +36,7 @@ public class Constants
 	{
 		public static final String measuredImage="measured image";
 		public static final String constant="constant";
-		public static final String blurredInputImage="blurred input image";
+		public static final String blurredMeasured="blurred measured image";
 		public static final String input="input";
 	}
 	

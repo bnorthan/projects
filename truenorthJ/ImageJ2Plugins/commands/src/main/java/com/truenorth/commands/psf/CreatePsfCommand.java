@@ -42,10 +42,10 @@ public class CreatePsfCommand <T extends RealType<T> & NativeType<T>> implements
 	@Parameter(attrs=@Attr(name="ShowInChainedGUI", value="false"))
 	long xSize=256;
 	
-	@Parameter
+	@Parameter(attrs=@Attr(name="ShowInChainedGUI", value="false"))
 	long ySize=256;
 	
-	@Parameter
+	@Parameter(attrs=@Attr(name="ShowInChainedGUI", value="false"))
 	long zSize=128;
 	
 	// if the fft type is not fftOptimizationNone, then the size of the PSF will be extended to the appropriate size for the

@@ -1,7 +1,5 @@
 package com.truenorth.commandmodels;
 
-import imagej.command.Command;
-
 import com.truenorth.commands.psf.CreatePsfCommand;;
 
 public class PsfCommandModel extends ModuleModel

@@ -1,11 +1,8 @@
 package com.truenorth.commands.dim;
 
-import imagej.command.Command;
-
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-//import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;

@@ -11,6 +11,7 @@ import net.imglib2.type.numeric.RealType;
 
 import com.truenorth.functions.roi.MedianFilter;
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
+import com.truenorth.commands.CommandUtilities;
 
 import net.imglib2.meta.ImgPlus;
 
@@ -27,10 +28,10 @@ public class MedianFilterVolumeCommand<T extends RealType<T>& NativeType<T>> ext
 		// Todo:  look over type safety at this step
 		//imgInput=(Img<T>)(input.getImgPlus().getImg());
 		// use the input image to create an output image of the same dimensions
-		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
-				
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
-		output=datasetService.create(imgPlusInput);
+		
+		output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
+		
 	}
 
 	@Override

@@ -41,7 +41,7 @@ import com.truenorth.functions.roi.MedianFilter;
  * @param <T>
  * @param <S>
  */
-public class ResidualDenoisedRL <T extends RealType<T>, S extends RealType<S>> extends IterativeFilter<T,S>
+public class ResidualDenoisedRL <T extends RealType<T>, S extends RealType<S>> extends AbstractIterativeFilter<T,S>
 {
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> deconvolve(final Img<T> img, final Img<S> kernel, int maxIterations, final Img<T> truth) throws IncompatibleTypeException
 	{

@@ -33,7 +33,6 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
@@ -43,7 +42,6 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 	}
 	
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region and returns the result
-	
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> inverse(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -58,7 +56,6 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 
 	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region	
 	// and performs the inverse in place
-
 	public static<T extends RealType<T>, S extends RealType<S>> void convolveInPlace(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -77,6 +74,7 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 		StaticFunctions.copy(iterableSource, iterableTarget);
 		
 	} 
+	
 	public InverseFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
 			   final ImgFactory<ComplexFloatType> fftImgFactory )
@@ -105,7 +103,7 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 	double threshold=0.001;
 	
 	/**
-	 * Divide in Fourier Space
+	 * Naive inverse filter -- just division in Fourier Space
 	 * 
 	 * @param a
 	 * @param b

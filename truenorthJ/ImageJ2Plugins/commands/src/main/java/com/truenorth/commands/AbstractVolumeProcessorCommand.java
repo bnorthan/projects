@@ -10,7 +10,9 @@ import org.scijava.plugin.Parameter;
 
 import com.truenorth.functions.StaticFunctions;
 
+import imagej.command.Command;
 import imagej.data.Dataset;
+import imagej.data.DatasetService;
  
 import net.imglib2.algorithm.OutputAlgorithm;
 
@@ -37,8 +39,11 @@ import java.util.ArrayList;
  *
  * @param <T>
  */
-public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & NativeType<T>> extends AbstractCommand
+public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & NativeType<T>> implements Command
 {
+	@Parameter
+	protected DatasetService datasetService;
+	
 	@Parameter
 	protected Dataset input;
 	

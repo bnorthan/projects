@@ -12,6 +12,7 @@ import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
+import com.truenorth.commands.CommandUtilities;
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.roi.MedianFilter;
 
@@ -35,10 +36,9 @@ public class MedianFilterCommand<T extends RealType<T>& NativeType<T>> implement
 		// Todo:  look over type safety at this step
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());		
 		// use the input image to create an output image of the same dimensions
-		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
 		
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
-		output=datasetService.create(imgPlusInput);
+		output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
 		
 		long sizeArray[] = new long[imgInput.numDimensions()];
 		

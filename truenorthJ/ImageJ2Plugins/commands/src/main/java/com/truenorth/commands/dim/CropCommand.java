@@ -78,9 +78,6 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
      	Img<T> imgInput=(Img<T>)(imgPlusInput.getImg());
      	
      	output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", axes);
-     	
-     	//imgPlusInput.a
-		//output=datasetService.create(imgPlusInput);
 	}
 	
 	@Override

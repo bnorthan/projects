@@ -24,7 +24,7 @@ import org.scijava.plugin.Plugin;
 @Plugin(type=AbstractFrequencyFilterCommand.class, menuPath="Plugins>Deconvolution>Richardson Lucy")
 public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
 {	
-	IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
+	protected IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
 		{
@@ -43,6 +43,16 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 		catch (IncompatibleTypeException ex)
 		{
 			return null;
+		}
+	}
+	
+	@Override
+	protected void setName()
+	{
+		if (output!=null)
+		{
+			String name=input.getName()+" Richardson Lucy";
+			output.setName(name);
 		}
 	}
 

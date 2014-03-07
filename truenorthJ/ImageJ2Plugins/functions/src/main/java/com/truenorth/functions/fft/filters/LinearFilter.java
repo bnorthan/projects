@@ -19,7 +19,7 @@ import net.imglib2.type.numeric.complex.ComplexFloatType;
  * @param <T>
  * @param <S>
  */
-public abstract class LinearFilter<T extends RealType<T>, S extends RealType<S>> extends FrequencyFilter<T,S>
+public abstract class LinearFilter<T extends RealType<T>, S extends RealType<S>> extends AbstractFrequencyFilter<T,S>
 {
 	public LinearFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,

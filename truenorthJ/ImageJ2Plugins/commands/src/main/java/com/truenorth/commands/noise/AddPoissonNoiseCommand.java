@@ -12,6 +12,7 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
+import com.truenorth.commands.CommandUtilities;
 
 import com.truenorth.functions.noise.NoiseGenerator;
 
@@ -27,7 +28,9 @@ public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extend
 		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());
 		
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
-		output=datasetService.create(imgPlusInput);
+		
+		output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
+		//output=datasetService.create(imgPlusInput);
 		output.setName("Poisson Noise");
 		inPlace=true;
 	}

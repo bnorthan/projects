@@ -13,6 +13,8 @@ import net.imglib2.type.numeric.real.FloatType;
 import org.scijava.plugin.Plugin;
 
 import com.truenorth.commands.AbstractVolumeProcessorCommand;
+import com.truenorth.commands.fft.AbstractFrequencyFilterCommand;
+import com.truenorth.commands.fft.IterativeFilterCommand;
 
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
@@ -29,8 +31,8 @@ import org.scijava.plugin.Parameter;
  *
  * @param <T>
  */
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Fuzzy Deconvolution")
-public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>//IterativeFilterCommand<T>
+@Plugin(type=AbstractFrequencyFilterCommand.class, menuPath="Plugins>Deconvolution>Fuzzy Deconvolution")
+public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> extends IterativeFilterCommand<T>
 {
 		// x, y, spacing measured in nm
 		@Parameter
@@ -77,10 +79,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		
 		@Parameter
 		String dataFileBase;
-		
-		@Parameter
-		int iterations=200;
-		
+				
 	/*	IterativeFilterCallback callback=new IterativeFilterCallback() {
 			public void DoCallback(int iteration, RandomAccessibleInterval image, Img estimate, Img reblurred)
 			{
@@ -96,7 +95,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 			}
 		};*/
 		
-	@Override
+/*	@Override
 	protected void preProcess()
 	{
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
@@ -107,9 +106,9 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		ImgPlus<T> inputImgPlus=(ImgPlus<T>)(input.getImgPlus());
 		output=datasetService.create(inputImgPlus);
 		
-	}
+	}*/
 	
-	RichardsonLucyFuzzyFilter<T> createAlgorithm(RandomAccessibleInterval<T> region)
+	RichardsonLucyFuzzyFilter<T> createIterativeAlgorithmTemp(RandomAccessibleInterval<T> region)
 	{
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			
@@ -149,7 +148,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		return fuzzy;
 	}
 	
-	FuzzyIterativeDeconvolutionFilter<T, FloatType> createAlgorithmTemp(RandomAccessibleInterval<T> region)
+	public FuzzyIterativeDeconvolutionFilter<T, FloatType> createIterativeAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			
@@ -191,20 +190,30 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 			
 		return fuzzy;
 	}
-
+	
 	@Override
+	protected void setName()
+	{
+		if (output!=null)
+		{
+			String name=input.getName()+" Fuzzy Iterative Deconvolution";
+			output.setName(name);
+		}
+	}
+
+	/*@Override
 	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
 	{
 		// create the specific algorithm that will be applied
 		
 		//RichardsonLucyFuzzyFilter<T> filter=createAlgorithm(volume);
-		FuzzyIterativeDeconvolutionFilter<T, FloatType> filter=createAlgorithmTemp(volume);
+		FuzzyIterativeDeconvolutionFilter<T, FloatType> filter=createIterativeAlgorithm(volume);
 		
 		// process the volume
 		filter.process();
 	
 		// and return the result
 		return filter.getResult();
-	}
+	}*/
 
 }

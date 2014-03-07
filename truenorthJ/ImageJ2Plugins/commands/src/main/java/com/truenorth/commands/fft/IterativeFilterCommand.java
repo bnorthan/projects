@@ -18,7 +18,7 @@ import com.truenorth.functions.fft.filters.FrequencyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 import com.truenorth.functions.fft.filters.IterativeFilter;
-import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
+import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
 import imagej.data.Dataset;
 
@@ -31,49 +31,49 @@ import imagej.data.Dataset;
 public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<T>> extends AbstractFrequencyFilterCommand<T>
 {
 		@Parameter
-		int iterations;
+		protected int iterations;
 		
 		@Parameter(required=false, persist=false)
-		Dataset truth=null;
+		protected Dataset truth=null;
 		
 		@Parameter(required=false, persist=false)
-		Dataset firstGuess=null;
+		protected Dataset firstGuess=null;
 		
-		@Parameter(label="first guess", choices = {Constants.FirstGuess.measuredImage, Constants.FirstGuess.constant, Constants.FirstGuess.blurredInputImage, Constants.FirstGuess.input})
-		String firstGuessType;
+		@Parameter(label="first guess", choices = {Constants.FirstGuess.measuredImage, Constants.FirstGuess.constant, Constants.FirstGuess.blurredMeasured, Constants.FirstGuess.input})
+		protected String firstGuessType;
 		
 		@Parameter(required=false, persist=false, label="convolution strategy", choices = {Constants.ConvolutionStrategy.circulant, Constants.ConvolutionStrategy.noncirculant})
-		String convolutionStrategy=Constants.ConvolutionStrategy.circulant;
+		protected String convolutionStrategy=Constants.ConvolutionStrategy.circulant;
 		
 		Img<T> imgTruth=null;
 		
-		@Parameter(required=false, persist=false)
-		long imageWindowX=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long imageWindowX=-1;
 		
-		@Parameter(required=false, persist=false)
-		long imageWindowY=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long imageWindowY=-1;
 		
-		@Parameter(required=false, persist=false)
-		long imageWindowZ=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long imageWindowZ=-1;
 		
-		@Parameter(required=false, persist=false)
-		long psfWindowX=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long psfWindowX=-1;
 		
-		@Parameter(required=false, persist=false)
-		long psfWindowY=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long psfWindowY=-1;
 		
-		@Parameter(required=false, persist=false, attrs=@Attr(name="test", value="test"))
-		long psfWindowZ=-1;
+		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
+		protected long psfWindowZ=-1;
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
-		DeconvolutionStats<FloatType> stats;
+		protected DeconvolutionStats<FloatType> stats;
 		
 		/**
 		 * abstract function used to create the iterative algorithm that will be applied
 		 * @param region
 		 * @return
 		 */
-		abstract IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region);
+		protected abstract IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region);
 		
 		FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 		{
@@ -91,9 +91,9 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 			{
 				iterativeFilter.setFirstGuessType(FirstGuessType.CONSTANT);
 			}
-			else if (this.firstGuessType.equals(Constants.FirstGuess.blurredInputImage))
+			else if (this.firstGuessType.equals(Constants.FirstGuess.blurredMeasured))
 			{
-				iterativeFilter.setFirstGuessType(FirstGuessType.BLURRED_INPUT);
+				iterativeFilter.setFirstGuessType(FirstGuessType.BLURRED_MEASURED);
 			}
 			else if (this.firstGuessType.equals(Constants.FirstGuess.input))
 			{
@@ -102,7 +102,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 					// TODO: handle multi-volume first guess data set -- this code will only work
 					// for the case of 1 volume.
 					Img<T> firstGuessImg=(Img<T>)(firstGuess.getImgPlus().getImg());
-					iterativeFilter.setFirstGuessType(FirstGuessType.INPUT_IMAGE);
+					iterativeFilter.setFirstGuessType(FirstGuessType.MEASURED);
 					iterativeFilter.setEstimate(firstGuessImg);
 				}
 				else

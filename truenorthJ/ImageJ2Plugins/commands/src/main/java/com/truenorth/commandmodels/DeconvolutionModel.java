@@ -1,9 +1,6 @@
 package com.truenorth.commandmodels;
 
-import imagej.command.Command;
-
 import com.truenorth.commands.fft.AbstractFrequencyFilterCommand;
-import com.truenorth.commands.fft.RichardsonLucyCommand;
 
 public class DeconvolutionModel extends ModuleModel 
 {

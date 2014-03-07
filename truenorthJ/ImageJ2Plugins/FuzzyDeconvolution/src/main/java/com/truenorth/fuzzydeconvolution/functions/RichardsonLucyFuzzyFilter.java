@@ -33,7 +33,8 @@ import com.truenorth.functions.fft.filters.DeconvolutionStats;
  *
  * @param <T>
  */
-public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark
+public class RichardsonLucyFuzzyFilter <T extends RealType<T>> 
+	implements MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark, IterativeFilter<T, T>
 {
 	IterativeFilter<T,FloatType> rl;
 	IterativeFilter<T,FloatType> rlCandidate;
@@ -246,7 +247,8 @@ public class RichardsonLucyFuzzyFilter <T extends RealType<T>> implements MultiT
 				}
 				
 				// generate a new kernel with the new ri
-				kernelTwo=generator.CallGeneratePsf(riCandidate);
+				public void setEstimateImg(Img<T> estimate);
+						kernelTwo=generator.CallGeneratePsf(riCandidate);
 				
 				// set the kernel and current image
 				rlCandidate.setKernel(kernelTwo);

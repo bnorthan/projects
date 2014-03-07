@@ -20,13 +20,16 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Attr;
 
 /**
- * Abstract superclass for {@link InputHarvester}s.
+ * Extends Input Havester for a GUI that chains multiple commands
  * <p>
- * An input harvester obtains a module's unresolved input parameter values from
- * the user. Parameters are collected using an {@link InputPanel} dialog box.
+ * Overrides build panel in order to control which inputs are shown in the GUI.
+ * 
+ * This is useful when nesting multiple command GUIs in a umbrella GUI.  Some inputs
+ * may not make sense when chaining commands (for example input dataset will often be the output
+ * of the previous command in the chain, so no need to show the input widget). 
  * </p>
  * 
- * @author Curtis Rueden
+ * @author Curtis Rueden, Brian Northan
  * @param <P> The type of UI component housing the input panel itself.
  * @param <W> The type of UI component housing each input widget.
  */

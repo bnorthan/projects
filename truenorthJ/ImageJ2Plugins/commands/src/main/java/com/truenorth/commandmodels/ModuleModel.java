@@ -1,8 +1,17 @@
 package com.truenorth.commandmodels;
 
 import imagej.module.Module;
-import imagej.command.Command;
 
+/**
+ * 
+ * Abstract class for a module model
+ * 
+ * input widgets can use the model to render a GUI for a module.  in this way 
+ * GUIs for multiple modules can be rendered on the same panel.
+ * 
+ * @author bnorthan
+ *
+ */
 public abstract class ModuleModel 
 {
 	Module module;

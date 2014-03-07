@@ -15,15 +15,7 @@ set(COSM_INCLUDE_DIRS
 
 FIND_PATH( BLITZ_DIR $ENV{BLITZ_DIR} [DOC "Blitz directory path"])
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-include_directories(${COSM_INCLUDE_DIRS})
-=======
 include_directories(${COSM_INCLUDE_DIRS} ${BLITZ_DIR})
->>>>>>> 12faaad5f5f26a961e7930520e2d698efc51fd71
-=======
-include_directories(${COSM_INCLUDE_DIRS} ${BLITZ_DIR})
->>>>>>> origin/master
 
 add_definitions(-fPIC)
 
@@ -60,8 +52,6 @@ SET(PSF_LIB_SRCS ${PSF_SRC}/dqagFunction
     ${XCOSM_SRC}/tmp
     # ${XCOSM_SRC}/fftn
     )
-
-
 
 add_library(CosmPsfWrapper SHARED ${PSF_LIB_SRCS} ${QUADPACK_SRC} com_truenorth_functions_psf_PsfGenerator.cpp)
 

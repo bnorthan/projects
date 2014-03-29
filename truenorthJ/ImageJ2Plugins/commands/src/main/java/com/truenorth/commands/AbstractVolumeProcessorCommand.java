@@ -1,8 +1,5 @@
 package com.truenorth.commands;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import net.imglib2.RandomAccessibleInterval;
 
 import org.scijava.ItemIO;
@@ -25,7 +22,6 @@ import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
-import java.io.IOException;
 import java.util.ArrayList;
 /**
  * Abstract class for an input/output command that processes each 3d x,y,z volume in a dataset

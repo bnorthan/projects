@@ -8,6 +8,7 @@ import net.imglib2.outofbounds.OutOfBoundsFactory;
 import net.imglib2.outofbounds.OutOfBoundsConstantValueFactory;
 import net.imglib2.outofbounds.OutOfBoundsMirrorFactory;
 import net.imglib2.outofbounds.OutOfBoundsMirrorFactory.Boundary;
+import net.imglib2.outofbounds.OutOfBoundsMirrorExpWindowing;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -34,7 +35,7 @@ import com.truenorth.commands.Constants.FFTOptimization;
  */
 public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {	
-	@Parameter(label="boundary type", choices = {Constants.Boundary.boundaryZero, Constants.Boundary.boundaryMirror})
+	@Parameter(label="boundary type", choices = {Constants.Boundary.boundaryZero, Constants.Boundary.boundaryMirror, Constants.Boundary.boundaryFade})
 	private String boundaryType;
 	
 	@Parameter(label="fft type", choices={FFTOptimization.fftOptimizationNone, FFTOptimization.fftOptimizationSpeed, FFTOptimization.fftOptimizationSize})
@@ -52,7 +53,6 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 	{
 		initialExtendedDimensions = new long[input.numDimensions()];
 	
-	//	initialExtendedVolumeDimensions = new long[3];
 		finalExtendedVolumeDimensions= new long[3];
 		
 		long[] finalExtendedDimensions = new long[input.numDimensions()];
@@ -145,6 +145,11 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			outOfBoundsFactory 
 			= new OutOfBoundsMirrorFactory< T, RandomAccessibleInterval<T> >( Boundary.SINGLE );
 		}
+		//else if (boundaryType.equals(Constants.Boundary.boundaryFade))
+		//{
+		//	outOfBoundsFactory
+		//	= new OutOfBoundsMirrorExpWindowing< T, RandomAccessibleInterval<T>>();
+		//}
 		else
 		{
 			T t=imgInput.firstElement().createVariable();

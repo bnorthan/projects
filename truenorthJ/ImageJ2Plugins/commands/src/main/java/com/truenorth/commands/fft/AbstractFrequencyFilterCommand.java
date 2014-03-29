@@ -82,4 +82,18 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 		// and return the result
 		return filter.getResult();
 	}
+	/*protected void processVolume(RandomAccessibleInterval<T> volume, RandomAccessibleInterval<T> output)
+	{
+		// create the specific algorithm that will be applied
+		FrequencyFilter<T, T> filter=createAlgorithm(volume);
+		
+		setParameters(filter);
+		
+		// process the volume
+		filter.process();
+		
+		// and return the result
+	//	return filter.getResult();
+	}*/
+	
 }

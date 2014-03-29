@@ -6,10 +6,7 @@ import net.imglib2.algorithm.region.hypersphere.HyperSphere;
 import net.imglib2.algorithm.region.hypersphere.HyperSphereCursor;
 
 import net.imglib2.type.numeric.RealType;
-import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.type.numeric.integer.UnsignedByteType;
 
-import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 
 public class Phantoms 
@@ -19,8 +16,6 @@ public class Phantoms
 			final int radius,
 			final double intensity)
 	{
-		System.out.println("Adding a Sphere at: ");
-		
 		HyperSphere<T> hyperSphere = new HyperSphere<T>(randomAccessible, center, radius);
 		
 		HyperSphereCursor<T> cursor = hyperSphere.cursor();

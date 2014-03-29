@@ -9,6 +9,7 @@ import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
 import net.imglib2.view.Views;
@@ -502,8 +503,6 @@ public class StaticFunctions
 		   access1.setPosition(i1);
 		   access2.setPosition(r2Pos);
 		   
-		   
-		
 		 //  if (access2.get().getRealDouble()>150)	
 		  // if (access1.get().getRealDouble()>200)
 		 /*  if (currentSlice!=i1.getFloatPosition(2))
@@ -538,9 +537,6 @@ public class StaticFunctions
 			   System.out.println();
 			   
 			   //StaticFunctions.Pause();
-			   
-			   
-			  
 		   }*/
 			   
 		   check1=check1+access1.get().getRealDouble();
@@ -548,9 +544,6 @@ public class StaticFunctions
 		   
 		   temp=access1.get().getRealDouble()-access2.get().getRealDouble();
 			
-		   
-		   
-		   
 		   squaredError+=temp*temp;
 		}
 		
@@ -842,6 +835,29 @@ public class StaticFunctions
 		}
 	}
 	
+	public static <T extends RealType<T>> Img<T> Create3dImage(Img<T> template, ImgFactory<T> factory)
+	{
+		final long[] dims = new long[3];
+		
+		for (int i=0;i<3;i++)
+		{
+			dims[i]=template.dimension(i);
+		}
+		
+		return factory.create(dims, template.firstElement());
+	}
+	
+	public static <T extends RealType<T>> Img<T> Create3dImage(RandomAccessibleInterval<T> template, ImgFactory<T> factory, T t)
+	{
+		final long[] dims = new long[3];
+		
+		for (int i=0;i<3;i++)
+		{
+			dims[i]=template.dimension(i);
+		}
+		
+		return factory.create(dims, t);
+	}
 	/*
 	 * wrap an Img as an ImgPlus
 	 */

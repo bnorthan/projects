@@ -2,6 +2,7 @@ package com.truenorth.commands.noise;
 
 import imagej.command.Command;
 
+import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import net.imglib2.RandomAccessibleInterval;
@@ -16,9 +17,12 @@ import com.truenorth.commands.CommandUtilities;
 
 import com.truenorth.functions.noise.NoiseGenerator;
 
-@Plugin(type=Command.class, menuPath="Plugins>Noise>Add Poisson Noise")
-public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extends AbstractVolumeProcessorCommand<T>
+//@Plugin(type=Command.class, menuPath="Plugins>Noise>Add Poisson Noise")
+abstract public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
+//	@Parameter(persist=false)
+//	boolean createNewDataset=false;
+	
 	@Override 
 	protected void preProcess()
 	{
@@ -30,16 +34,24 @@ public class AddPoissonNoiseCommand<T extends RealType<T>& NativeType<T>> extend
 		ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
 		
 		output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
+		setName();
+	/*	if (createNewDataset)
+		{
+			inPlace=false;
+		
+			output=CommandUtilities.create(datasetService, input, imgPlusInput.getImg().firstElement());
+		}
+		else
+		{
+			inPlace=true;
+			output=input;
+		}*/
 		//output=datasetService.create(imgPlusInput);
-		output.setName("Poisson Noise");
-		inPlace=true;
+		
+		
 	}
 	
-	@Override
-	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
-	{
-		NoiseGenerator.AddPoissonNoise(Views.iterable(volume));
-				
-		return null;
-	}
+	protected abstract void setName();
+	
+	
 }

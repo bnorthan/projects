@@ -22,18 +22,9 @@
 
 #define _USE_MATH_DEFINES
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 // BMAN
 #include <math.h>
 
->>>>>>> 12faaad5f5f26a961e7930520e2d698efc51fd71
-=======
-// BMAN
-#include <math.h>
-
->>>>>>> origin/master
 #include "psf/psfUser.h"
 #include "psf/functor.h"
 #include "psf/bilinearInterpolator.h"

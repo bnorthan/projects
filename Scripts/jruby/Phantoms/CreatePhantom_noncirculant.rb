@@ -8,11 +8,6 @@
 # from the second deconvolution grand challenge described here: 
 # http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
 
-import sys
-sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Phantoms/')
-
-import PsfParameters
-
 # size of the measurement 
 measurementSizeX=192
 measurementSizeY=192
@@ -31,54 +26,58 @@ objectSizeZ=measurementSizeZ+psfSizeZ-1
 # parameters of the shell
 shellPositionX=objectSizeX / 2
 shellPositionY=objectSizeY / 2
-shellPositionZ=objectSizeZ / 2 -25
-shellOuterRadius=58
-shellInnerRadius=55
+shellPositionZ=objectSizeZ / 2
+shellOuterRadius=42
+shellInnerRadius=40
 shellIntensity=1000
 innerIntensity=100
 
 # parameters of the sphere
 spherePositionX=objectSizeX / 2
 spherePositionY=objectSizeY / 2
-spherePositionZ=objectSizeZ / 2 - 27
+spherePositionZ=psfSizeZ/2+3
 sphereRadius=5
 sphereIntensity=100
 
-# parameters of the sphere
-spherePosition2X=objectSizeX / 2
-spherePosition2Y=objectSizeY / 2
-spherePosition2Z=objectSizeZ / 2 
-sphereRadius2=5
-sphereIntensity2=100
+# PSF parameters
+scopeType="Widefield" 
+psfModel="GibsonLanni" 
+xySpace=100 
+zSpace=300 
+emissionWavelength=500.0 
+numericalAperture=1.3 
+designImmersionOilRefractiveIndex=1.515 
+designSpecimenLayerRefractiveIndex=1.515 
+actualImmersionOilRefractiveIndex=1.515 
+actualSpecimenLayerRefractiveIndex=1.51 
+actualPointSourceDepthInSpecimenLayer=10 
+
 
 background=0.0
 
-directory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/2Spheres3/"
+directory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/ScriptTest/"
 
-phantomPrefix="phantom_"
+phantomPrefix="point_"
 phantomName=directory+phantomPrefix+".ome.tif"
 psfName=directory+"psf.ome.tif"
 extendedName=directory+phantomPrefix+".extfft.ome.tif"
 extendedPsfName=directory+"psf.extfft.ome.tif"
 convolvedName=directory+phantomPrefix+".conv.ome.tif"
-croppedName=directory+phantomPrefix+"cropped.ome.tif"
 imageNoNoiseName=directory+phantomPrefix+".image.ome.tif"
 imageNoisyName=directory+phantomPrefix+".image.noisy.ome.tif"
 
 # create the phantom
-module=command.run("com.truenorth.commands.phantom.CreatePhantomCommand", True, "xSize", objectSizeX, "ySize", objectSizeY, "zSize", objectSizeZ, "background", background).get();
+themodule=command.run("com.truenorth.commands.phantom.CreatePhantomCommand", True, "xSize", objectSizeX, "ySize", objectSizeY, "zSize", objectSizeZ, "background", background).get();
 
-phantom=module.getOutputs().get("output");
+phantom=themodule.getOutputs().get("output");
 
 #command.run("com.truenorth.commands.phantom.AddShellCommand", True, "xCenter", shellPositionX, "yCenter", shellPositionY, "zCenter", shellPositionZ, "radius", shellOuterRadius, "innerRadius", shellInnerRadius, "intensity", shellIntensity, "innerIntensity", innerIntensity).get();
 
 command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePositionX, "yCenter", spherePositionY, "zCenter", spherePositionZ, "radius", sphereRadius, "intensity", sphereIntensity).get();
 
-command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePosition2X, "yCenter", spherePosition2Y, "zCenter", spherePosition2Z, "radius", sphereRadius2, "intensity", sphereIntensity2).get();
-
 io.save(phantom, phantomName);
 
-module=command.run("com.truenorth.commands.psf.CreatePsfCommandCosmos", True, \
+themodule=command.run("com.truenorth.commands.psf.CreatePsfCommandCosmos", True, \
 		"xSize", psfSizeX, \
 		"ySize", psfSizeY, \
 		"zSize", psfSizeZ, \
@@ -96,35 +95,30 @@ module=command.run("com.truenorth.commands.psf.CreatePsfCommandCosmos", True, \
 		"actualPointSourceDepthInSpecimenLayer", PsfParameters.actualPointSourceDepthInSpecimenLayer, \
 		"centerPsf", True).get()
 
-psf=module.getOutputs().get("output");
+psf=themodule.getOutputs().get("output");
 io.save(psf, psfName);
 
-module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", phantom, "dimensionX", objectSizeX, \
+themodule=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", phantom, "dimensionX", objectSizeX, \
 		"dimensionY", objectSizeY, "dimensionZ", objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
-extended=module.getOutputs().get("output");
+extended=themodule.getOutputs().get("output");
 io.save(extended, extendedName);
 
-module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", psf, "dimensionX", objectSizeX, \
+themodule=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", psf, "dimensionX", objectSizeX, \
 		"dimensionY", objectSizeY, "dimensionZ", objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
-extendedPsf=module.getOutputs().get("output");
+extendedPsf=themodule.getOutputs().get("output");
 io.save(extendedPsf, extendedPsfName);
 
-module=command.run("com.truenorth.commands.fft.ConvolutionCommand", True, "input", extended, "psf", extendedPsf).get()
-convolved=module.getOutputs().get("output");
+themodule=command.run("com.truenorth.commands.fft.ConvolutionCommand", True, "input", extended, "psf", extendedPsf).get()
+convolved=themodule.getOutputs().get("output");
 io.save(convolved, convolvedName);
 
-module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", convolved, "xSize", measurementSizeX, \
+themodule=command.run("com.truenorth.commands.dim.CropCommand", True, "input", convolved, "xSize", measurementSizeX, \
 		"ySize", measurementSizeY, "zSize", measurementSizeZ).get()
-cropped=module.getOutputs().get("output");
+cropped=themodule.getOutputs().get("output");
 io.save(cropped, imageNoNoiseName);
 
-module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", phantom, "xSize", measurementSizeX, \
-		"ySize", measurementSizeY, "zSize", measurementSizeZ).get()
-phantomCropped=module.getOutputs().get("output");
-io.save(phantomCropped, croppedName);
-
-module=command.run("com.truenorth.commands.noise.AddPoissonNoiseCommandGallo", True, "input", cropped).get()
-noisy=module.getOutputs().get("output");
+themodule=command.run("com.truenorth.commands.noise.AddPoissonNoiseCommandGallo", True, "input", cropped).get()
+noisy=themodule.getOutputs().get("output");
 io.save(noisy, imageNoisyName);
 
 

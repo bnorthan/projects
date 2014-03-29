@@ -10,7 +10,6 @@ import net.imglib2.Cursor;
 import net.imglib2.type.numeric.real.FloatType;
 
 import net.imglib2.meta.ImgPlus;
-import net.imglib2.exception.IncompatibleTypeException;
 
 import com.truenorth.functions.psf.FlipPsfQuadrants;
 
@@ -96,8 +95,7 @@ public class PsfGenerator
 	// default constructor just loads the COSM wrapper library without setting member variables
 	public PsfGenerator()
 	{
-		// load the cosm wrapper library
-		System.loadLibrary("CosmPsfWrapper");
+		LoadLib();		
 	}
 	
 	// load the COSM wrapper library and set variables 
@@ -127,9 +125,17 @@ public class PsfGenerator
 		this.psfType=psfType;
 		this.psfModel=psfModel;
 		
+		LoadLib();
+	}
+	
+	private void LoadLib()
+	{
 		// load the cosm wrapper library
+		// (library should be placed in <ImageJ root>/lib/linux64
+		
 		System.loadLibrary("CosmPsfWrapper");
 	}
+	
 		
 	public static Img<FloatType> CallGeneratePsf(int[] size,
 												float[] spacing,
@@ -205,7 +211,6 @@ public class PsfGenerator
 		System.out.println("actualImmersionOilRefractiveIndex: "+actualImmersionOilRefractiveIndex);
 		System.out.println("ri: "+ri);
 		System.out.println("actualPointSourceDepthInSpecimenLayer: "+actualPointSourceDepthInSpecimenLayer);
-		
 		
 		// generate the psf
 		boolean success = GeneratePsf(psfBuffer, 
@@ -316,21 +321,6 @@ public class PsfGenerator
         Img<FloatType> cropped=StaticFunctions.crop(flipped, start, new long[]{size[0], size[1], size[2]});
         
 		ImgPlus<FloatType> psfPlus=StaticFunctions.Wrap3DImg(cropped, "psf");
-		
-	/*	try
-		{
-			new ImgSaver().saveImg("/home/bnorthan/Brian2012/Round2/Images/For_SPIE/PSFs/288_280_144/psfCropped.tif", psfPlus);
-		}
-		catch (ImgIOException ex)
-		{
-			
-		}
-		catch (IncompatibleTypeException ex)
-		{
-			
-		}
-		
-		StaticFunctions.Pause();*/
 		
 		flipped =FlipPsfQuadrants.flip(cropped, cropped.factory(), size);
 		

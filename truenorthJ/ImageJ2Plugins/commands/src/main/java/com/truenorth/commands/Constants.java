@@ -24,6 +24,9 @@ public class Constants
 	{
 		public static final String boundaryZero="zero";
 		public static final String boundaryMirror="mirror";
+		public static final String boundaryPeriodic="periodic";
+		public static final String boundaryFade="fade";
+		public static final String boundaryNeumann="Neumann";
 	}
 	
 	public class ConvolutionStrategy

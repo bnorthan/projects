@@ -47,6 +47,9 @@ public class AddShellCommand  implements Command
 	double intensity=255;
 	
 	@Parameter
+	double innerIntensity=100;
+	
+	@Parameter
 	long innerRadius=15;
 	
 	@Override
@@ -63,7 +66,7 @@ public class AddShellCommand  implements Command
 			
 		// draw the sphere
 		Phantoms.drawSphere(image, center, (int)radius, intensity);
-		Phantoms.drawSphere(image, center, (int)innerRadius, 0);
+		Phantoms.drawSphere(image, center, (int)innerRadius, innerIntensity);
 		
 		output=input;
 	}

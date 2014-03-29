@@ -17,7 +17,8 @@
 	<modules>
 		<module>functions</module>
 		<module>commands</module>
-		<module>DeconvolutionTest</module>
+		<module>gui</module>
+		<module>DeconvolutionTest</module>		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
         </modules>

@@ -53,3 +53,4 @@ psfExtended=command.run("com.truenorth.commands.dim.ExtendCommandDimension", Tru
 		"dimensionY", objectSizeY, "dimensionZ", objectSizeZ, "boundaryType", "zero", "fftType", "speed").get().getOutputs().get("output");
 io.save(psfExtended, extendedPsfName);
 
+

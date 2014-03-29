@@ -18,7 +18,7 @@ import org.scijava.plugin.Plugin;
  *
  * @param <T>
  */
-@Plugin(type = ExtendCommand.class, menuPath = "Plugins>Dimensions>Extend to Dimensions")
+@Plugin(type = ExtendCommand.class, menuPath = "Plugins>Dimensions>Extend Noncirculant!")
 public class ExtendCommandNoncirculant <T extends RealType<T> & NativeType<T>> extends ExtendCommand<T> 
 {
 	@Parameter 

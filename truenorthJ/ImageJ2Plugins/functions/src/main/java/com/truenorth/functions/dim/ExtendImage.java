@@ -2,17 +2,13 @@ package com.truenorth.functions.dim;
 
 import com.truenorth.functions.InputOutputAlgorithm;
 
-import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessible;
 import net.imglib2.IterableInterval;
 import net.imglib2.img.Img;
-import net.imglib2.iterator.LocalizingZeroMinIntervalIterator;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.outofbounds.OutOfBoundsConstantValueFactory;
 import net.imglib2.outofbounds.OutOfBoundsFactory;
 import net.imglib2.type.numeric.RealType;
-import net.imglib2.util.Util;  
 import net.imglib2.view.Views;
 import net.imglib2.Cursor;
 
@@ -99,7 +95,6 @@ public class ExtendImage<T extends RealType<T>> extends InputOutputAlgorithm<T>
 		
 		final IterableInterval<T> iterableInput = Views.iterable(extendedInput);
 
-		
 		output=outputFactory.create(outputDim, type);
 		
 		final Cursor<T> cursorIn = iterableInput.localizingCursor();

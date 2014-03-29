@@ -4,7 +4,7 @@ import imagej.module.Module;
 
 /**
  * 
- * Abstract class for a module model
+ * Abstract class to model a module.  
  * 
  * input widgets can use the model to render a GUI for a module.  in this way 
  * GUIs for multiple modules can be rendered on the same panel.
@@ -14,9 +14,10 @@ import imagej.module.Module;
  */
 public abstract class ModuleModel 
 {
-	Module module;
-	
+	// name of the command
 	String commandClassName;
+	
+	Module module;
 	
 	public ModuleModel()
 	{

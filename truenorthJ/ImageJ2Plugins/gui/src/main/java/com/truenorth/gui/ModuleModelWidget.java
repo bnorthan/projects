@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.Box;
+import java.awt.Dimension;
 
 import java.awt.Color;
 
@@ -17,6 +19,7 @@ import org.scijava.plugin.PluginInfo;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.PluginService;
 
+import imagej.module.Module;
 import imagej.module.ModuleInfo;
 import imagej.module.ModuleService;
 
@@ -31,6 +34,13 @@ import com.truenorth.commandmodels.ModuleModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * 
+ * 
+ * @author bnorthan
+ *
+ */
 public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel> 	
 		implements ActionListener
 {
@@ -60,23 +70,6 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 	abstract void createModel();
 	
 	@Override
-	public void actionPerformed(final ActionEvent e) 
-	{
-		// get the new class name
-		String newCommandName=commandList.getSelectedItem().toString();
-
-		moduleModel.setCommandClassName(newCommandName);
-		
-		// create the new module
-		ModuleInfo info=commandService.getCommand(newCommandName);
-		moduleModel.setModule(moduleService.createModule(info));
-		
-		updateJPanel();
-		
-		updateModel();
-	}
-	
-	@Override
 	public void set(final WidgetModel model) 
 	{
 		super.set(model);
@@ -92,6 +85,7 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 		
 		commandList=new JComboBox<String>();
 		
+		// get the base class of the command
 		Class baseClass=moduleModel.getBaseClass();
 		
 		if (baseClass!=null)
@@ -112,6 +106,30 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 		// get the current plugin name
 		String commandClassName=moduleModel.getCommandClassName();
 		
+		ModuleInfo info;
+		
+		// use the command name to make sure we can create the module
+		// the command name is a setting and is persisted if the plugin changed then it is possible
+		// that the command may no longer exist. 
+		try
+		{
+			if (commandClassName!=null)
+			{
+				info=commandService.getCommand(commandClassName);
+				Module test=moduleService.createModule(info);
+				
+				// if the module was not created properly set the commandClassName is not valid so set it to null
+				if (test==null)
+				{
+					commandClassName=null;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			commandClassName=null;
+		}
+		
 		// if no current plugin name is set and we have a list of commands...
 		if ( ( (commandClassName==null) || (commandClassName.equals(""))) && (commands!=null) )
 		{
@@ -122,14 +140,10 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 			}
 		}
 		
-		// use the command name to create the module
-		if (commandClassName!=null)
-		{
-			commandList.setSelectedItem(commandClassName);
-			ModuleInfo info=commandService.getCommand(commandClassName);
-			moduleModel.setCommandClassName(commandClassName);
-			moduleModel.setModule(moduleService.createModule(info));
-		}
+		commandList.setSelectedItem(commandClassName);
+		info=commandService.getCommand(commandClassName);
+		moduleModel.setCommandClassName(commandClassName);
+		moduleModel.setModule(moduleService.createModule(info));
 		
 		// get the preprocessor plugins
 		List<? extends PreprocessorPlugin> pre=pluginService.createInstancesOfType(PreprocessorPlugin.class);
@@ -144,10 +158,10 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 			}
 		}
 		
+		updateJPanel();
 		updateModel();
 		
-		updateJPanel();
-		
+		// add a callback to handle changing the command name
 		commandList.addActionListener(this);
 		
 		this.getComponent().setLayout(new BoxLayout(this.getComponent(), BoxLayout.PAGE_AXIS) );
@@ -156,6 +170,26 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 		panel.getComponent().setAlignmentX(0.0f);
 		this.getComponent().add(commandList);
 		this.getComponent().add(panel.getComponent());
+	
+		// add in a spacer
+		this.getComponent().add(Box.createRigidArea(new Dimension(0,15)));
+	}
+	
+	@Override
+	public void actionPerformed(final ActionEvent e) 
+	{
+		// get the new class name
+		String newCommandName=commandList.getSelectedItem().toString();
+
+		moduleModel.setCommandClassName(newCommandName);
+		
+		// create the new module
+		ModuleInfo info=commandService.getCommand(newCommandName);
+		moduleModel.setModule(moduleService.createModule(info));
+		
+		updateJPanel();
+		
+		updateModel();
 	}
 	
 	private void updateJPanel()
@@ -186,16 +220,16 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 	}
 	
 	@Override
+	public void doRefresh()
+	{
+		
+	}
+	
+	@Override
 	public boolean supports(final WidgetModel model) 
 	{
 		return false;
 	}
 	
-	@Override
-	public void doRefresh() 
-	{
-		
-	}
-
 }
 

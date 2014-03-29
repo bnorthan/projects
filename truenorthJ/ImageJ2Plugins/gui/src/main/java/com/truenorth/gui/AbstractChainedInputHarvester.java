@@ -20,7 +20,11 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Attr;
 
 /**
- * Extends Input Havester for a GUI that chains multiple commands
+ * Extends AbstractInputHavester as to implement a GUI that chains multiple commands
+ * 
+ * Note:  Currently some functions (processResults, addInput) have been "cut and pasted" as they are 
+ * private in the base class
+ * 
  * <p>
  * Overrides build panel in order to control which inputs are shown in the GUI.
  * 
@@ -122,7 +126,7 @@ public abstract class AbstractChainedInputHarvester<P, W> extends AbstractContex
 	{
 		final String name = item.getName();
 		final boolean resolved = module.isResolved(name);
-		if (resolved) return null; // skip resolved inputs
+		//if (resolved) return null; // skip resolved inputs
 
 		final Class<T> type = item.getType();
 		final WidgetModel model =

@@ -53,7 +53,7 @@ JNIEXPORT jboolean JNICALL Java_com_truenorth_functions_psf_PsfGenerator_Generat
 
 	// print psf parameters to command line:
 
-	std::cout<<"EMW: "<<emissionWavelength<<"\n";
+	std::cout<<"EMW_302: "<<emissionWavelength<<"\n";
 	std::cout<<"Numerical Aperture: "<<numericalAperture<<"\n";
 	std::cout<<"Design RI (L : S):"<<designImmersionOilRefractiveIndex<<" : "<<designSpecimenLayerRefractiveIndex<<"\n";
 	std::cout<<"Actual RI (L : S):"<<actualImmersionOilRefractiveIndex<<" : "<<actualSpecimenLayerRefractiveIndex<<"\n";
@@ -139,7 +139,7 @@ JNIEXPORT jboolean JNICALL Java_com_truenorth_functions_psf_PsfGenerator_Generat
 		1.522,          // coverglass refractive index actual
 		160.0,          // tube length design
 		160.0,          // tube length actual
-		40.0,           // lateral magnification
+		40.0,    //       // lateral magnification
 		numericalAperture,           // numerical aperture (NA)
 		emissionWavelength*1e-6, //
 		1e-5

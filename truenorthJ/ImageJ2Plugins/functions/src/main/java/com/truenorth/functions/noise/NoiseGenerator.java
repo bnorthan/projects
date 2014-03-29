@@ -57,8 +57,6 @@ import net.imglib2.Cursor;
 
 import net.imglib2.type.numeric.RealType;
 
-//import com.sun.tools.javac.resources.javac;
-
 public class NoiseGenerator
 {
 	final static double MEAN_FACTOR = 2.0;
@@ -68,22 +66,6 @@ public class NoiseGenerator
 	{
 		
 	}
-	
-	/*public static<T extends RealType<T>> void AddPoissonNoise(Img<T> img)
-	{
-		Cursor<T> cursor = img.cursor();
-		
-		while (cursor.hasNext())
-		{
-			cursor.fwd();
-			
-			double val = cursor.get().getRealDouble();
-			
-			int noisy = poissonValue(val);
-			
-			cursor.get().setReal(noisy);
-		}		
-	}*/
 	
 	public static<T extends RealType<T>> void AddPoissonNoise(IterableInterval<T> img)
 	{

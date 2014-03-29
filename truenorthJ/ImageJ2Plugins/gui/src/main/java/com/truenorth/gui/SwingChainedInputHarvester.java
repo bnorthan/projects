@@ -17,11 +17,12 @@ import org.scijava.plugin.Plugin;
 import imagej.plugins.uis.swing.widget.SwingInputPanel;
 
 /**
- * SwingInputHarvester is an {@link InputHarvester} that collects input
- * parameter values from the user using a {@link SwingInputPanel} dialog box.
+ * Similar to "SwingInputHavester" but derives from AbstractChainedInputHarvester
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia
+ * @author Brian Northan
+ * 
  */
 public class SwingChainedInputHarvester extends
 	AbstractChainedInputHarvester<JPanel, JPanel>

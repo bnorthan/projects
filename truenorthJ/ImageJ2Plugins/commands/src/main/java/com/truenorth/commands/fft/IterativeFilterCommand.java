@@ -4,7 +4,6 @@ import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.view.Views; 
 import net.imglib2.RandomAccessibleInterval;
 
 //import imagej.ui.UIService;
@@ -45,8 +44,6 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter(required=false, persist=false, label="convolution strategy", choices = {Constants.ConvolutionStrategy.circulant, Constants.ConvolutionStrategy.noncirculant})
 		protected String convolutionStrategy=Constants.ConvolutionStrategy.circulant;
 		
-		Img<T> imgTruth=null;
-		
 		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
 		protected long imageWindowX=-1;
 		
@@ -67,6 +64,8 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		
 		// The callback.  Can be over-ridden to implement more complex status and info updates.
 		protected DeconvolutionStats<FloatType> stats;
+		
+		Img<T> imgTruth=null;
 		
 		/**
 		 * abstract function used to create the iterative algorithm that will be applied

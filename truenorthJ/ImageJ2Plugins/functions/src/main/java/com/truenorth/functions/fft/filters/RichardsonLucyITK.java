@@ -1,5 +1,5 @@
 package com.truenorth.functions.fft.filters;
-
+/*
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
@@ -64,7 +64,8 @@ public class RichardsonLucyITK <T extends RealType<T>, S extends RealType<S>> ex
 		return true;
 	}
 	
-	public boolean performIterations(int numIterations)
+	p
+/*ublic boolean performIterations(int numIterations)
 	{
 		
 		Image itkImage=createSimpleITKImageFromInterval(image);
@@ -80,4 +81,4 @@ public class RichardsonLucyITK <T extends RealType<T>, S extends RealType<S>> ex
 		return true;
 	}
 	
-}
+}*/

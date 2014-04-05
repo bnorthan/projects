@@ -6,6 +6,7 @@ import net.imglib2.type.NativeType;
 
 import net.imglib2.exception.IncompatibleTypeException;
 
+import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 
@@ -30,6 +31,11 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 		{
 			Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			Img<T> psfImg=(Img<T>)(psf.getImgPlus().getImg());
+			
+			double psfValue=StaticFunctions.sum(psfImg);
+			double value=StaticFunctions.sum2(region);
+			
+			System.out.println("!!!!!!!!!!!!!!!!sum VALUE!!!!!!!!!!!: "+value);
 		
 			// create a RichardsonLucy filter for the region
 			RichardsonLucyFilter<T,T> richardsonLucy = new RichardsonLucyFilter<T,T>(region,

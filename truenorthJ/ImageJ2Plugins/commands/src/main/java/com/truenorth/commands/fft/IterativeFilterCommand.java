@@ -143,9 +143,11 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		}
 
 		IterativeFilterCallback callback=new IterativeFilterCallback() {
-			public void DoCallback(int iteration, RandomAccessibleInterval image, Img estimate, Img reblurred)
+			public void DoCallback(int iteration, RandomAccessibleInterval image, Img estimate, Img reblurred, long executionTime)
 			{
 				System.out.println("Iteration: "+iteration);
+				System.out.println("Execution time: "+executionTime);
+				System.out.println();
 				
 	//			uiService.getStatusService().showStatus(iteration, iterations, "Iteration: "+iteration);
 				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, null, true);

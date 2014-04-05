@@ -8,9 +8,10 @@ cd $projectsDir
 mvn
 
 #scriptName=$scriptDir/Grand_Challenge/DeconvolveChallengeImages_reflection.py
-#scriptName=$scriptDir/Deconvolve/Deconvolve_noncirculant.py
+scriptName=$scriptDir/Deconvolve/Deconvolve_noncirculant.py
 #scriptName=$scriptDir/Deconvolve/Deconvolve_reflection.py
 #scriptName=$scriptDir/Phantoms/CreatePhantom_noncirculant.py
+#scriptName=$scriptDir/Phantoms/test.py
 
 cd $projectsDir/ScriptTest
 

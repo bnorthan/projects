@@ -84,7 +84,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	
 	int maxIterations = 10;
 	
-	int callbackInterval = 1;
+	int callbackInterval = 50;
 			
 	IterativeFilterCallback<T> callback=null;
 	
@@ -198,9 +198,12 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		{
 			Img<T> oldEstimate=null;
 			
+			long startTime=System.currentTimeMillis();
+			
 			// if tracking stats keep track of current estimate in order to compute relative change
 			if (keepOldEstimate)
 			{
+
 				oldEstimate = estimate.copy();
 			}
 			
@@ -211,15 +214,8 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			{
 				return result;
 			}
-					
-			// create reblurred image that is used to calculate the likelihood (it will also end up being ready for the 
-			// next iteration).
-			result = createReblurred();
 			
-			if (result!=true)
-			{
-				return result;
-			}
+			long iterationTime=System.currentTimeMillis()-startTime;
 			
 			// if a callback has been set
 			if (callback!=null)
@@ -230,9 +226,14 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 				// call the callback if the callbackInteral is a divisor of the current iteration
 				if (remainder == 0)
 				{
-					callback.DoCallback(iteration, image, estimate, reblurred);
+					callback.DoCallback(iteration, image, estimate, reblurred, iterationTime);
 				}
 			}
+			
+			iterationTime=System.currentTimeMillis()-startTime;
+			
+			System.out.println("Iteration:"+iteration);
+			System.out.println();
 			
 			output=estimate;
 			
@@ -262,18 +263,33 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		// create reblurred image by convolving current estimate with the psf
 		
 		// transform current estimate
+		//System.out.println();
+		//System.out.println("Create Reblurred: ");
+		
+		long start=System.currentTimeMillis();
 		boolean result = performEstimateFFT();
-				
+		long total=System.currentTimeMillis()-start;
+		
+		//System.out.println("Estimate FFT: "+total);
+		
 		if (!result)
 		{
 			return result;
 		}
 				
 		// complex multiply transformed current estimate with transformed psf
-				
+		
+		start=System.currentTimeMillis();		
 		StaticFunctions.InPlaceComplexMultiply(estimateFFT, kernelFFT);
-				
+		total=System.currentTimeMillis()-start;
+		
+		//System.out.println("Complex Multiply: "+total);
+		
+		start=System.currentTimeMillis();		
 		reblurred = fftEstimate.inverse(estimateFFT);
+		total=System.currentTimeMillis()-start;
+		
+		//System.out.println("Inverse FFT: "+total);
 		
 		return true;
 	}

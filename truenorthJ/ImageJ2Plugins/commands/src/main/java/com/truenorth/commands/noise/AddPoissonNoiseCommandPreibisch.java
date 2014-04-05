@@ -1,5 +1,6 @@
 package com.truenorth.commands.noise;
 
+/*
 import com.truenorth.commands.CommandUtilities;
 import com.truenorth.functions.noise.NoiseGenerator;
 
@@ -48,3 +49,4 @@ public class AddPoissonNoiseCommandPreibisch extends AddPoissonNoiseCommand<Floa
 	}
 
 }
+*/

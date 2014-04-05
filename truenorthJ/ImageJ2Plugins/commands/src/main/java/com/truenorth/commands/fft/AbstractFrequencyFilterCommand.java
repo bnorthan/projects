@@ -13,8 +13,12 @@ import org.scijava.plugin.Parameter;
 
 import net.imglib2.img.Img;
 import net.imglib2.meta.ImgPlus;
+import net.imglib2.type.Type;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
+
+import net.imglib2.type.numeric.real.FloatType;
+import net.imglib2.type.numeric.real.DoubleType;
 
 import net.imglib2.RandomAccessibleInterval;
 
@@ -71,6 +75,11 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	@Override
 	protected Img<T> processVolume(RandomAccessibleInterval<T> volume)
 	{
+		Type type=psf.getType();
+		
+		String test1=type.toString();
+		String test2=type.getClass().toString();
+		
 		// create the specific algorithm that will be applied
 		FrequencyFilter<T, T> filter=createAlgorithm(volume);
 		

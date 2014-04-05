@@ -1,5 +1,6 @@
 package com.truenorth.commands.fft;
 
+/*
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
@@ -48,4 +49,4 @@ public class RichardsonLucyITKCommand <T extends RealType<T> & NativeType<T>> ex
 		}
 	}
 
-}
+}*/

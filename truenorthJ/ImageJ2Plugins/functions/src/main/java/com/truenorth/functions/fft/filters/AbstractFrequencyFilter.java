@@ -53,6 +53,11 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 			final ImgFactory<S> kernelImgFactory,
 			final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
+		double sum1=StaticFunctions.sum2(kernel);
+		double sum2=StaticFunctions.sum2(image);
+		
+		System.out.println("sums: "+sum1+" : "+sum2);
+		
 		this.numDimensions = image.numDimensions();
 		
 		int[] dimensions = new int[numDimensions];
@@ -123,10 +128,13 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 	 * @return
 	 */
 	protected boolean performPsfFFT()
-	{	
+	{
+		double sumbeforenorm=StaticFunctions.sum2(kernel);
+		System.out.println("sumbeforenorm: "+sumbeforenorm);
 		StaticFunctions.norm(Views.iterable(kernel));
 		double sum=StaticFunctions.sum2(kernel);
-		System.out.println("sum: "+sum);
+		double sum2=StaticFunctions.sum2(image);
+		System.out.println("sum: "+sum+" sum2 "+sum2);
 		
 		final int kernelTemplateDim[] = new int[ numDimensions ];
 		

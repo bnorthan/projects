@@ -1,5 +1,6 @@
 package com.truenorth.commands.fft;
 
+/*
 import org.scijava.plugin.Parameter;
 
 import com.truenorth.commands.Constants;
@@ -12,7 +13,6 @@ import net.imglib2.type.numeric.RealType;
 
 import com.truenorth.functions.fft.filters.IterativeFilterITK;
 
-
 public abstract class IterativeFilterCommandITK<T extends RealType<T> & NativeType<T>> extends AbstractFrequencyFilterCommand<T> 
 {
 	@Parameter
@@ -21,11 +21,11 @@ public abstract class IterativeFilterCommandITK<T extends RealType<T> & NativeTy
 	@Parameter(label="extension type", choices = { Constants.Boundary.boundaryZero, Constants.Boundary.boundaryPeriodic, Constants.Boundary.boundaryNeumann})
 	protected String boundaryType;
 	
-	/**
-	 * abstract function used to create the iterative algorithm that will be applied
-	 * @param region
-	 * @return
-	 */
+	 
+	// abstract function used to create the iterative algorithm that will be applied
+	// @param region
+	// @return
+	
 	protected abstract IterativeFilterITK<T,T> createIterativeITKAlgorithm(RandomAccessibleInterval<T> region);
 	
 	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
@@ -51,4 +51,4 @@ public abstract class IterativeFilterCommandITK<T extends RealType<T> & NativeTy
 		return iterativeFilterITK;
 	}
 
-}
+}*/

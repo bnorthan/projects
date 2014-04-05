@@ -76,18 +76,36 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		
 		// 2.  divide observed image by reblurred
 		
-		StaticFunctions.InPlaceDivide(reblurred, image);
+		long start=System.currentTimeMillis();
+		
+		StaticFunctions.InPlaceDivide3(reblurred, image);
+		
+		long total=System.currentTimeMillis()-start;
+		
+		System.out.println("Divide Time: "+total);
+		
+		start=System.currentTimeMillis();
 		
 		// 3. correlate psf with the output of step 2.			
 		Img<T> correlation = correlationStep();
+		
+		total=System.currentTimeMillis()-start;
+		System.out.println("Correlation Time: "+total);
 		
 		if (correlation==null)
 		{
 			return false;
 		}
 		
+		start=System.currentTimeMillis();
+		
 		// multiply output of correlation step and current estimate
 		ComputeEstimate(correlation);
+
+		total=System.currentTimeMillis()-start;
+		System.out.println("Compute Estimate Time: "+total);
+		
+		start=System.currentTimeMillis();
 		
 	//	StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalization.tif");
 	//	StaticFunctions.SaveImg(estimate, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/estimate.tif");
@@ -96,25 +114,51 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		{
 			StaticFunctions.InPlaceDivide2(normalization, estimate);
 		}
+		
+		total=System.currentTimeMillis()-start;
+		System.out.println("Divide Time: "+total);
 				
+		start=System.currentTimeMillis();
+		
 		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
 		createReblurred();
+		
+		total=System.currentTimeMillis()-start;
+		System.out.println("Reblur Time: "+total);
 			
 		return true;
 	}
 	
 	protected Img<T> correlationStep()
 	{
+		//System.out.println();
+		//System.out.println("CORRELATION!");
+		
 		SimpleFFT<T, ComplexFloatType> fftTemp = 
 				new SimpleImgLib2FFT<T, ComplexFloatType>(reblurred, imgFactory, fftImgFactory, new ComplexFloatType() );
 		
-		
+		long start=System.currentTimeMillis();
 		Img<ComplexFloatType> temp1FFT= fftTemp.forward(reblurred);
+		long total=System.currentTimeMillis()-start;
 		
+		//System.out.println("Forward FFT: "+total);
+	
+		start=System.currentTimeMillis();
 		// complex conjugate multiply fft of output of step 2 and fft of psf.  		
 		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
+		total=System.currentTimeMillis()-start;
 		
-		return fftInput.inverse(temp1FFT);
+		//System.out.println("Conjugate Multiply: "+total);
+		
+		start=System.currentTimeMillis();
+		Img<T> returner=fftInput.inverse(temp1FFT);
+		total=System.currentTimeMillis()-start;
+		
+		//System.out.println("Inverse FFT: "+total);
+		
+		//System.out.println();
+		
+		return returner;
 	}
 	
 	protected void ComputeEstimate(Img<T> correlation)

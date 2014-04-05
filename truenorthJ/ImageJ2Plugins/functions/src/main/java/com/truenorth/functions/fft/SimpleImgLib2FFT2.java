@@ -60,16 +60,22 @@ public class SimpleImgLib2FFT2 <T extends RealType<T>, S extends ComplexType<S>>
 	@Override 
 	public Img<S> forward(final RandomAccessibleInterval<T> input)
 	{
+		int numProcessors=Runtime.getRuntime().availableProcessors();
+		
+		// based on current dimensions get the padded-dimensions and fft-dimensions
 		FFTMethods.dimensionsRealToComplexFast( FinalDimensions.wrap(dimensions), paddedDimensions, fftDimensions );
 		
+		// pad from current dimensions to fft dimensions.  
 		OutOfBoundsFactory<T, RandomAccessibleInterval<T>> outOfBoundsFactory = new OutOfBoundsMirrorFactory< T, RandomAccessibleInterval<T> >( Boundary.SINGLE );
 		
-		return FFT.realToComplex( Views.extend(input, outOfBoundsFactory), input, fftImgFactory, complexType);
+		return FFT.realToComplex( Views.extend(input, outOfBoundsFactory), input, fftImgFactory, complexType, numProcessors);
 	}
 	
 	public Img<T> inverse(final Img<S> fft)
 	{
-		FFT.complexToRealUnpad(fft, output);
+		int numProcessors=Runtime.getRuntime().availableProcessors();
+		
+		FFT.complexToRealUnpad(fft, output, numProcessors);
 		
 		return output;
 	}

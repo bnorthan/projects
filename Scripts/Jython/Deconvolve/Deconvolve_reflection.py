@@ -7,6 +7,7 @@
 # this script extends and deconvolves an image using the model from the second deconvolution grand challenge
 # described here: http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
 
+import os
 from net.imglib2.meta import Axes;
 
 rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
@@ -16,8 +17,12 @@ rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
 #inputName="phantom_.image.ome.tif"
 #outputBase="phantom"
 
-inputDir=rootImageDir+"/Phantoms/2Spheres3/"
-outputDir=rootImageDir+"/Tests/2Spheres3/reflection/"
+inputDir=rootImageDir+"/Phantoms/RandomSpheres/PSF_Aberrated/"
+outputDir=rootImageDir+"/Tests/RandomSpheres/PSF_Aberrated/reflection/"
+
+if not os.path.exists(outputDir):
+    os.makedirs(outputDir)
+
 inputName="phantom_.image.ome.tif"
 outputBase="phantom"
 

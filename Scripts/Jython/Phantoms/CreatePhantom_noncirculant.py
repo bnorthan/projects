@@ -9,120 +9,96 @@
 # http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
 
 import sys
+
 sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Phantoms/')
+sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Phantoms/Experiments')
+sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Psfs/')
 
+import os
 import PsfParameters
+import Phantoms
+from Experiment import Experiment
+from Spheres2 import Spheres2
+from RandomPoints import RandomPoints
+from Sphere import Sphere
+from RandomSpheres import RandomSpheres
+from PSFExample import PSFExample
+from PSFUltraLowNA import PSFUltraLowNA
 
-# size of the measurement 
-measurementSizeX=192
-measurementSizeY=192
-measurementSizeZ=64
+from PSFAberrated import PSFAberrated
 
-# size of the psf
-psfSizeX=129
-psfSizeY=129
-psfSizeZ=127
+homeDirectory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/"
 
-# size of the object space
-objectSizeX=measurementSizeX+psfSizeX-1
-objectSizeY=measurementSizeY+psfSizeY-1
-objectSizeZ=measurementSizeZ+psfSizeZ-1
+experiment=RandomSpheres(192, 192, 64, 129, 129, 127, homeDirectory)
+directory=experiment.directory
 
-# parameters of the shell
-shellPositionX=objectSizeX / 2
-shellPositionY=objectSizeY / 2
-shellPositionZ=objectSizeZ / 2 -25
-shellOuterRadius=58
-shellInnerRadius=55
-shellIntensity=1000
-innerIntensity=100
+psf=PSFUltraLowNA(directory)
+psfDirectory=psf.directory
 
-# parameters of the sphere
-spherePositionX=objectSizeX / 2
-spherePositionY=objectSizeY / 2
-spherePositionZ=objectSizeZ / 2 - 27
-sphereRadius=5
-sphereIntensity=100
+if not os.path.exists(directory):
+    os.makedirs(directory)
 
-# parameters of the sphere
-spherePosition2X=objectSizeX / 2
-spherePosition2Y=objectSizeY / 2
-spherePosition2Z=objectSizeZ / 2 
-sphereRadius2=5
-sphereIntensity2=100
-
-background=0.0
-
-directory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/2Spheres3/"
+if not os.path.exists(psfDirectory):
+    os.makedirs(psfDirectory)
 
 phantomPrefix="phantom_"
 phantomName=directory+phantomPrefix+".ome.tif"
-psfName=directory+"psf.ome.tif"
+psfName=psfDirectory+"psf.ome.tif"
 extendedName=directory+phantomPrefix+".extfft.ome.tif"
-extendedPsfName=directory+"psf.extfft.ome.tif"
-convolvedName=directory+phantomPrefix+".conv.ome.tif"
+extendedPsfName=psfDirectory+"psf.extfft.ome.tif"
+convolvedName=psfDirectory+phantomPrefix+".conv.ome.tif"
 croppedName=directory+phantomPrefix+"cropped.ome.tif"
-imageNoNoiseName=directory+phantomPrefix+".image.ome.tif"
-imageNoisyName=directory+phantomPrefix+".image.noisy.ome.tif"
+imageNoNoiseName=psfDirectory+phantomPrefix+".image.ome.tif"
+imageNoisyName=psfDirectory+phantomPrefix+".image.noisy.ome.tif"
 
 # create the phantom
-module=command.run("com.truenorth.commands.phantom.CreatePhantomCommand", True, "xSize", objectSizeX, "ySize", objectSizeY, "zSize", objectSizeZ, "background", background).get();
 
-phantom=module.getOutputs().get("output");
+# first check and see if the phantom exists.  If it does load it otherwise create it
 
+if not os.path.isfile(phantomName):
+	phantom=experiment.CreatePhantom(command);
+	io.save(phantom, phantomName);
+else:
+	phantom=data.open(phantomName)
+	display.createDisplay(phantom.getName(), phantom);	
+	
 #command.run("com.truenorth.commands.phantom.AddShellCommand", True, "xCenter", shellPositionX, "yCenter", shellPositionY, "zCenter", shellPositionZ, "radius", shellOuterRadius, "innerRadius", shellInnerRadius, "intensity", shellIntensity, "innerIntensity", innerIntensity).get();
 
-command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePositionX, "yCenter", spherePositionY, "zCenter", spherePositionZ, "radius", sphereRadius, "intensity", sphereIntensity).get();
-
-command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePosition2X, "yCenter", spherePosition2Y, "zCenter", spherePosition2Z, "radius", sphereRadius2, "intensity", sphereIntensity2).get();
-
-io.save(phantom, phantomName);
-
-module=command.run("com.truenorth.commands.psf.CreatePsfCommandCosmos", True, \
-		"xSize", psfSizeX, \
-		"ySize", psfSizeY, \
-		"zSize", psfSizeZ, \
-		"fftType", "none", \
-		"scopeType", PsfParameters.scopeType, \
-		"psfModel", PsfParameters.psfModel, \
-		"xySpace", PsfParameters.xySpace, \
-		"zSpace", PsfParameters.zSpace, \
-		"emissionWavelength", PsfParameters.emissionWavelength, \
-		"numericalAperture", PsfParameters.numericalAperture, \
-		"designImmersionOilRefractiveIndex", PsfParameters.designImmersionOilRefractiveIndex, \
-		"designSpecimenLayerRefractiveIndex", PsfParameters.designSpecimenLayerRefractiveIndex, \
-		"actualImmersionOilRefractiveIndex", PsfParameters.actualImmersionOilRefractiveIndex, \
-		"actualSpecimenLayerRefractiveIndex", PsfParameters.actualSpecimenLayerRefractiveIndex, \
-		"actualPointSourceDepthInSpecimenLayer", PsfParameters.actualPointSourceDepthInSpecimenLayer, \
-		"centerPsf", True).get()
-
-psf=module.getOutputs().get("output");
-io.save(psf, psfName);
-
-module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", phantom, "dimensionX", objectSizeX, \
-		"dimensionY", objectSizeY, "dimensionZ", objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
+# extend the phantom for fft
+module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", phantom, "dimensionX", experiment.objectSizeX, \
+		"dimensionY", experiment.objectSizeY, "dimensionZ", experiment.objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
 extended=module.getOutputs().get("output");
 io.save(extended, extendedName);
 
-module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", psf, "dimensionX", objectSizeX, \
-		"dimensionY", objectSizeY, "dimensionZ", objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
+# crop the phantom down to the image size (used to calculate error)
+module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", phantom, "xSize", experiment.measurementSizeX, \
+		"ySize", experiment.measurementSizeY, "zSize", experiment.measurementSizeZ).get()
+phantomCropped=module.getOutputs().get("output");
+io.save(phantomCropped, croppedName);
+
+# create psf
+psf=psf.CreatePsf(command, "com.truenorth.commands.psf.CreatePsfCommandCosmos", \
+			experiment.psfSizeX, experiment.psfSizeY, experiment.psfSizeZ)
+io.save(psf, psfName);
+
+# extend psf
+module=command.run("com.truenorth.commands.dim.ExtendCommandDimension", True, "input", psf, "dimensionX", experiment.objectSizeX, \
+		"dimensionY", experiment.objectSizeY, "dimensionZ", experiment.objectSizeZ, "boundaryType", "boundaryZero", "fftType", "speed").get()
 extendedPsf=module.getOutputs().get("output");
 io.save(extendedPsf, extendedPsfName);
 
+# convolve
 module=command.run("com.truenorth.commands.fft.ConvolutionCommand", True, "input", extended, "psf", extendedPsf).get()
 convolved=module.getOutputs().get("output");
 io.save(convolved, convolvedName);
 
-module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", convolved, "xSize", measurementSizeX, \
-		"ySize", measurementSizeY, "zSize", measurementSizeZ).get()
+# crop convolved
+module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", convolved, "xSize", experiment.measurementSizeX, \
+		"ySize", experiment.measurementSizeY, "zSize", experiment.measurementSizeZ).get()
 cropped=module.getOutputs().get("output");
 io.save(cropped, imageNoNoiseName);
 
-module=command.run("com.truenorth.commands.dim.CropCommand", True, "input", phantom, "xSize", measurementSizeX, \
-		"ySize", measurementSizeY, "zSize", measurementSizeZ).get()
-phantomCropped=module.getOutputs().get("output");
-io.save(phantomCropped, croppedName);
-
+# add noise
 module=command.run("com.truenorth.commands.noise.AddPoissonNoiseCommandGallo", True, "input", cropped).get()
 noisy=module.getOutputs().get("output");
 io.save(noisy, imageNoisyName);

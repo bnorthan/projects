@@ -17,7 +17,6 @@ import com.truenorth.commands.fft.AbstractFrequencyFilterCommand;
 import com.truenorth.commands.fft.IterativeFilterCommand;
 
 import com.truenorth.functions.StaticFunctions;
-import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
 import com.truenorth.fuzzydeconvolution.functions.FuzzyIterativeDeconvolutionFilter;
 
 import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilterType;
@@ -108,7 +107,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		
 	}*/
 	
-	RichardsonLucyFuzzyFilter<T> createIterativeAlgorithmTemp(RandomAccessibleInterval<T> region)
+	FuzzyIterativeDeconvolutionFilter<T,T> createIterativeAlgorithmTemp(RandomAccessibleInterval<T> region)
 	{
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			
@@ -126,7 +125,7 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 		space[2]=(float)zSpace;	
 		
 		// create a RichardsonLucy filter for the region
-		RichardsonLucyFuzzyFilter<T> fuzzy = new RichardsonLucyFuzzyFilter<T>(inputImg,
+		FuzzyIterativeDeconvolutionFilter<T,T> fuzzy = new FuzzyIterativeDeconvolutionFilter<T,T>(inputImg,
 				space,
 				emissionWavelength,
 				numericalAperture,
@@ -135,7 +134,8 @@ public class FuzzyDeconvolutionCommand <T extends RealType<T> & NativeType<T>> e
 				actualImmersionOilRefractiveIndex,
 				actualSpecimenLayerRefractiveIndex,
 				actualPointSourceDepthInSpecimenLayer,
-				firstRIToTry);
+				firstRIToTry,
+				IterativeFilterType.RICHARDSON_LUCY);
 		
 		// set the data directory and data file name
 		fuzzy.setDataDirectory(dataDirectory);

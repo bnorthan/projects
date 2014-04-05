@@ -14,8 +14,6 @@ import net.imglib2.img.Img;
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 
-import com.truenorth.fuzzydeconvolution.functions.RichardsonLucyFuzzyFilter;
-
 // used to test fuzzy deconvolution
 class TestFuzzy       
 {

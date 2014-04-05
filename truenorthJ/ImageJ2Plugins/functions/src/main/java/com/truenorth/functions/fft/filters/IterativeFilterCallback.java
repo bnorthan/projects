@@ -6,5 +6,5 @@ import net.imglib2.RandomAccessibleInterval;
 
 public interface IterativeFilterCallback<T extends RealType<T>> 
 {
-    public void DoCallback(int iteration, RandomAccessibleInterval<T> image, Img<T> estimate, Img<T> reblurred);
+    public void DoCallback(int iteration, RandomAccessibleInterval<T> image, Img<T> estimate, Img<T> reblurred, long executionTime);
 }

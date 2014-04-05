@@ -1,5 +1,6 @@
 package com.truenorth.functions.fft.filters;
 
+
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;
@@ -15,8 +16,10 @@ import com.truenorth.functions.fft.SimpleFFT;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.ConvolutionStrategy;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
+/*
 import org.itk.simple.*;
 import org.itk.simple.RichardsonLucyDeconvolutionImageFilter.BoundaryConditionType;
+
 
 public abstract class IterativeFilterITK<T extends RealType<T>, S extends RealType<S>> extends AbstractFrequencyFilter<T,S>
 	implements IterativeFilter<T, S>
@@ -111,11 +114,10 @@ public abstract class IterativeFilterITK<T extends RealType<T>, S extends RealTy
 		this.firstGuessType=firstGuessType;
 	}
 	
-	/**
-	 * set flag indicating that non-circulant convolution model is being used. 
-	 * @param k - measurement window size
-	 * @param l - psf window size
-	 */
+	
+	// set flag indicating that non-circulant convolution model is being used. 
+	// @param k - measurement window size
+	// @param l - psf window size
 	public void setNonCirculantConvolutionStrategy(long[] k, long[] l)
 	{
 		System.out.println("not implemented");
@@ -198,4 +200,4 @@ public abstract class IterativeFilterITK<T extends RealType<T>, S extends RealTy
 		}
 	}
 
-}
+}*/

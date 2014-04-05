@@ -55,7 +55,6 @@ public class SimpleImgLib2FFT<T extends RealType<T>, S extends ComplexType<S>> i
 		imgForward=forward.getResult();
 		
 		return imgForward;
-		
 	}
 	
 	@Override
@@ -81,7 +80,6 @@ public class SimpleImgLib2FFT<T extends RealType<T>, S extends ComplexType<S>> i
 		}
 		
 		return null;
-		//return FourierTransform.getZeroPaddingSize(dimensions, FourierTransform.FFTOptimization.SPEED);
 	}
 
 }

@@ -306,7 +306,7 @@ public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends
 			
 			if (callback != null)
 			{
-				callback.DoCallback(i, image, iterativeFilter.getEstimate(), iterativeFilter.getReblurred());
+				callback.DoCallback(i, image, iterativeFilter.getEstimate(), iterativeFilter.getReblurred(), 0);
 			}
 			// write data to the log file
 			if (dataDirectory!=null)

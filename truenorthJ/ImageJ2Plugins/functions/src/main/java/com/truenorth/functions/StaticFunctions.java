@@ -98,6 +98,7 @@ public class StaticFunctions
 	public static<T extends RealType<T>> void InPlaceDivide(final Img<T> denominatorOutput, final RandomAccessible<T> numerator) 
 	{
 		final Cursor<T> cursorDenominatorOutput = denominatorOutput.cursor();
+		
 		RandomAccess< T > numeratorAccess = numerator.randomAccess();
 		 
 		while (cursorDenominatorOutput.hasNext())
@@ -106,6 +107,39 @@ public class StaticFunctions
 			numeratorAccess.setPosition(cursorDenominatorOutput);
 			
 			float num = numeratorAccess.get().getRealFloat();
+			float div = cursorDenominatorOutput.get().getRealFloat();
+			float res =0;
+			
+			if (div>0)
+			{
+				res = num/div;
+			}
+			else
+			{ 
+				res = 0;
+				// Todo: handle divide by zero??
+			}
+				
+			cursorDenominatorOutput.get().setReal(res);
+		}
+	}
+	
+	public static<T extends RealType<T>> void InPlaceDivide3(final Img<T> denominatorOutput, final RandomAccessibleInterval<T> numerator) 
+	{
+		final Cursor<T> cursorDenominatorOutput = denominatorOutput.cursor();
+				
+		IterableInterval<T> numeratorIterator=Views.iterable(numerator);
+		
+		Cursor<T> numeratorCursor=numeratorIterator.cursor();
+	//	numeratorAccess.
+		 
+		while (cursorDenominatorOutput.hasNext())
+		{
+			cursorDenominatorOutput.fwd();
+		//	numeratorAccess.setPosition(cursorDenominatorOutput);
+			numeratorCursor.fwd();
+			
+			float num = numeratorCursor.get().getRealFloat();
 			float div = cursorDenominatorOutput.get().getRealFloat();
 			float res =0;
 			

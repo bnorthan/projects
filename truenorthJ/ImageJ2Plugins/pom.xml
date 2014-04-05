@@ -21,7 +21,8 @@
 		<module>DeconvolutionTest</module>		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
-        </modules>
+    <module>ops</module>
+  </modules>
 
 	<!-- NB: for project parent, in case of partial checkout -->
 	<repositories>

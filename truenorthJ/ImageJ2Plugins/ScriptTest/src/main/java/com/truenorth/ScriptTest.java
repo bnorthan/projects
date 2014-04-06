@@ -1,6 +1,7 @@
 package com.truenorth;
 
 import imagej.ImageJ;
+import imagej.ops.*;  
 import imagej.script.ScriptLanguage;
 import imagej.script.ScriptModule;
 import imagej.script.ScriptService;

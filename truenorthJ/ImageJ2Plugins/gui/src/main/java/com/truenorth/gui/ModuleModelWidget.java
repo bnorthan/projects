@@ -196,7 +196,7 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 	{
 		SwingChainedInputHarvester harvester=new SwingChainedInputHarvester();
 		getContext().inject(harvester);
-	
+			
 		if (panel==null)
 		{
 			panel=harvester.createInputPanel();

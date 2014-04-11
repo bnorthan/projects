@@ -45,7 +45,6 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 	
 	// the extended dimensions of the dataset (including channels, timepoints etc.)
 	long[] initialExtendedDimensions;
-	//long[] initialExtendedVolumeDimensions;
 	long[] finalExtendedVolumeDimensions;
 	
 	@Override 
@@ -57,6 +56,7 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 		
 		long[] finalExtendedDimensions = new long[input.numDimensions()];
 				
+		// call the abstract function that calculates the extended dimensions
 		CalculateExtendedDimensions();
 		
 		long[] originalDimensions = new long[input.numDimensions()];
@@ -99,20 +99,23 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			finalExtendedVolumeDimensions=volumeDimensions;
 		}
 		
+		// loop through the original dimensions
 		for (int d=0;d<originalDimensions.length;d++)
 		{
-			// if it is a volume dimension
+			// if it is a volume dimension (X,Y or Z) use the extended dimensions
 			if ((input.axis(d).type()==Axes.X)||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z)) 
 			{
 				finalExtendedDimensions[d]=finalExtendedVolumeDimensions[v];
 				v++;
-			}		
+			}
+			// otherwise (T,C, etc) just copy the original dimension
 			else
 			{
 				finalExtendedDimensions[d]=input.dimension(d);
 			}
 		}
 		
+		// retrieve the axis types from the dataset
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		
 		AxisType[] axisType=new AxisType[finalExtendedDimensions.length];
@@ -122,9 +125,10 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 			axisType[d]=input.axis(d).type();
 		}
 		
+		// name the dataset
 		String name= input.getName()+" extended";
 		
-		//input.getImgPlus().
+		// create the output dataset
 		output=datasetService.create(imgInput.firstElement(), finalExtendedDimensions, name, axisType);//input.getAxes());
 		
 	}
@@ -163,12 +167,6 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 		// call the extend routine on the volume
 		Img<T> extended=ExtendImage.Extend(volume, imgInput.factory(), finalExtendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
 		
-		if (extended==null)
-		{
-			System.out.println("null");
-		}
-		
-		System.out.println("returning");
 		return extended;
 	}
 }

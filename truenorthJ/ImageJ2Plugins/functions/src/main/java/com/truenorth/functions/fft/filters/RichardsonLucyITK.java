@@ -1,4 +1,7 @@
 package com.truenorth.functions.fft.filters;
+
+//TODO solve dependency problems and reconnect... or move to it's own project.
+
 /*
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;

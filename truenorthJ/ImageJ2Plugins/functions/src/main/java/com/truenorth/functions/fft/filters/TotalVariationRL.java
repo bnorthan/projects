@@ -7,9 +7,6 @@
 /*Copyright (c) 2009-2010, Laboratory of Systems Biology, Institute of
 Cybernetics at Tallinn University of Technology.  All rights reserved.
 
-Copyright (c) 2009-2010, Laboratory of Systems Biology, Institute of
-Cybernetics at Tallinn University of Technology.  All rights reserved.
-
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met:
@@ -60,7 +57,7 @@ import net.imglib2.Cursor;
  * 
  * Total Variation Richardson Lucy
  * 
- * @author bnorthan
+ * @author bnorthan, based on IOCBIO implementation (see license at top)
  *
  * @param <T>
  * @param <S>
@@ -94,6 +91,9 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 		super(image, kernel, imgFactory, kernelImgFactory);
 	}
 	
+	/**
+	 * Override ComputeEstimate as to implement total variation regularization
+	 */
 	@Override
 	protected void ComputeEstimate(Img<T> correlation)
 	{
@@ -135,8 +135,6 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 	}
 	
 	final double FLOAT32_EPS= 0.0;
-	
-	//Img<T> in
 
 	Img<T> div_unit_grad()
 	{

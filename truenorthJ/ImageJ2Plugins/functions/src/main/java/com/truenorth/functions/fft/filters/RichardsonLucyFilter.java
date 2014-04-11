@@ -21,6 +21,9 @@ import net.imglib2.type.numeric.complex.ComplexFloatType;
  */
 public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>> extends AbstractIterativeFilter<T,S>
 {
+	/**
+	 * Constructor
+	 */
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> deconvolve(final Img<T> img, final Img<S> kernel, int maxIterations, final Img<T> truth) throws IncompatibleTypeException
 	{
 		final RichardsonLucyFilter<T,S> rl = new RichardsonLucyFilter<T,S>(img, kernel);
@@ -30,11 +33,17 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		return rl.getResult();
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> deconvolve(final Img<T> img, final Img<S> kernel, int maxIterations) throws IncompatibleTypeException
 	{
 		return deconvolve(img, kernel, maxIterations, null);
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public RichardsonLucyFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
 			   final ImgFactory<ComplexFloatType> fftImgFactory )
@@ -42,16 +51,25 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		super( image, kernel, imgFactory, kernelImgFactory, fftImgFactory );
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public RichardsonLucyFilter( final Img<T> image, final Img<S> kernel, final ImgFactory<ComplexFloatType> fftImgFactory )
 	{
 		super( image, kernel, fftImgFactory );
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public RichardsonLucyFilter( final Img< T > image, final Img< S > kernel ) throws IncompatibleTypeException
 	{	
 		super( image, kernel );
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public RichardsonLucyFilter(final RandomAccessibleInterval<T> image, 
 			final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory,
@@ -60,6 +78,9 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		super(image, kernel, imgFactory, kernelImgFactory);
 	}
 	
+	/**
+	 * Initialize
+	 */
 	public boolean initialize()
 	{
 		// create a new fft		
@@ -69,96 +90,55 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		return super.initialize();
 	}
 	
-	
+	/**
+	 * Perform an iteration of the Richardson Lucy algorithm
+	 */
 	protected boolean performIteration( final Img< ComplexFloatType > a, final Img< ComplexFloatType > b )
 	{
-		// 1. Reblurred should have allready been created in previous iteration
+		// 1. Reblurred will have allready been created in previous iteration
 		
 		// 2.  divide observed image by reblurred
-		
-		long start=System.currentTimeMillis();
-		
 		StaticFunctions.InPlaceDivide3(reblurred, image);
-		
-		long total=System.currentTimeMillis()-start;
-		
-		System.out.println("Divide Time: "+total);
-		
-		start=System.currentTimeMillis();
 		
 		// 3. correlate psf with the output of step 2.			
 		Img<T> correlation = correlationStep();
-		
-		total=System.currentTimeMillis()-start;
-		System.out.println("Correlation Time: "+total);
 		
 		if (correlation==null)
 		{
 			return false;
 		}
 		
-		start=System.currentTimeMillis();
-		
-		// multiply output of correlation step and current estimate
+		// compute estimate - 
+		// for standard RL this step will multiply output of correlation step and current estimate
+		// (Note: ComputeEstimate can be overriden to achieve regularization)
 		ComputeEstimate(correlation);
-
-		total=System.currentTimeMillis()-start;
-		System.out.println("Compute Estimate Time: "+total);
 		
-		start=System.currentTimeMillis();
-		
-	//	StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/normalization.tif");
-	//	StaticFunctions.SaveImg(estimate, "/home/bnorthan/Brian2014/Projects/deconware/Images/Tests/ShellTest/Deconvolve/estimate.tif");
-		
+		// normalize for non-circulant deconvolution 
 		if (this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
 		{
 			StaticFunctions.InPlaceDivide2(normalization, estimate);
 		}
 		
-		total=System.currentTimeMillis()-start;
-		System.out.println("Divide Time: "+total);
-				
-		start=System.currentTimeMillis();
-		
 		// create reblurred so we can use it to calculate likelihood and so it is ready for next time
 		createReblurred();
-		
-		total=System.currentTimeMillis()-start;
-		System.out.println("Reblur Time: "+total);
 			
 		return true;
 	}
 	
+	/**
+	 * computes correlation between reblurred and kernel
+	 */
 	protected Img<T> correlationStep()
 	{
-		//System.out.println();
-		//System.out.println("CORRELATION!");
-		
 		SimpleFFT<T, ComplexFloatType> fftTemp = 
 				new SimpleImgLib2FFT<T, ComplexFloatType>(reblurred, imgFactory, fftImgFactory, new ComplexFloatType() );
 		
-		long start=System.currentTimeMillis();
-		Img<ComplexFloatType> temp1FFT= fftTemp.forward(reblurred);
-		long total=System.currentTimeMillis()-start;
+		Img<ComplexFloatType> reblurredFFT= fftTemp.forward(reblurred);
 		
-		//System.out.println("Forward FFT: "+total);
-	
-		start=System.currentTimeMillis();
 		// complex conjugate multiply fft of output of step 2 and fft of psf.  		
-		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
-		total=System.currentTimeMillis()-start;
+		StaticFunctions.InPlaceComplexConjugateMultiply(reblurredFFT, kernelFFT);
 		
-		//System.out.println("Conjugate Multiply: "+total);
-		
-		start=System.currentTimeMillis();
-		Img<T> returner=fftInput.inverse(temp1FFT);
-		total=System.currentTimeMillis()-start;
-		
-		//System.out.println("Inverse FFT: "+total);
-		
-		//System.out.println();
-		
-		return returner;
+		return fftInput.inverse(reblurredFFT);
 	}
 	
 	protected void ComputeEstimate(Img<T> correlation)

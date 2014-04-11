@@ -19,13 +19,19 @@ import net.imglib2.view.Views;
  * 
  * @author bnorthan
  *
- * Convolution class based on Stephan Preibisch's imglib2 FFT convolution code.  
+ * Convolution class based loosely on Stephan Preibisch's imglib2 FFT convolution code.  
  * @param <T>
  * @param <S>
  */
 public class Convolution<T extends RealType<T>, S extends RealType<S>> extends LinearFilter<T,S>
 {
-	// takes image and kernel and returns the result
+	/**
+	 * 
+	 * @param img
+	 * @param kernel
+	 * @return
+	 * @throws IncompatibleTypeException
+	 */
 	public static <T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final Img<T> img, final Img<S> kernel) throws IncompatibleTypeException
 	{
 		final Convolution<T,S> convolution = new Convolution<T,S>(img, kernel);
@@ -33,7 +39,14 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 		return convolution.getResult();
 	}
 	
-	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and returns the result
+	/**
+	 * @param img
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @param fftImgFactory
+	 * @return
+	 */
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
@@ -41,8 +54,17 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 		convolution.process();
 		return convolution.getResult();
 	}
-	
-	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region and returns the result
+		
+	/**
+	 * @param img
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @param fftImgFactory
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
 	public static<T extends RealType<T>, S extends RealType<S>> Img<T> convolve(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -55,8 +77,15 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 		return convolution.getResult();
 	}
 
-	// takes image and kernel as random accessibles, and takes factories for image, kernel and fft and the beginning and end of the ROI region	
-	// and performs the convolution in place
+	/**
+	 * @param img
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @param fftImgFactory
+	 * @param begin
+	 * @param end
+	 */
 	public static<T extends RealType<T>, S extends RealType<S>> void convolveInPlace(final RandomAccessibleInterval<T> img, final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory, final ImgFactory<ComplexFloatType> fftImgFactory,
 			long[] begin, long[] end)
@@ -75,14 +104,28 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 		StaticFunctions.copy(iterableSource, iterableTarget);
 		
 	} 
-	
+
+	/**
+	 * @param image
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @param fftImgFactory
+	 */
 	public Convolution( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
 			   final ImgFactory<ComplexFloatType> fftImgFactory )
 	{
 		super( image, kernel, imgFactory, kernelImgFactory, fftImgFactory );
 	}
-	
+
+	/**
+	 * @param image
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @throws IncompatibleTypeException
+	 */
 	public Convolution(final RandomAccessibleInterval<T> image, 
 			final RandomAccessibleInterval<S> kernel,
 			final ImgFactory<T> imgFactory,
@@ -90,19 +133,29 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 	{
 		super(image, kernel, imgFactory, kernelImgFactory);
 	}
-	
+
+	/**
+	 * @param image
+	 * @param kernel
+	 * @param fftImgFactory
+	 */
 	public Convolution( final Img<T> image, final Img<S> kernel, final ImgFactory<ComplexFloatType> fftImgFactory )
 	{
 		super( image, kernel, fftImgFactory );
 	}
-	
+
+	/**
+	 * @param image
+	 * @param kernel
+	 * @throws IncompatibleTypeException
+	 */
 	public Convolution( final Img< T > image, final Img< S > kernel ) throws IncompatibleTypeException
 	{
 		super( image, kernel );
 	}
 	
 	/**
-	 * Override frequency operation for convolution, multiply a and b in the frequency domain 
+	 * Override frequency operation to implement convolution, multiply a and b in the frequency domain 
 	 * 
 	 * @param a - input signal  
 	 * @param b - input signal
@@ -121,6 +174,5 @@ public class Convolution<T extends RealType<T>, S extends RealType<S>> extends L
 			cursorA.get().mul( cursorB.get() );
 		}
 	}
-	
 }
 

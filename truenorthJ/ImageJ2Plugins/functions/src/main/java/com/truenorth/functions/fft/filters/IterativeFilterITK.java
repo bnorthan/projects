@@ -16,6 +16,8 @@ import com.truenorth.functions.fft.SimpleFFT;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.ConvolutionStrategy;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
+// TODO solve dependency problems and reconnect... or move to it's own project.
+
 /*
 import org.itk.simple.*;
 import org.itk.simple.RichardsonLucyDeconvolutionImageFilter.BoundaryConditionType;

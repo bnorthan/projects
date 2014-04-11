@@ -44,6 +44,8 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter(required=false, persist=false, label="convolution strategy", choices = {Constants.ConvolutionStrategy.circulant, Constants.ConvolutionStrategy.noncirculant})
 		protected String convolutionStrategy=Constants.ConvolutionStrategy.circulant;
 		
+		// TODO: Think through how to configure for non-circulant mode.   
+		
 		@Parameter(required=false, persist=false, attrs=@Attr(name="ShowInChainedGUI", value="false"))
 		protected long imageWindowX=-1;
 		
@@ -136,8 +138,6 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				
 				iterativeFilter.setNonCirculantConvolutionStrategy(k, l);
 			}
-			
-			//StaticFunctions.Pause();
 			
 			return iterativeFilter;
 		}

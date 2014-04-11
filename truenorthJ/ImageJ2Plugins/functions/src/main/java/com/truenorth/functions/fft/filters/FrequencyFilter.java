@@ -18,8 +18,16 @@ import net.imglib2.type.numeric.RealType;
 public interface FrequencyFilter<T extends RealType<T>, S extends RealType<S>>
 	extends MultiThreaded, OutputAlgorithm<Img<T>>, Benchmark
 {
+	/**
+	 * set the kernel
+	 * @param kernel
+	 */
 	public void setKernel(RandomAccessibleInterval<S> kernel);
 	
+	/**
+	 * 
+	 * @param flipKernel (flip PSF quadrants, needs to be done to put PSF center at 0,0,0)
+	 */
 	public void setFlipKernel(boolean flipKernel);
 }
 

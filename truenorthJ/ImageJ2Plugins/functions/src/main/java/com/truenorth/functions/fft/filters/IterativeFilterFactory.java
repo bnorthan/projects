@@ -6,10 +6,30 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.RealType;
 
+/**
+ * 
+ * Factory to create iterative filters
+ * 
+ * @author bnorthan
+ *
+ */
 public class IterativeFilterFactory 
 {
+	/**
+	 * Define iterative filter types
+	 *
+	 */
 	public static enum IterativeFilterType{RICHARDSON_LUCY, TOTAL_VARIATION_RICHARDSON_LUCY};
 	
+	/**
+	 * construct an iterative filter depending on value of type
+	 * @param type
+	 * @param image
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @return
+	 */
 	public static <T extends RealType<T>, S extends RealType<S>> IterativeFilter<T,S> GetIterativeFilter(
 			IterativeFilterType type,
 			final RandomAccessibleInterval<T> image, 

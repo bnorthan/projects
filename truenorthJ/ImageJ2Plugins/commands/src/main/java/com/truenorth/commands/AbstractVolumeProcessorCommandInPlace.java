@@ -11,7 +11,7 @@ public abstract class AbstractVolumeProcessorCommandInPlace <T extends RealType<
 	@Override 
 	protected void preProcess()
 	{
-		// Todo:  look over type safety at this step
+		// TODO:  look over type safety at this step
 		//Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		// use the input dataset to create an output dataset of the same dimensions
 		//output=datasetService.create(imgInput.firstElement(), input.getDims(), "output", input.getAxes());

@@ -34,6 +34,8 @@ import com.truenorth.commandmodels.ModuleModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import com.truenorth.gui.SwingChainedInputHarvester;
+
 /**
  * 
  * 
@@ -59,11 +61,12 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 	
 	List<PluginInfo<Command>> commands;
 	
-	JComboBox<String> commandList;
+	JComboBox commandList;
 	
 	@Override
 	public ModuleModel getValue() 
 	{	
+		
 		return moduleModel;
 	}
 	
@@ -83,7 +86,7 @@ public abstract class ModuleModelWidget extends SwingInputWidget<ModuleModel>
 			createModel();
 		}
 		
-		commandList=new JComboBox<String>();
+		commandList=new JComboBox();
 		
 		// get the base class of the command
 		Class baseClass=moduleModel.getBaseClass();

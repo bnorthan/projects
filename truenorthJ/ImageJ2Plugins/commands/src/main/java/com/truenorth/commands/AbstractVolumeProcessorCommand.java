@@ -76,7 +76,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 	@Override
 	public void run()
 	{
-		// TEMP_HACK !!!!!!
+		// TODO: remove this code.  It is only there because of a meta data problem.
 		// check to see if this is a xyt dataset... if meta data was not set properly a dataset that
 		// should be xyz may be interpreted as xyt so give the user a chance to change to xyz
 		if (input.numDimensions()==3)
@@ -84,32 +84,17 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 			for(int d=0;d<input.numDimensions();d++)
 			{ 	
 				System.out.println("axes "+d+" is: "+input.axis(d).type());
-				
-				
+					
+				// change time axis to Z.. .this is only temporary
 				if (input.axis(d).type()==Axes.TIME)
 				{
-					//try
-			    	{
-						System.out.println("xyt dataset: Press 'y' to change time to z...");
-						//BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+					System.out.println("xyt dataset: Press 'y' to change time to z...");
 					
-						//String str=br.readLine();						
-						//if (str.toUpperCase().equals("Y"))
-						{
-
-							CalibratedAxis axis=new DefaultLinearAxis();
-							axis.setType(Axes.Z);
-							input.setAxis(axis, d);
-							//input.setAxis(Axes.Z, d);
+					CalibratedAxis axis=new DefaultLinearAxis();
+					axis.setType(Axes.Z);
+					input.setAxis(axis, d);
 							
-							System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
-						}
-			    	}
-					//catch (IOException ex)
-					//{
-						
-					//}
-					//StaticFunctions.Pause();
+					System.out.println("axes "+d+" has been changed to: "+input.axis(d).type());
 				}
 			}
 		}
@@ -118,7 +103,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		
 		//////////////////////////////////////////////////////////////////////////////////////
 			
-		// Todo:  look into these warnings
+		// TODO:  look into these warnings
 		Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 		Img<T> outputImg=(Img<T>)(output.getImgPlus().getImg());
 		
@@ -126,14 +111,14 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 		imageList=new ArrayList<Img<T>>();
 		imageList.add(inputImg);
 		imageList.add(outputImg);
-		
+				
 		numChannels=1;
 		numTimePoints=1;
 		
 		System.out.println();
 		System.out.println("parsing axes: ");
 	
-		// Todo:  rework all below code more generic so it will handle 5d+ datasets
+		// TODO:  rework all below code to make cleaner and more generic so it will handle 5d+ datasets
 		
 		// loop through all dimensions looking for time and channel
 		for(int d=0;d<input.numDimensions();d++)
@@ -230,8 +215,7 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 				
 				StaticFunctions.showStats(inputChannel);
 				
-				// here we copy the result into the output dataset
-				// Todo: work out a better way to do this... give the algorithm direct access to the memory 
+				// TODO: This is an important one.  Work out a better way to do this... give the algorithm direct access to the memory 
 				// so we don't need to copy?? 
 				
 				if (!inPlace)

@@ -23,19 +23,10 @@ import com.truenorth.functions.roi.MedianFilter;
 /**
  * 
  * INCOMPLETE implementation of Residual Denoised version of Richardson Lucy
- * 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+ 
  * Not only incomplete but quite possibly (likely) full of errors.  If anybody stumbles upon
  * this feel free to try and fix it.  
  * 
->>>>>>> 12faaad5f5f26a961e7930520e2d698efc51fd71
-=======
- * Not only incomplete but quite possibly (likely) full of errors.  If anybody stumbles upon
- * this feel free to try and fix it.  
- * 
->>>>>>> origin/master
  * @author bnorthan
  *
  * @param <T>

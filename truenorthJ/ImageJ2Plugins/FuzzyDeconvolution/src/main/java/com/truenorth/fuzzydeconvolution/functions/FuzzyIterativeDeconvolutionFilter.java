@@ -489,10 +489,12 @@ public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends
 		
 	}
 	
-	public void setNonCirculantConvolutionStrategy(long[] k, long[] l)
+	public boolean setNonCirculantConvolutionStrategy(long[] k, long[] l)
 	{
 		this.iterativeFilter.setNonCirculantConvolutionStrategy(k, l);
 		this.iterativeFilterCandidate.setNonCirculantConvolutionStrategy(k, l);
+		
+		return true;
 	}
 	
 	public void setMaxIterations(int maxIterations)

@@ -77,9 +77,6 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	{
 		Type type=psf.getType();
 		
-		String test1=type.toString();
-		String test2=type.getClass().toString();
-		
 		// create the specific algorithm that will be applied
 		FrequencyFilter<T, T> filter=createAlgorithm(volume);
 		
@@ -91,18 +88,4 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 		// and return the result
 		return filter.getResult();
 	}
-	/*protected void processVolume(RandomAccessibleInterval<T> volume, RandomAccessibleInterval<T> output)
-	{
-		// create the specific algorithm that will be applied
-		FrequencyFilter<T, T> filter=createAlgorithm(volume);
-		
-		setParameters(filter);
-		
-		// process the volume
-		filter.process();
-		
-		// and return the result
-	//	return filter.getResult();
-	}*/
-	
 }

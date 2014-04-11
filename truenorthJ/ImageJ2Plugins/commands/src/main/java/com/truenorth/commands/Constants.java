@@ -4,7 +4,9 @@ import com.truenorth.functions.psf.PsfGenerator.PsfType;
 import com.truenorth.functions.psf.PsfGenerator.PsfModel;
 
 /**
- * A list of constants that are used with commands
+ * A list of constants that are used with truenorth commands
+ * 
+ * Mostly deconvolution related at this point
  * 
  * Todo: As it grows the inner classes should be put in their own file
  * 

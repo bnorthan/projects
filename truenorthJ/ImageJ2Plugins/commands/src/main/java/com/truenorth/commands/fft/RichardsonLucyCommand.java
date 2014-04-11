@@ -31,12 +31,7 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 		{
 			Img<T> inputImg=(Img<T>)(input.getImgPlus().getImg());
 			Img<T> psfImg=(Img<T>)(psf.getImgPlus().getImg());
-			
-			double psfValue=StaticFunctions.sum(psfImg);
-			double value=StaticFunctions.sum2(region);
-			
-			System.out.println("!!!!!!!!!!!!!!!!sum VALUE!!!!!!!!!!!: "+value);
-		
+					
 			// create a RichardsonLucy filter for the region
 			RichardsonLucyFilter<T,T> richardsonLucy = new RichardsonLucyFilter<T,T>(region,
 					psfImg, 

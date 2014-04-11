@@ -13,6 +13,10 @@ import javax.script.ScriptException;
 
 import java.io.File;
 
+import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
+import org.scijava.ItemIO;
+
 public class ScriptTest 
 {
 	public static void main( String[] args ) throws InterruptedException, ExecutionException,
@@ -56,4 +60,16 @@ public class ScriptTest
 		System.out.println("||||||||||||||||||||||||");
 		
     }
+	
+	@Plugin(type = Op.class, name = "narf")
+	public static class Narf implements Op {
+
+		@Parameter(type = ItemIO.BOTH)
+		private String string;
+
+		@Override
+		public void run() {
+			string = "Egads! " + string.toUpperCase();
+		}
+	}
 }

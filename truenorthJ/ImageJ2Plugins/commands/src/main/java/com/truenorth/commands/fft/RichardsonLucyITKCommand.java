@@ -1,5 +1,7 @@
 package com.truenorth.commands.fft;
 
+//TODO: possibly restore this once some problems with linking to SimpleITK are worked out
+
 /*
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;

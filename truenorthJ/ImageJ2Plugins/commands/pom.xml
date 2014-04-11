@@ -31,8 +31,11 @@
 			<artifactId>ij-app</artifactId>
 			<version>${imagej.version}</version>
 		</dependency>
-		
-		
+		<dependency>
+			<groupId>com.truenorth</groupId>
+			<artifactId>ops</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<!-- NB: for project parent -->

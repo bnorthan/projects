@@ -14,6 +14,23 @@ def AddRandomPointsInROI(command, num, xStart, yStart, zStart, xWidth, yWidth, z
 		print str(random_x)+" "+str(random_y)+" "+str(random_z)
 		command.run("com.truenorth.commands.phantom.AddPointCommand", True, "xCenter", random_x, "yCenter", random_y, "zCenter", random_z, "intensity", intensity)
 
+def AddRandomSpheresInROIZRatio(command, num, xStart, yStart, zStart, xWidth, yWidth, zWidth, intensity, minRadius, maxRadius, zRatio):
+	for n in range(0, num-1):
+		print n
+		random_x=random.randrange(xStart, xStart+xWidth)
+		random_y=random.randrange(yStart, yStart+yWidth)
+		random_z=random.randrange(zStart, zStart+zWidth)	
+		random_radius=random.randrange(minRadius, maxRadius)
+
+		z_radius=random_radius*zRatio
+		print z_radius
+
+		if z_radius<1:
+			z_radius=1	
+
+		print str(random_x)+" "+str(random_y)+" "+str(random_z)
+		command.run("com.truenorth.commands.phantom.AddAsymetricSphereCommand", True, "xCenter", random_x, "yCenter", random_y, "zCenter", random_z, "xRadius", random_radius, "yRadius", random_radius, "zRadius", z_radius, "intensity", intensity)
+
 def AddRandomSpheresInROI(command, num, xStart, yStart, zStart, xWidth, yWidth, zWidth, intensity, minRadius, maxRadius):
 	for n in range(0, num-1):
 		random_x=random.randrange(xStart, xStart+xWidth)

@@ -16,6 +16,9 @@ import net.imglib2.view.Views;
 /**
  * Base class for Fourier based filters
  * based on Stephan Preibisch's imglib2 Convolution code.
+ * 
+ * @author bnorthan
+ * 
 **/
 public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends RealType<S>> 
 	implements  FrequencyFilter<T, S>
@@ -25,6 +28,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 	RandomAccessibleInterval<T> image;
 	
 	RandomAccessibleInterval<S> kernel;
+	
 	boolean flipKernel=true;
 	
 	Img<T> output;
@@ -53,19 +57,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 			final ImgFactory<S> kernelImgFactory,
 			final ImgFactory<ComplexFloatType> fftImgFactory)
 	{
-		double sum1=StaticFunctions.sum2(kernel);
-		double sum2=StaticFunctions.sum2(image);
-		
-		System.out.println("sums: "+sum1+" : "+sum2);
-		
 		this.numDimensions = image.numDimensions();
-		
-		int[] dimensions = new int[numDimensions];
-		
-		for (int i=0;i<numDimensions;i++)
-		{
-			dimensions[i]=(int)(image.dimension(i));
-		}
 		
 		this.image = image;
 		
@@ -83,6 +75,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 		}
 		
 		this.kernelFFT=null;
+		
 		this.imgFFT=null;
 		
 		setNumThreads();
@@ -113,11 +106,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 		{
 			fftInput = SimpleFFTFactory.GetSimpleFFt(image, imgFactory, fftImgFactory, new ComplexFloatType());
 			
-			final long startTime= System.currentTimeMillis();
-			
 			imgFFT=fftInput.forward(image);
-			
-			final long fftTime = System.currentTimeMillis()-startTime;
 		}
 		
 		return true;

@@ -21,13 +21,13 @@ import com.truenorth.functions.StaticFunctions;
 /**
  * Crops an image from it's original dimensions to xSize, ySize, and zSize
  * 
- * Todo: add in a starting point.  Right now just crops a centered region. 
+ * TODO: add in a starting point.  Right now just crops a centered region. 
+ * TODO: erase this once I get a chance to test the official imagej2 crop. 
  * 
  * @author bnorthan
  *
  * @param <T>
  */
-//@Plugin(type=Command.class, menuPath="Plugins>Dimensions>Crop!!")
 @Plugin(type=Command.class, menu = {
     @Menu(label = MenuConstants.PLUGINS_LABEL,
             weight = MenuConstants.PLUGINS_WEIGHT,
@@ -76,6 +76,8 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
      	}
      	
      	Img<T> imgInput=(Img<T>)(imgPlusInput.getImg());
+     	
+     	
      	
      	output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", axes);
 	}

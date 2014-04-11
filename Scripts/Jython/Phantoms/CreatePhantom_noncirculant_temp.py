@@ -37,8 +37,6 @@ directory=experiment.directory
 psf=PSF_NA14_DAPI_65_200(directory)
 psfDirectory=psf.directory
 
-print directory
-
 if not os.path.exists(directory):
 	os.makedirs(directory)
 

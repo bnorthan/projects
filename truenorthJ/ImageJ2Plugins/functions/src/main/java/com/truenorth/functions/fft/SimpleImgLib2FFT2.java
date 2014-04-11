@@ -14,7 +14,6 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.util.Util;
 import net.imglib2.view.Views;
 
-//implements simplefft interface for imglib2 fft2
 /**
  * wraps imglib2 fft2 with simplefft interface
  * 
@@ -29,7 +28,7 @@ public class SimpleImgLib2FFT2 <T extends RealType<T>, S extends ComplexType<S>>
 	
 	final S complexType;
 	
-	Img<T> output;
+	Img<T> inverse;
 	
 	final long[] dimensions;
 	final long[] paddedDimensions;
@@ -53,7 +52,7 @@ public class SimpleImgLib2FFT2 <T extends RealType<T>, S extends ComplexType<S>>
 		
 		T inputType=Util.getTypeFromInterval(input);
 		
-		output=imgImgFactory.create(dimensions, inputType);
+		inverse=imgImgFactory.create(dimensions, inputType);
 		
 	}
 	
@@ -75,9 +74,9 @@ public class SimpleImgLib2FFT2 <T extends RealType<T>, S extends ComplexType<S>>
 	{
 		int numProcessors=Runtime.getRuntime().availableProcessors();
 		
-		FFT.complexToRealUnpad(fft, output, numProcessors);
+		FFT.complexToRealUnpad(fft, inverse, numProcessors);
 		
-		return output;
+		return inverse;
 	}
 	
 	@Override

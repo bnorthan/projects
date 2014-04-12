@@ -11,6 +11,8 @@ import net.imglib2.type.numeric.complex.ComplexFloatType;
 
 import org.itk.simple.*;
 
+import com.truenorth.itk.ItkImagejUtilities;
+
 public class RichardsonLucyITK <T extends RealType<T>, S extends RealType<S>> extends IterativeFilterITK<T,S>
 {
 	org.itk.simple.RichardsonLucyDeconvolutionImageFilter itkRL;
@@ -69,8 +71,11 @@ public class RichardsonLucyITK <T extends RealType<T>, S extends RealType<S>> ex
 	public boolean performIterations(int numIterations)
 	{
 		
-		Image itkImage=createSimpleITKImageFromInterval(image);
-		Image itkPsf=createSimpleITKImageFromInterval(kernel);
+	//	Image itkImage=createSimpleITKImageFromInterval(image);
+	//	Image itkPsf=createSimpleITKImageFromInterval(kernel);
+		
+		Image itkImage=ItkImagejUtilities.simple3DITKImageFromInterval(image);
+		Image itkPsf=ItkImagejUtilities.simple3DITKImageFromInterval(kernel);
 		
 		itkRL=new RichardsonLucyDeconvolutionImageFilter();
 		

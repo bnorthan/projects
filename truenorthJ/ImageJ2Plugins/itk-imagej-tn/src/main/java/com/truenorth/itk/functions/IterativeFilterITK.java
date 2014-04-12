@@ -19,6 +19,7 @@ import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessTyp
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.AbstractFrequencyFilter;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
+import com.truenorth.itk.ItkImagejUtilities;
 
 
 import org.itk.simple.*;
@@ -135,7 +136,7 @@ public abstract class IterativeFilterITK<T extends RealType<T>, S extends RealTy
 		return true;
 	}
 	
-	protected Image createSimpleITKImageFromInterval(RandomAccessibleInterval interval)
+/*	protected Image createSimpleITKImageFromInterval(RandomAccessibleInterval interval)
 	{
 		int numDimensions = interval.numDimensions();
 		
@@ -194,6 +195,13 @@ public abstract class IterativeFilterITK<T extends RealType<T>, S extends RealTy
 		   
 		   s.get().setReal(pix);
 		}
+	}*/
+	
+	protected void copySimpleITKImageToOutput(Image itkImage)
+	{
+		T inputType=Util.getTypeFromInterval(image);
+		
+		output=ItkImagejUtilities.simple3DITKImageToImg(itkImage, imgFactory, inputType);
 	}
 	
 	public void setBoundaryCondition(ITKBoundaryCondition boundaryCondition)

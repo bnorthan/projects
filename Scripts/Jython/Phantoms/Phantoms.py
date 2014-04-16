@@ -28,7 +28,7 @@ def AddRandomSpheresInROIZRatio(command, num, xStart, yStart, zStart, xWidth, yW
 		if z_radius<1:
 			z_radius=1	
 
-		print str(random_x)+" "+str(random_y)+" "+str(random_z)
+		print str(random_x)+" "+str(random_y)+" "+str(random_z)+" "+str(intensity)
 		command.run("com.truenorth.commands.phantom.AddAsymetricSphereCommand", True, "xCenter", random_x, "yCenter", random_y, "zCenter", random_z, "xRadius", random_radius, "yRadius", random_radius, "zRadius", z_radius, "intensity", intensity)
 
 def AddRandomSpheresInROI(command, num, xStart, yStart, zStart, xWidth, yWidth, zWidth, intensity, minRadius, maxRadius):

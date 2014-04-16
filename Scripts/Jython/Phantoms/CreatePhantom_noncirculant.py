@@ -10,9 +10,13 @@
 
 import sys
 
-sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Phantoms/')
-sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Phantoms/Experiments')
-sys.path.insert(0, '/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/Psfs/')
+jythonCurrentDir='/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/'
+
+# TODO: relative paths!!  I'm waiting until I start running this in ImageJ2 Script editor and figure out how the relative paths will
+#  be organized from there. 
+sys.path.insert(0, jythonCurrentDir+'/Phantoms/')
+sys.path.insert(0, jythonCurrentDir+'/Phantoms/Experiments')
+sys.path.insert(0, jythonCurrentDir+'/Psfs/')
 
 import os
 import PsfParameters
@@ -26,7 +30,7 @@ from RandomSpheresZRatio import RandomSpheresZRatio
 
 from PSFExample import PSFExample
 from PSFUltraLowNA import PSFUltraLowNA
-from PSF_NA14_DAPI_65_200 import PSF_NA14_DAPI_65_200 
+from PSF_NA14_DAPI_65_200_coverslip import PSF_NA14_DAPI_65_200_coverslip 
 from PSFAberrated import PSFAberrated
 
 homeDirectory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/"
@@ -34,7 +38,7 @@ homeDirectory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/"
 experiment=RandomSpheresZRatio(256, 256, 50, 129, 129, 101, homeDirectory)
 directory=experiment.directory
 
-psf=PSF_NA14_DAPI_65_200(directory)
+psf=PSF_NA14_DAPI_65_200_coverslip(directory)
 psfDirectory=psf.directory
 
 print directory
@@ -103,7 +107,7 @@ cropped=module.getOutputs().get("output");
 io.save(cropped, imageNoNoiseName);
 
 # add noise
-module=command.run("com.truenorth.commands.noise.AddPoissonNoiseCommandGallo", True, "input", cropped).get()
+module=command.run("com.truenorth.commands.noise.AddPoissonNoiseCommandPreibisch", True, "input", cropped, "snr", 2.24).get()
 noisy=module.getOutputs().get("output");
 io.save(noisy, imageNoisyName);
 

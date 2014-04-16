@@ -7,29 +7,48 @@
 # this script extends and deconvolves an image using the model from the second deconvolution grand challenge
 # described here: http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
 
+import sys
+
+jythonCurrentDir='/home/bnorthan/Brian2014/Projects/deconware/code/projects/Scripts/Jython/'
+sys.path.insert(0, jythonCurrentDir+'/Psfs/')
+
 import os
 from net.imglib2.meta import Axes;
 
+from PSF_NA14_DAPI_65_200_coverslip import PSF_NA14_DAPI_65_200_coverslip 
+
 rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
 
-inputDir=rootImageDir+"/Phantoms/RandomSpheres/PSF_UltraLowNA/"
-outputDir=rootImageDir+"/Tests/RandomSpheres/PSF_UltraLowNA/noncirculant/"
+inputDir=rootImageDir+"/Phantoms/RandomSpheresZRatio/PSF_NA14_DAPI_65_200_coverslip/"
+#inputDir=rootImageDir+"/BasicTests/Kurt_Thorn_Beads1_Cropped/"
+psfDir=rootImageDir+"/Phantoms/RandomSpheresZRatio/PSF_NA14_DAPI_65_200_coverslip/"
+outputDir=rootImageDir+"/Tests/RandomSpheresZRatio/PSF_NA14_DAPI_65_200_coverslip/noncirculant/"
+#outputDir=rootImageDir+"/BasicTests/Kurt_Thorn_Beads1_Cropped/noncirculant_255_255_100/"
 
 if not os.path.exists(outputDir):
     os.makedirs(outputDir)
 
-inputName="phantom_.image.ome.tif"
-psfName="psf.ome.tif"
+inputName="phantom_.image.noisy.ome.tif"
+#inputName="100xPSF_2k_2_MMStack.ome.tif"
+generatePSF=False
+#generatePSF=True
+
 
 outputBase="phantom"
+
+if generatePSF:
+	psf=PSF_NA14_DAPI_65_200_coverslip(outputDir)
+	psf=psf.CreatePsf(command, "com.truenorth.commands.psf.CreatePsfCommandCosmos", \
+			255, 255, 100)
+else:
+	psfName="psf.ome.tif"
+	# open and display the psf
+	psf=data.open(psfDir+psfName)
+	display.createDisplay(psf.getName(), psf);
 
 # open and display the input image
 inputData=data.open(inputDir+inputName)
 display.createDisplay(inputData.getName(), inputData);	
-
-# open and display the psf
-psf=data.open(inputDir+psfName)
-display.createDisplay(psf.getName(), psf);
 
 # size of the measurement 
 measurementSizeX=inputData.dimension(inputData.dimensionIndex(Axes.X));

@@ -9,21 +9,25 @@ cd $projectsDir
 #mvn install
 
 #scriptName=$scriptDir/Grand_Challenge/DeconvolveChallengeImages_reflection.py
-#scriptName=$scriptDir/Deconvolve/Deconvolve_noncirculant.py
+scriptName=$scriptDir/Deconvolve/Deconvolve_noncirculant.py
 #scriptName=$scriptDir/Deconvolve/Deconvolve_reflection.py
 #scriptName=$scriptDir/Phantoms/CreatePhantom_noncirculant.py
 #scriptName=$scriptDir/Phantoms/test.py
-scriptName=$scriptDir/TestOps/TestOps.py
+#scriptName=$scriptDir/TestOps/TestOps.py
 #scriptName=$scriptDir/Simple.py
 
 #cd $projectsDir/ScriptTest
 #mvn exec:java -Dexec.mainClass=com.truenorth.ScriptTest -Dexec.args="$scriptName"
 
+cd $projectsDir/
+#mvn clean
+#mvn
+
 cd $projectsDir/ops
-mvn 
+#mvn 
 
 cd $projectsDir/ScriptTest
-mvn dependency:copy-dependencies
+#mvn dependency:copy-dependencies
 
 cd $projectsDir/ScriptTest/target/
 

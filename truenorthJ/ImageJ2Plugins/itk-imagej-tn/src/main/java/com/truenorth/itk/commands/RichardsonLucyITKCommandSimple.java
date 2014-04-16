@@ -40,9 +40,11 @@ public class RichardsonLucyITKCommandSimple <T extends RealType<T> & NativeType<
 	
 	public void run()
 	{
+		// get the Img from the dataset
 		Img<T> imgIn=(Img<T>)input.getImgPlus().getImg();
 		Img<T> imgKernel=(Img<T>)kernel.getImgPlus().getImg();
 		
+		// call the Richardson Lucy ITK op. 
 		Img<T> imgOut = (Img<T>)(ops.run("RichardsonLucyITK", imgIn, imgKernel, numIterations));
 		
 		output=data.create(new ImgPlus(imgOut));

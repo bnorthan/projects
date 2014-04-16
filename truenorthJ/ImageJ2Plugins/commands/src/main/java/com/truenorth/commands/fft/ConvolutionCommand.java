@@ -26,7 +26,7 @@ public class ConvolutionCommand<T extends RealType<T>& NativeType<T>> extends Ab
 	/**
 	 * create and return a convolution algorithm to process the region
 	 */
-	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
+	protected FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
 		{

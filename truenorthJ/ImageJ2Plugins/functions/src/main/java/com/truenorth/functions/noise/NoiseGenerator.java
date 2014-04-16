@@ -55,7 +55,13 @@ import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.IterableInterval;
 import net.imglib2.Cursor;
 
+import java.util.Random;
+import com.truenorth.functions.noise.NumberGeneratorImage;
+import org.uncommons.maths.random.PoissonGenerator;
+
 import net.imglib2.type.numeric.RealType;
+
+import net.imglib2.view.Views;
 
 public class NoiseGenerator
 {
@@ -104,8 +110,26 @@ public class NoiseGenerator
 		}		
 	}
 	
+	// from Stephan Preibisch... slight modification to make it templated. 
+	public static<T extends RealType<T>> void poissonProcessPreibisch( final RandomAccessibleInterval<T> img, final double SNR, final Random rnd )
+	{
+		// based on an average intensity of 5, a multiplicator of 1 corresponds to a SNR of 2.23 = sqrt( 5 );
+		final double mul = Math.pow( SNR / Math.sqrt( 5 ), 2 );
+
+		final NumberGeneratorImage< T> ng = new NumberGeneratorImage< T>( img, mul );
+		final PoissonGenerator pg = new PoissonGenerator( ng, rnd );
+
+		for ( final T v : Views.iterable( img ) )
+		{
+			ng.fwd();
+			
+			v.setReal( pg.nextValue().floatValue() );
+		}
+	}
+	
 	public static int poissonValue(double lambda)
 	{
+		
 		double L = Math.exp(-lambda);
 		double p = 1.0;
 		int k=0;

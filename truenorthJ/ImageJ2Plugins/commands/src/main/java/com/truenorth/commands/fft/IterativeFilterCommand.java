@@ -76,7 +76,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		 */
 		protected abstract IterativeFilter<T,T> createIterativeAlgorithm(RandomAccessibleInterval<T> region);
 		
-		FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
+		protected FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 		{
 			IterativeFilter<T,T> iterativeFilter=  createIterativeAlgorithm(region);
 			

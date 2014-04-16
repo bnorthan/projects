@@ -39,7 +39,7 @@ public abstract class AbstractFrequencyFilterCommand<T extends RealType<T>& Nati
 	 * @param region
 	 * @return
 	 */
-	abstract FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region);
+	abstract protected FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region);
 	
 	/**
 	 * virtual function used to set parameters of the algorithm

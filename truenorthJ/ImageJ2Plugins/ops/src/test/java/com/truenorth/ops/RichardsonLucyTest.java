@@ -1,12 +1,8 @@
 package com.truenorth.ops;
 
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertEquals;
-import imagej.ops.Op;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.type.numeric.integer.ByteType;
 
 import org.junit.Test;
 

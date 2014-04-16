@@ -25,13 +25,13 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 {
 	final int numDimensions;
 	
-	RandomAccessibleInterval<T> image;
+	protected RandomAccessibleInterval<T> image;
 	
-	RandomAccessibleInterval<S> kernel;
+	protected RandomAccessibleInterval<S> kernel;
 	
 	boolean flipKernel=true;
 	
-	Img<T> output;
+	protected Img<T> output;
 	
 	Img<T> truth=null;
 	
@@ -40,7 +40,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 	SimpleFFT<T, ComplexFloatType> fftInput;
 	
 	final ImgFactory<ComplexFloatType> fftImgFactory;
-	final ImgFactory<T> imgFactory;
+	final protected ImgFactory<T> imgFactory;
 	final ImgFactory<S> kernelImgFactory;
 	
 	final int[] kernelDim;

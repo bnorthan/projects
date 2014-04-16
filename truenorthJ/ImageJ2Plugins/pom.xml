@@ -22,6 +22,7 @@
 		<module>DeconvolutionTest</module>		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
+    	<module>itk-imagej-tn</module>
   </modules>
 
 	<!-- NB: for project parent, in case of partial checkout -->

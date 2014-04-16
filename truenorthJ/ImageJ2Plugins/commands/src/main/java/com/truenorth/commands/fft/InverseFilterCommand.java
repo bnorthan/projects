@@ -28,7 +28,7 @@ public class InverseFilterCommand<T extends RealType<T>& NativeType<T>> extends 
 	/**
 	 * create an inverse filter algorithm to process the region
 	 */
-	FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
+	protected FrequencyFilter<T,T> createAlgorithm(RandomAccessibleInterval<T> region)
 	{
 		try 
 		{

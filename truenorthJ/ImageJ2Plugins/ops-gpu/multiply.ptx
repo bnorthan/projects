@@ -1,0 +1,95 @@
+	.version 1.4
+	.target sm_10, map_f64_to_f32
+	// compiled with /usr/local/cuda-6.0/open64/lib//be
+	// nvopencc 4.1 built on 2014-03-13
+
+	//-----------------------------------------------------------
+	// Compiling /tmp/tmpxft_000019f2_00000000-9_multiply.cpp3.i (/tmp/ccBI#.uSxHmG)
+	//-----------------------------------------------------------
+
+	//-----------------------------------------------------------
+	// Options:
+	//-----------------------------------------------------------
+	//  Target:ptx, ISA:sm_10, Endian:little, Pointer Size:64
+	//  -O3	(Optimization level)
+	//  -g0	(Debug level)
+	//  -m2	(Report advisories)
+	//-----------------------------------------------------------
+
+	.file	1	"<command-line>"
+	.file	2	"/tmp/tmpxft_000019f2_00000000-8_multiply.cudafe2.gpu"
+	.file	3	"/usr/lib/gcc/x86_64-linux-gnu/4.6/include/stddef.h"
+	.file	4	"/usr/local/cuda-6.0/bin/..//include/crt/device_runtime.h"
+	.file	5	"/usr/local/cuda-6.0/bin/..//include/host_defines.h"
+	.file	6	"/usr/local/cuda-6.0/bin/..//include/builtin_types.h"
+	.file	7	"/usr/local/cuda-6.0/bin/..//include/device_types.h"
+	.file	8	"/usr/local/cuda-6.0/bin/..//include/driver_types.h"
+	.file	9	"/usr/local/cuda-6.0/bin/..//include/surface_types.h"
+	.file	10	"/usr/local/cuda-6.0/bin/..//include/texture_types.h"
+	.file	11	"/usr/local/cuda-6.0/bin/..//include/vector_types.h"
+	.file	12	"/usr/local/cuda-6.0/bin/..//include/device_launch_parameters.h"
+	.file	13	"/usr/local/cuda-6.0/bin/..//include/crt/storage_class.h"
+	.file	14	"multiply.cu"
+	.file	15	"/usr/local/cuda-6.0/bin/..//include/common_functions.h"
+	.file	16	"/usr/local/cuda-6.0/bin/..//include/math_functions.h"
+	.file	17	"/usr/local/cuda-6.0/bin/..//include/math_constants.h"
+	.file	18	"/usr/local/cuda-6.0/bin/..//include/device_functions.h"
+	.file	19	"/usr/local/cuda-6.0/bin/..//include/sm_11_atomic_functions.h"
+	.file	20	"/usr/local/cuda-6.0/bin/..//include/sm_12_atomic_functions.h"
+	.file	21	"/usr/local/cuda-6.0/bin/..//include/sm_13_double_functions.h"
+	.file	22	"/usr/local/cuda-6.0/bin/..//include/sm_20_atomic_functions.h"
+	.file	23	"/usr/local/cuda-6.0/bin/..//include/sm_32_atomic_functions.h"
+	.file	24	"/usr/local/cuda-6.0/bin/..//include/sm_35_atomic_functions.h"
+	.file	25	"/usr/local/cuda-6.0/bin/..//include/sm_20_intrinsics.h"
+	.file	26	"/usr/local/cuda-6.0/bin/..//include/sm_30_intrinsics.h"
+	.file	27	"/usr/local/cuda-6.0/bin/..//include/sm_32_intrinsics.h"
+	.file	28	"/usr/local/cuda-6.0/bin/..//include/sm_35_intrinsics.h"
+	.file	29	"/usr/local/cuda-6.0/bin/..//include/surface_functions.h"
+	.file	30	"/usr/local/cuda-6.0/bin/..//include/texture_fetch_functions.h"
+	.file	31	"/usr/local/cuda-6.0/bin/..//include/texture_indirect_functions.h"
+	.file	32	"/usr/local/cuda-6.0/bin/..//include/surface_indirect_functions.h"
+	.file	33	"/usr/local/cuda-6.0/bin/..//include/math_functions_dbl_ptx1.h"
+
+
+	.entry _Z8multiplyffPf (
+		.param .f32 __cudaparm__Z8multiplyffPf_a,
+		.param .f32 __cudaparm__Z8multiplyffPf_b,
+		.param .u64 __cudaparm__Z8multiplyffPf_c)
+	{
+	.reg .u64 %rd<3>;
+	.reg .f32 %f<5>;
+	.loc	14	4	0
+$LDWbegin__Z8multiplyffPf:
+	.loc	14	6	0
+	ld.param.f32 	%f1, [__cudaparm__Z8multiplyffPf_a];
+	ld.param.f32 	%f2, [__cudaparm__Z8multiplyffPf_b];
+	mul.f32 	%f3, %f1, %f2;
+	ld.param.u64 	%rd1, [__cudaparm__Z8multiplyffPf_c];
+	st.global.f32 	[%rd1+0], %f3;
+	.loc	14	7	0
+	exit;
+$LDWend__Z8multiplyffPf:
+	} // _Z8multiplyffPf
+
+	.entry multiply2 (
+		.param .u64 __cudaparm_multiply2_a,
+		.param .u64 __cudaparm_multiply2_b,
+		.param .u64 __cudaparm_multiply2_c)
+	{
+	.reg .u64 %rd<5>;
+	.reg .f32 %f<5>;
+	.loc	14	10	0
+$LDWbegin_multiply2:
+	.loc	14	13	0
+	ld.param.u64 	%rd1, [__cudaparm_multiply2_a];
+	ld.global.f32 	%f1, [%rd1+0];
+	ld.param.u64 	%rd2, [__cudaparm_multiply2_b];
+	ld.global.f32 	%f2, [%rd2+0];
+	mul.f32 	%f3, %f1, %f2;
+	ld.param.u64 	%rd3, [__cudaparm_multiply2_c];
+	st.global.f32 	[%rd3+0], %f3;
+	.loc	14	14	0
+	exit;
+$LDWend_multiply2:
+	} // multiply2
+

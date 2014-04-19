@@ -7,6 +7,7 @@ import net.imglib2.RandomAccessible;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
+import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
@@ -937,6 +938,58 @@ public class StaticFunctions
     	{
     		// ...
     	}
+	}
+	
+	public static<T extends RealType<T>> Img<T> convertFloatBufferToImage(float[] buffer, int[] size, ImgFactory<T> imgFactory, T type)
+	{
+		// use the image factory to create an img
+		Img<T> image = imgFactory.create(size, type);
+					
+		// get a cursor so we can iterate through the image
+		final Cursor<T> cursor = image.cursor();
+					
+		int i=0;
+					
+		// iterate through the image and copy from the psf buffer
+		while (cursor.hasNext())
+		{
+			cursor.fwd();
+						
+			cursor.get().setReal(buffer[i]);
+						
+			i++;
+		}
+					
+		return image;
+	}
+	
+	public static<T extends RealType<T>> float[] convertImageToFloatBuffer(Img<T> image)
+	{
+		int size=1;
+		
+		for (int d=0;d<image.numDimensions();d++)
+		{
+			size*=image.dimension(d);
+		}
+		
+		float[] buffer=new float[size];
+					
+		// get a cursor so we can iterate through the image
+		final Cursor<T> cursor = image.cursor();
+					
+		int i=0;
+					
+		// iterate through the image and copy from the psf buffer
+		while (cursor.hasNext())
+		{
+			cursor.fwd();
+						
+			buffer[i]=cursor.get().getRealFloat();
+						
+			i++;
+		}
+					
+		return buffer;
 	}
 }
 

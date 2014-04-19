@@ -28,6 +28,12 @@
 		<artifactId>jcuda</artifactId>
 		<version>0.5.5</version>
 	</dependency>
+	
+	 <dependency>
+	 	<groupId>org.scalanlp</groupId>
+		<artifactId>jcufft</artifactId>
+		<version>0.5.5</version>
+	</dependency>
 
      <dependency>
 		<groupId>net.imagej</groupId>

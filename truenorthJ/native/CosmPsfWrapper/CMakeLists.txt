@@ -53,5 +53,5 @@ SET(PSF_LIB_SRCS ${PSF_SRC}/dqagFunction
     # ${XCOSM_SRC}/fftn
     )
 
-add_library(CosmPsfWrapper SHARED ${PSF_LIB_SRCS} ${QUADPACK_SRC} com_truenorth_functions_psf_PsfGenerator.cpp)
+add_library(CosmPsfWrapper SHARED ${PSF_LIB_SRCS} ${QUADPACK_SRC} com_truenorth_functions_psf_PsfGenerator)
 

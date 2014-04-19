@@ -1,4 +1,4 @@
-package com.truenorth.itk.commands;
+package com.truenorth.gpu.commands;
 
 import imagej.command.Command;
 
@@ -17,8 +17,14 @@ import imagej.data.DatasetService;
 
 import imagej.ops.OpService;
 
-@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>ITK Richardson Lucy")
-public class RichardsonLucyITKCommandSimple <T extends RealType<T> & NativeType<T>> implements Command
+/**
+ * A command for GPU deconvolution.  Calls a JNI wrapper to yacudecu.
+ * @author bnorthan
+ *
+ * @param <T>
+ */
+@Plugin(type=Command.class, menuPath="Plugins>Deconvolution>Yacu Decu")
+public class GPUDeconvolutionCommand <T extends RealType<T> & NativeType<T>> implements Command
 {
 	@Parameter
 	protected DatasetService data;
@@ -44,10 +50,12 @@ public class RichardsonLucyITKCommandSimple <T extends RealType<T> & NativeType<
 		Img<T> imgIn=(Img<T>)input.getImgPlus().getImg();
 		Img<T> imgKernel=(Img<T>)kernel.getImgPlus().getImg();
 		
-		// call the Richardson Lucy ITK op. 
-		Img<T> imgOut = (Img<T>)(ops.run("RichardsonLucyITK", imgIn, imgKernel, numIterations));
+		// call yacudecu op. 
+		Img<T> imgOut = (Img<T>)(ops.run("YacuDecu", imgIn, imgKernel, numIterations));
 		
+		// put the output into a new dataset
 		output=data.create(new ImgPlus(imgOut));
 	}
 }
+
 

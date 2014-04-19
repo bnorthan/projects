@@ -7,6 +7,9 @@ import junit.framework.TestSuite;
 
 import java.io.IOException;
 
+import com.truenorth.gpu.Multiply;
+import com.truenorth.gpu.wrappers.YacuDecuWrapper;
+
 /**
  * Unit test for simple App.
  */
@@ -38,8 +41,11 @@ public class AppTest
     {
     	System.out.println("testing!");
     	
-    	new com.truenorth.gpu.Multiply().MultiplyTest();
+    	new Multiply().MultiplyTest();
     	
-        assertTrue( true );
+    	YacuDecuWrapper wrapper=new YacuDecuWrapper();
+    	
+    	wrapper.LoadLib();
+    	wrapper.runYacuDecu(10, 20, 20, 20, null, null, null);
     }
 }

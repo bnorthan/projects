@@ -9,6 +9,12 @@ import jcuda.driver.*;
 
 import jcuda.runtime.JCuda;
 
+/**
+ * Simple multiply class copied from Jcuda help.  Used to test jcuda
+ * 
+ * TODO: delete when more realistic examples are implemented
+ *
+ */
 public class Multiply 
 {
 	public static void MultiplyTest() throws IOException

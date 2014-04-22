@@ -1,3 +1,14 @@
+/*
+    deconv.cu
+
+    Author: Bob Pepin - (originally obtained from https://github.com/bobpepin/YacuDecu)
+    Author: Brian Northan - very minor changes to dimension order of FFT plan in deconv_device function in order for this function to work on arrays from imglib2.
+
+    License: LGPL
+
+*/
+
+
 #include <stdio.h>
 #include <cuda_runtime.h>
 #include <cuda_profiler_api.h>
@@ -110,8 +121,8 @@ int deconv_device(unsigned int iter, size_t N1, size_t N2, size_t N3,
     if(err) goto cudaErr;
     printf("PSF transferred.\n");
 
-    // BN it looks like this function was originall written for the array organization used in matlab.  Changed the order of the dimensions
-    // as in imglib2 (java) 
+    // BN it looks like this function was originall written for the array organization used in matlab.  I Changed the order of the dimensions
+    // to be compatible with imglib2 (java). TODO - add param for array organization 
     r = createPlans(N3, N2, N1, &planR2C, &planC2R, &workArea, &workSize);
     if(r) goto cufftError;
 

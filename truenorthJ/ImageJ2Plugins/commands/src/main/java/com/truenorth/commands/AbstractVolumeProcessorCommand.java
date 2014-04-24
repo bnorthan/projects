@@ -8,6 +8,7 @@ import org.scijava.plugin.Parameter;
 import com.truenorth.functions.StaticFunctions;
 
 import imagej.command.Command;
+//import org.scijava.command.Command;
 import imagej.data.Dataset;
 import imagej.data.DatasetService;
  

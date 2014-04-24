@@ -3,6 +3,9 @@ import random
 def AddSphere(command, spherePositionX, spherePositionY, spherePositionZ, sphereRadius, sphereIntensity):
 		return command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePositionX, "yCenter", spherePositionY, "zCenter", spherePositionZ, "radius", sphereRadius, "intensity", sphereIntensity).get();
 
+def AddAssymetricSphere(command, spherePositionX, spherePositionY, spherePositionZ, xyRadius, zRadius, sphereIntensity):
+		return command.run("com.truenorth.commands.phantom.AddSphereCommand", True, "xCenter", spherePositionX, "yCenter", spherePositionY, "zCenter", spherePositionZ, "xRadius", xyRadius, "yRadius", xyRadius, "zRadius", zRadius, "intensity", sphereIntensity).get();
+
 def AddPoint(command, x, y, z, intensity):
 	return command.run("com.truenorth.commands.phantom.AddPointCommand", True, "xCenter", x, "yCenter", y, "zCenter", z, "intensity", intensity).get();
 

@@ -17,18 +17,12 @@
  
  <dependencies>
      
-     <dependency>
-     	<groupId>net.imagej</groupId>
-		<artifactId>ij-ops</artifactId>
-		<version>0.1.1-SNAPSHOT</version>
-	</dependency>
-     
-     <dependency>
+      <dependency>
 		<groupId>net.imagej</groupId>
-		<artifactId>ij-core</artifactId>
+		<artifactId>ij-app</artifactId>
 		<version>${imagej.version}</version>
 	</dependency>
-	
+  
      <dependency>
 		<groupId>org.scijava</groupId>
 		<artifactId>scijava-common</artifactId>
@@ -41,6 +35,7 @@
 		<version>${junit.version}</version>
 		<scope>test</scope>
 	</dependency>
+	
 	<dependency>
 		<groupId>${junit-benchmarks.groupId}</groupId>
 		<artifactId>junit-benchmarks</artifactId>

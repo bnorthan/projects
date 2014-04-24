@@ -1,7 +1,7 @@
 from Experiment import Experiment
 import Phantoms
 
-# creates a phantom with random spheres for z spacing as big as XY
+# creates a phantom with random spheres assuming z spacing 3 times bigger then XY
 
 class RandomSpheresZRatio(Experiment):
 	directory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/RandomSpheresZRatio/"

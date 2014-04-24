@@ -11,6 +11,7 @@ public class RichardsonLucyTest extends AbstractOpsTest
 	@Test
 	public void TestBasic()
 	{
+		// create empty kernels
 		final Img<FloatType> in =
                 new ArrayImgFactory<FloatType>().create(new int[]{20, 20, 20},
                         new FloatType());
@@ -27,20 +28,18 @@ public class RichardsonLucyTest extends AbstractOpsTest
         
 		Object result;
 		
+		// call functions to make sure the op service can find them
+		
 		ops.convolve(out, in, kernel);
 		
-		result = ops.run("RichardsonLucy", in, in2, in3);
+		result = ops.run("RichardsonLucy", out, in, kernel);
 		
 		result = ops.run("RichardsonLucy", in, kernel);
 		
 		result = ops.run("Convolution", in, kernel);
 		
 		Img<FloatType> imgOut=(Img<FloatType>)result;
-		
-		System.out.println("img out size: "+imgOut.dimension(0));
-		
-		System.out.println("called rl");
-		
+				
 	}
 
 }

@@ -39,13 +39,13 @@ public class AppTest
      */
     public void testApp() throws IOException
     {
-    	System.out.println("testing!");
+ /*   	System.out.println("testing!");
     	
     	new Multiply().MultiplyTest();
     	
     	YacuDecuWrapper wrapper=new YacuDecuWrapper();
     	
     	wrapper.LoadLib();
-    	wrapper.runYacuDecu(10, 20, 20, 20, null, null, null);
+    	wrapper.runYacuDecu(10, 20, 20, 20, null, null, null);*/
     }
 }

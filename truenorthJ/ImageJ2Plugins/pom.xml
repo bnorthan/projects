@@ -16,26 +16,21 @@
 
 	<modules>
 		<module>functions</module>
-		<module>ops</module>
+		<!-- <module>ops</module> -->
 		<module>commands</module>
 		<module>gui</module>
 		<module>DeconvolutionTest</module>		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
-    	<module>itk-imagej-tn</module>
-    	<module>ops-gpu</module>
+    	<!-- <module>ops-gpu</module> -->
   	</modules>
 
 	<!-- NB: for project parent, in case of partial checkout -->
 	<repositories>
+		<!-- NB: for project parent -->
 		<repository>
-			<id>imagej.releases</id>
-			<url>http://maven.imagej.net/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>imagej.snapshots</id>
-			<url>http://maven.imagej.net/content/repositories/snapshots</url>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
 	</repositories>
-
 </project>

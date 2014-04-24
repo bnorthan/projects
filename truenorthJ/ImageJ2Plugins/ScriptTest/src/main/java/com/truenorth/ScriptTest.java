@@ -1,8 +1,6 @@
 package com.truenorth;
 
 import imagej.ImageJ;
-import imagej.ops.*;  
-import imagej.script.ScriptLanguage;
 import imagej.script.ScriptModule;
 import imagej.script.ScriptService;
 import org.scijava.Context;
@@ -12,10 +10,6 @@ import java.util.concurrent.ExecutionException;
 import javax.script.ScriptException;
 
 import java.io.File;
-
-import org.scijava.plugin.Parameter;
-import org.scijava.plugin.Plugin;
-import org.scijava.ItemIO;
 
 public class ScriptTest 
 {
@@ -27,9 +21,18 @@ public class ScriptTest
 		String scriptName=null;
 		String script;
 		
-		// if args length is 1 check for a script
-    	
-		final ImageJ ij = imagej.Main.launch(args);
+		ImageJ ij=null;
+		
+		try
+		{
+			ij = imagej.Main.launch(args);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("???");
+		}
+		
+		System.out.println("Launched");
     	
 		final Context context = ij.getContext();//new Context(ScriptService.class);
 		final ScriptService scriptService = context.getService(ScriptService.class);
@@ -61,15 +64,4 @@ public class ScriptTest
 		
     }
 	
-	@Plugin(type = Op.class, name = "narf")
-	public static class Narf implements Op {
-
-		@Parameter(type = ItemIO.BOTH)
-		private String string;
-
-		@Override
-		public void run() {
-			string = "Egads! " + string.toUpperCase();
-		}
-	}
 }

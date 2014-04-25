@@ -13,27 +13,19 @@
   <name>ScriptTest</name>
 
   <dependencies>
-    <dependency>
-      		<groupId>junit</groupId>
-      			<artifactId>junit</artifactId>
-      			<version>3.8.1</version>
-      			<scope>test</scope>
-    		</dependency>
-		<dependency>
+      <dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij-app</artifactId>
 			<version>${imagej.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>ij-core</artifactId>
-			<version>${imagej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${scifio.groupId}</groupId>
-			<artifactId>scifio</artifactId>
-			<version>${scifio.version}</version>
-		</dependency>
+    	
+    	<dependency>
+      		<groupId>junit</groupId>
+      			<artifactId>junit</artifactId>
+      			<version>3.8.1</version>
+      			<scope>test</scope>
+    	</dependency>
+		
 		<dependency>
 			<groupId>com.truenorth</groupId>
 			<artifactId>commands</artifactId>

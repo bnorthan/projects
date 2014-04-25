@@ -17,18 +17,12 @@
  
  <dependencies>
      
-      <dependency>
+ 	<dependency>
 		<groupId>net.imagej</groupId>
 		<artifactId>ij-app</artifactId>
 		<version>${imagej.version}</version>
 	</dependency>
-  
-     <dependency>
-		<groupId>org.scijava</groupId>
-		<artifactId>scijava-common</artifactId>
-		<version>${scijava-common.version}</version>
-	</dependency>
-
+     
     <dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>

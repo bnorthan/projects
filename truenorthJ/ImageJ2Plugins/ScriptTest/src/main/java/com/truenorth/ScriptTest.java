@@ -21,16 +21,7 @@ public class ScriptTest
 		String scriptName=null;
 		String script;
 		
-		ImageJ ij=null;
-		
-		try
-		{
-			ij = imagej.Main.launch(args);
-		}
-		catch(Exception ex)
-		{
-			System.out.println("???");
-		}
+		final ImageJ ij = imagej.Main.launch(args);
 		
 		System.out.println("Launched");
     	

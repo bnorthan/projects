@@ -16,14 +16,14 @@ scriptName=$scriptDir/Grand_Challenge/DeconvolveChallengeImages_reflection.py
 #mvn exec:java -Dexec.mainClass=com.truenorth.ScriptTest -Dexec.args="$scriptName"
 
 cd $projectsDir
-#mvn clean
-#mvn
+mvn clean
+mvn
 
 cd $projectsDir/ops
 #mvn 
 
 cd $projectsDir/ScriptTest
-#mvn dependency:copy-dependencies
+mvn dependency:copy-dependencies
 
 cd $projectsDir/ScriptTest/target/
 

@@ -16,13 +16,13 @@
 
 	<modules>
 		<module>functions</module>
-		<module>ops</module>
+		<!--<module>ops</module>-->
 		<module>commands</module>
 		<module>gui</module>
 		<module>DeconvolutionTest</module>		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
-    	<module>ops-gpu</module>
+    	<!--<module>ops-gpu</module>-->
   	</modules>
 
 	<!-- NB: for project parent, in case of partial checkout -->

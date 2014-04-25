@@ -30,7 +30,7 @@ public class RichardsonLucyTest extends AbstractOpsTest
 		
 		// call functions to make sure the op service can find them
 		
-		ops.convolve(out, in, kernel);
+/*		ops.convolve(out, in, kernel);
 		
 		result = ops.run("RichardsonLucy", out, in, kernel);
 		
@@ -39,7 +39,7 @@ public class RichardsonLucyTest extends AbstractOpsTest
 		result = ops.run("Convolution", in, kernel);
 		
 		Img<FloatType> imgOut=(Img<FloatType>)result;
-				
+	*/			
 	}
 
 }

@@ -4,9 +4,9 @@ import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-import imagej.command.Command;
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import org.scijava.command.Command;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imglib2.img.Img;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;

@@ -7,9 +7,9 @@ import org.scijava.plugin.Attr;
 
 import com.truenorth.commands.Constants;
 
-import imagej.command.Command;
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import org.scijava.command.Command;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imglib2.img.Img;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;

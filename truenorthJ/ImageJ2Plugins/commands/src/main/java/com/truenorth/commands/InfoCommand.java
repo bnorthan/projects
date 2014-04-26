@@ -1,17 +1,14 @@
 package com.truenorth.commands;
 
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 
-import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 
-import imagej.command.Command;
+import org.scijava.command.Command;
 
 import net.imglib2.meta.ImgPlus;
-//import net.imglib2.img.ImgPlus;
 import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
 
 import org.scijava.plugin.Plugin;
 

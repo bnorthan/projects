@@ -12,7 +12,6 @@ import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.noise.NoiseGenerator;
 
 import org.scijava.plugin.Plugin;
-import imagej.command.Command;
 
 @Plugin(type=AddPoissonNoiseCommand.class, menuPath="Plugins>Noise>Add Poisson Noise Gallo")
 public class AddPoissonNoiseCommandGallo<T extends RealType<T>& NativeType<T>> extends AddPoissonNoiseCommand<T>

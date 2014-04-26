@@ -10,8 +10,6 @@ import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 
-import imagej.command.Command;
-
 import net.imglib2.img.Img;
 
 import org.scijava.plugin.Plugin;

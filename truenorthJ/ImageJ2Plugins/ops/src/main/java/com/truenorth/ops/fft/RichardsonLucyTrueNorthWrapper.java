@@ -1,8 +1,9 @@
 package com.truenorth.ops.fft;
 
-import imagej.ops.AbstractFunction;
-import imagej.ops.Contingent;
-import imagej.ops.Op;
+
+import net.imagej.ops.AbstractFunction;
+import net.imagej.ops.Contingent;
+import net.imagej.ops.Op;
 
 import net.imglib2.RandomAccessibleInterval;
 

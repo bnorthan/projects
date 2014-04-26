@@ -1,12 +1,13 @@
 package com.truenorth.gui;
 
-import imagej.module.Module;
-import imagej.module.process.PreprocessorPlugin;
-import imagej.plugins.uis.swing.sdi.SwingUI;
-import imagej.ui.AbstractInputHarvesterPlugin;
-import imagej.util.swing.SwingDialog;
-import imagej.widget.InputHarvester;
-import imagej.widget.InputPanel;
+import org.scijava.module.Module;
+import org.scijava.module.process.PreprocessorPlugin;
+import org.scijava.ui.swing.sdi.SwingUI;
+import org.scijava.ui.AbstractInputHarvesterPlugin;
+import org.scijava.ui.swing.SwingDialog;
+
+import org.scijava.widget.InputHarvester;
+import org.scijava.widget.InputPanel;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,10 +15,12 @@ import javax.swing.JPanel;
 import org.scijava.Priority;
 import org.scijava.plugin.Plugin;
 
-import imagej.plugins.uis.swing.widget.SwingInputPanel;
+import org.scijava.ui.swing.widget.SwingInputPanel;
 
 /**
  * Similar to "SwingInputHavester" but derives from AbstractChainedInputHarvester
+ * 
+ * TODO: Nicer integration
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia

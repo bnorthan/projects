@@ -2,9 +2,9 @@ package com.truenorth.commands;
 
 import org.scijava.plugin.Parameter;
 
-import imagej.command.Command;
-import imagej.command.CommandModule;
-import imagej.command.CommandService;
+import org.scijava.command.Command;
+import org.scijava.command.CommandModule;
+import org.scijava.command.CommandService;
 
 import java.util.concurrent.Future;
 import java.util.Map;

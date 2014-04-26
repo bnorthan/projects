@@ -2,10 +2,10 @@ package com.truenorth.gui;
 
 import org.scijava.plugin.Plugin;
 
-import imagej.module.Module;
-import imagej.module.ModuleInfo;
-import imagej.widget.InputWidget;
-import imagej.widget.WidgetModel;
+import org.scijava.module.Module;
+import org.scijava.module.ModuleInfo;
+import org.scijava.widget.InputWidget;
+import org.scijava.widget.WidgetModel;
 
 import com.truenorth.commandmodels.DeconvolutionModel;
 import com.truenorth.commands.psf.CreatePsfCommand;

@@ -17,8 +17,9 @@ rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
 #inputName="phantom_.image.ome.tif"
 #outputBase="phantom"
 
-inputDir=rootImageDir+"/Phantoms/RandomSpheres/PSF_Aberrated/"
-outputDir=rootImageDir+"/Tests/RandomSpheres/PSF_Aberrated/reflection/"
+inputDir=rootImageDir+"/Phantoms/2Spheres3/"
+outputDir=rootImageDir+"/Tests/2Spheres3/reflection_fullextension/"
+algorithm="rltv"
 
 if not os.path.exists(outputDir):
     os.makedirs(outputDir)
@@ -38,9 +39,9 @@ psf=data.open(inputDir+psfName)
 display.createDisplay(psf.getName(), psf);
 
 # desired dimensions of the image
-desiredSizeX=220
-desiredSizeY=220
-desiredSizeZ=128
+desiredSizeX=340
+desiredSizeY=340
+desiredSizeZ=200
 
 # original size of the image
 sizeX=192
@@ -48,8 +49,7 @@ sizeY=192
 sizeZ=64
 
 iterations=200
-regularizationFactor=0.009
-algorithm="rltv_tn_ref"
+regularizationFactor=0.002
 
 extendedName=outputDir+outputBase+".extended.ome.tif"
 extendedPsfName=outputDir+"psf.extended.ome.tif"

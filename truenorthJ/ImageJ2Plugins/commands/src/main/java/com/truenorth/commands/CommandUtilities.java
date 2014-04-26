@@ -1,13 +1,12 @@
 package com.truenorth.commands;
 
-import imagej.data.Dataset;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
-
-import imagej.data.DatasetService;
 
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;

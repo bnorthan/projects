@@ -1,11 +1,11 @@
 package com.truenorth.commands.dim;
 
-import imagej.command.Command;
+import org.scijava.command.Command;
 
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.Menu;
-import imagej.menu.MenuConstants;
+import org.scijava.menu.MenuConstants;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;

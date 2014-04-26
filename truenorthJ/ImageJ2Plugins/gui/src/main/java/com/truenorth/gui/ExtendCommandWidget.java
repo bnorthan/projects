@@ -2,8 +2,8 @@ package com.truenorth.gui;
 
 import org.scijava.plugin.Plugin;
 
-import imagej.widget.InputWidget;
-import imagej.widget.WidgetModel;
+import org.scijava.widget.InputWidget;
+import org.scijava.widget.WidgetModel;
 
 import com.truenorth.commandmodels.ExtendCommandModel;
 

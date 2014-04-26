@@ -1,8 +1,8 @@
 package com.truenorth;
 
-import imagej.ImageJ;
-import imagej.script.ScriptModule;
-import imagej.script.ScriptService;
+import net.imagej.ImageJ;
+import org.scijava.script.ScriptModule;
+import org.scijava.script.ScriptService;
 import org.scijava.Context;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class ScriptTest
 		String scriptName=null;
 		String script;
 		
-		final ImageJ ij = imagej.Main.launch(args);
+		final ImageJ ij = net.imagej.Main.launch(args);
 		
 		System.out.println("Launched");
     	

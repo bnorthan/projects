@@ -1,15 +1,16 @@
 package com.truenorth.gui;
 
-import imagej.module.Module;
-import imagej.module.ModuleCanceledException;
-import imagej.module.ModuleException;
-import imagej.module.ModuleItem;
-import imagej.command.CommandModuleItem;
-import imagej.widget.InputHarvester;
-import imagej.widget.InputPanel;
-import imagej.widget.InputWidget;
-import imagej.widget.WidgetModel;
-import imagej.widget.WidgetService;
+
+import org.scijava.module.Module;
+import org.scijava.module.ModuleCanceledException;
+import org.scijava.module.ModuleException;
+import org.scijava.module.ModuleItem;
+import org.scijava.command.CommandModuleItem;
+import org.scijava.widget.InputHarvester;
+import org.scijava.widget.InputPanel;
+import org.scijava.widget.InputWidget;
+import org.scijava.widget.WidgetModel;
+import org.scijava.widget.WidgetService;
 
 import java.util.ArrayList;
 import java.util.List;

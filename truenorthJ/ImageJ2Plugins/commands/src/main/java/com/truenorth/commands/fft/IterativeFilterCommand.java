@@ -19,7 +19,7 @@ import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
-import imagej.data.Dataset;
+import net.imagej.Dataset;
 
 /**
  * 

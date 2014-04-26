@@ -1,6 +1,6 @@
 package com.truenorth.commandmodels;
 
-import imagej.module.Module;
+import org.scijava.module.Module;
 
 /**
  * 

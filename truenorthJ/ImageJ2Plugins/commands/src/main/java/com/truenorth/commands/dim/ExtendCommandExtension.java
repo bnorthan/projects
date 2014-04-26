@@ -1,6 +1,6 @@
 package com.truenorth.commands.dim;
 
-import imagej.command.Command;
+import org.scijava.command.Command;
 
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;

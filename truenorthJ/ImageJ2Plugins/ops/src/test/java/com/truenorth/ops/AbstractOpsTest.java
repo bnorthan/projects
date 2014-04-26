@@ -35,8 +35,8 @@
 
 package com.truenorth.ops;
 
-import imagej.ops.OpService;
-import imagej.ops.OpMatchingService;
+import net.imagej.ops.OpService;
+import net.imagej.ops.OpMatchingService;
 
 import net.imglib2.FinalInterval;
 import net.imglib2.img.Img;

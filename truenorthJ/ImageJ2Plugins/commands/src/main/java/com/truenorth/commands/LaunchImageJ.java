@@ -12,6 +12,9 @@ public class LaunchImageJ
 	public static void main(final String... args) throws Exception 
 	{
 		// Launch ImageJ
-		imagej.Main.launch(args);
+	//	net.imagej.app.Main.launch(args);
+		//net.imagej.Main.launch(args);
+		
+		
 	}
 }

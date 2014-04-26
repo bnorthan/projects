@@ -19,8 +19,11 @@
      
  	<dependency>
 		<groupId>net.imagej</groupId>
-		<artifactId>ij-app</artifactId>
-		<version>${imagej.version}</version>
+		<artifactId>imagej-common</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>net.imagej</groupId>
+		<artifactId>imagej-ops</artifactId>
 	</dependency>
      
     <dependency>

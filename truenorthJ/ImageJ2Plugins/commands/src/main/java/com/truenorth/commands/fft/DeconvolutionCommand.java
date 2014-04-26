@@ -1,12 +1,12 @@
 package com.truenorth.commands.fft;
 
-import imagej.command.Command;
-import imagej.command.CommandModule;
-import imagej.command.CommandService;
+import org.scijava.command.Command;
+import org.scijava.command.CommandModule;
+import org.scijava.command.CommandService;
 
-import imagej.data.Dataset;
+import net.imagej.Dataset;
 
-import imagej.module.Module;
+import org.scijava.module.Module;
 
 import net.imglib2.meta.Axes;
 import net.imglib2.type.NativeType;

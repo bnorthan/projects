@@ -9,23 +9,24 @@ import java.awt.Dimension;
 
 import java.awt.Color;
 
-import imagej.plugins.uis.swing.widget.SwingInputWidget;
-import imagej.plugins.uis.swing.widget.SwingInputHarvester;
+import org.scijava.ui.swing.widget.SwingInputWidget;
+import org.scijava.ui.swing.widget.SwingInputHarvester;
+import org.scijava.UIDetails;
 
-import imagej.widget.InputPanel;
-import imagej.widget.WidgetModel;
+import org.scijava.widget.InputPanel;
+import org.scijava.widget.WidgetModel;
 
 import org.scijava.plugin.PluginInfo;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.PluginService;
 
-import imagej.module.Module;
-import imagej.module.ModuleInfo;
-import imagej.module.ModuleService;
+import org.scijava.module.Module;
+import org.scijava.module.ModuleInfo;
+import org.scijava.module.ModuleService;
 
-import imagej.module.process.PreprocessorPlugin;
-import imagej.command.Command;
-import imagej.command.CommandService;
+import org.scijava.module.process.PreprocessorPlugin;
+import org.scijava.command.Command;
+import org.scijava.command.CommandService;
 
 import java.util.List;
 

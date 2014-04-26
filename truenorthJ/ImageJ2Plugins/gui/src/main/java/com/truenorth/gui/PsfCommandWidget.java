@@ -1,7 +1,7 @@
 package com.truenorth.gui;
 
-import imagej.widget.InputWidget;
-import imagej.widget.WidgetModel;
+import org.scijava.widget.InputWidget;
+import org.scijava.widget.WidgetModel;
 import org.scijava.plugin.Plugin;
 import com.truenorth.commandmodels.PsfCommandModel;
 

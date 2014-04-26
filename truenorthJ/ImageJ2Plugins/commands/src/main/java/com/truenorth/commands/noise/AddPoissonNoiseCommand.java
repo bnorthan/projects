@@ -1,7 +1,5 @@
 package com.truenorth.commands.noise;
 
-import imagej.command.Command;
-
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 

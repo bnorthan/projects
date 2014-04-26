@@ -1,7 +1,5 @@
 package com.truenorth.commands.fft;
 
-import imagej.command.Command;
-
 import org.scijava.plugin.Plugin;
 
 import net.imglib2.exception.IncompatibleTypeException;

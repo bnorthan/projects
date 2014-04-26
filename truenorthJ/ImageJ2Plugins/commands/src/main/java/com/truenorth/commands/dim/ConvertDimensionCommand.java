@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import imagej.command.Command;
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import org.scijava.command.Command;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;

@@ -19,11 +19,15 @@
       			<version>3.8.1</version>
       			<scope>test</scope>
     		</dependency>
+    		
+     <dependency>
+		<groupId>net.imagej</groupId>
+		<artifactId>ij-app</artifactId>
+	</dependency>
 
 		<dependency>
 			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2</artifactId>
-			<version>${imglib2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.truenorth</groupId>
@@ -38,15 +42,11 @@
   </dependencies>
 
 <repositories>
-		<repository>
-			<id>imagej.releases</id>
-			<url>http://maven.imagej.net/content/repositories/releases</url>
+	<repository>
+		<id>imagej.public</id>
+		<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
-		<repository>
-			<id>imagej.snapshots</id>
-			<url>http://maven.imagej.net/content/repositories/snapshots</url>
-		</repository>
-	</repositories>
+</repositories>
 
 
 </project>

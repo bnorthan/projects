@@ -1,6 +1,6 @@
 package com.truenorth.commands.fft;
 
-import imagej.data.Dataset;
+import net.imagej.Dataset;
 
 import com.truenorth.commands.CommandUtilities;
 

@@ -1,6 +1,6 @@
 package com.truenorth.fuzzydeconvolution.commands;
 
-import imagej.command.Command;
+import org.scijava.command.Command;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;

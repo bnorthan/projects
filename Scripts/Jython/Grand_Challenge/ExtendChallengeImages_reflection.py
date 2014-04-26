@@ -4,8 +4,7 @@
 # @DisplayService display
 # @IOService io
 
-# this script extends an image using the model from the second deconvolution grand challenge
-# described here: http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
+# this script extends an image using reflection
 
 rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/"
 inputDir=rootImageDir+"Measurements/"

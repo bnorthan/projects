@@ -1,7 +1,8 @@
 package com.truenorth.commands.psf;
 
-import imagej.data.Dataset;
-
+import org.scijava.command.Command;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 

@@ -36,26 +36,24 @@
 			<artifactId>FuzzyDeconvolution</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>net.imagej</groupId>
-			<artifactId>ij-app</artifactId>
-			<version>${imagej.version}</version>
+			<artifactId>imagej-common</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>${scifio.groupId}</groupId>
 			<artifactId>scifio</artifactId>
 			<version>${scifio.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.truenorth</groupId>
 			<artifactId>gui</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>ij-core</artifactId>
-			<version>${imagej.version}</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.truenorth</groupId>
 			<artifactId>ops</artifactId>
@@ -67,17 +65,12 @@
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
   </dependencies>
-
+  
 <repositories>
-		<repository>
-			<id>imagej.releases</id>
-			<url>http://maven.imagej.net/content/repositories/releases</url>
+	<repository>
+		<id>imagej.public</id>
+		<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
-		<repository>
-			<id>imagej.snapshots</id>
-			<url>http://maven.imagej.net/content/repositories/snapshots</url>
-		</repository>
-	</repositories>
-
+</repositories>
 
 </project>

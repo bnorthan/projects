@@ -6,9 +6,9 @@ import org.scijava.plugin.Plugin;
 
 import com.truenorth.functions.StaticFunctions;
 
-import imagej.command.Command;
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import org.scijava.command.Command;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;

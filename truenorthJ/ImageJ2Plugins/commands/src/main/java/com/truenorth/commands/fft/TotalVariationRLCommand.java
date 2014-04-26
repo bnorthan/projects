@@ -11,8 +11,6 @@ import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.TotalVariationRL;
 import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
-import imagej.command.Command;
-
 import net.imglib2.img.Img;
 
 import org.scijava.plugin.Parameter;

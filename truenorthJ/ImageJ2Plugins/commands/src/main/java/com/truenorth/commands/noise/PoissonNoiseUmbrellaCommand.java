@@ -1,7 +1,7 @@
 package com.truenorth.commands.noise;
 
-import imagej.command.Command;
-import imagej.command.CommandModule;
+import org.scijava.command.Command;
+import org.scijava.command.CommandModule;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
@@ -13,7 +13,7 @@ import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-import imagej.module.Module;
+import org.scijava.module.Module;
 
 @Plugin(type=Command.class, menuPath="Plugins>Noise>Add Poisson Noise")
 public class PoissonNoiseUmbrellaCommand <T extends RealType<T> & NativeType<T>> extends UmbrellaCommand

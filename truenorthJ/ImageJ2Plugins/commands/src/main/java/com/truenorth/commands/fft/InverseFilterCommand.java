@@ -9,9 +9,6 @@ import net.imglib2.exception.IncompatibleTypeException;
 import com.truenorth.functions.fft.filters.FrequencyFilter;
 import com.truenorth.functions.fft.filters.InverseFilter;
 
-
-import imagej.command.Command;
-
 import net.imglib2.img.Img;
 
 import org.scijava.plugin.Plugin;

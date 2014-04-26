@@ -5,8 +5,8 @@ import java.lang.reflect.*;
 import java.util.Map;
 import java.util.HashMap;
 
-import imagej.ImageJ;
-import imagej.data.Dataset;
+import net.imagej.ImageJ;
+import net.imagej.Dataset;
 
 //import io.scif.img.ImgIOException;
 import net.imglib2.exception.IncompatibleTypeException;

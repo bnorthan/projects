@@ -5,10 +5,9 @@ import net.imglib2.meta.ImgPlus;
 import io.scif.img.ImgIOException;
 import com.truenorth.functions.StaticFunctions;
 
-import imagej.ImageJ;
-import imagej.data.Dataset;
-import imagej.plugins.commands.app.ImageJWebsite;
-import imagej.command.CommandModule;
+import net.imagej.ImageJ;
+import net.imagej.Dataset;
+import org.scijava.command.CommandModule;
 import java.util.concurrent.*;
 
 import java.util.Map;
@@ -63,7 +62,7 @@ public class DeconvolutionTest
 		{
 			if (!silent)
 			{
-				ij = imagej.Main.launch(args);
+				ij = net.imagej.Main.launch(args);
 			}
 			else
 			{

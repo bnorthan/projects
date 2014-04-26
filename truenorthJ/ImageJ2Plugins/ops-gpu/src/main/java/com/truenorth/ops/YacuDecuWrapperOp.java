@@ -1,6 +1,6 @@
 package com.truenorth.ops;
 
-import imagej.ops.Op;
+import net.imagej.ops.Op;
 
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;

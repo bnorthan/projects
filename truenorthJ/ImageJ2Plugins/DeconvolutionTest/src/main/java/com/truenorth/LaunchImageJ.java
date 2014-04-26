@@ -1,6 +1,6 @@
 package com.truenorth;
 
-import imagej.ImageJ;
+import net.imagej.ImageJ;
 
 /**
  * Launches ImageJ
@@ -14,6 +14,6 @@ public class LaunchImageJ
 	public static void main(final String... args) throws Exception 
 	{
 		// Launch ImageJ as usual.
-		final ImageJ ij = imagej.Main.launch(args);
+		final ImageJ ij = net.imagej.Main.launch(args);
 	}
 }

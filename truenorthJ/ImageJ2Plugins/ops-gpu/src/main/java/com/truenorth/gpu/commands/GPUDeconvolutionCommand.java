@@ -1,6 +1,6 @@
 package com.truenorth.gpu.commands;
 
-import imagej.command.Command;
+import org.scijava.command.Command;
 
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
@@ -12,10 +12,10 @@ import org.scijava.plugin.Parameter;
 import net.imglib2.img.Img;
 import net.imglib2.meta.ImgPlus;
 
-import imagej.data.Dataset;
-import imagej.data.DatasetService;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 
-import imagej.ops.OpService;
+import net.imagej.ops.OpService;
 
 /**
  * A command for GPU deconvolution.  Calls a JNI wrapper to yacudecu.

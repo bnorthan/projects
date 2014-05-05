@@ -119,6 +119,22 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 	{
 		super( image, kernel, imgFactory, kernelImgFactory, fftImgFactory );
 	}
+	
+	/**
+	 * 
+	 * @param image
+	 * @param kernel
+	 * @param imgFactory
+	 * @param kernelImgFactory
+	 * @throws IncompatibleTypeException
+	 */
+	public WienerFilter(final RandomAccessibleInterval<T> image, 
+			final RandomAccessibleInterval<S> kernel,
+			final ImgFactory<T> imgFactory,
+			final ImgFactory<S> kernelImgFactory) throws IncompatibleTypeException
+	{
+		super(image, kernel, imgFactory, kernelImgFactory);
+	}
 
 	/**
 	 * @param image

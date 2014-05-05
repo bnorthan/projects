@@ -14,7 +14,7 @@ import net.imglib2.util.Util;
  * 
  * Class used to for rearanging quadrants of a centered psf
  * 
- * @author bnorthan
+ * @author bnorthan based on code written by Stephan Priebisch
  *
  * @param <T>
  */

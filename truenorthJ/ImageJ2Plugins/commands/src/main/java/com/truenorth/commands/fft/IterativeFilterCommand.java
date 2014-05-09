@@ -152,7 +152,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 	//			uiService.getStatusService().showStatus(iteration, iterations, "Iteration: "+iteration);
 				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, null, true);
 				
-				if (truth!=null)
+			/*	if (truth!=null)
 				{
 					Img<T> truthImg=(Img<T>)(truth.getImgPlus().getImg());
 					
@@ -175,7 +175,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 					
 					double error=StaticFunctions.squaredErrorWithOffset(truthImg, estimate, start);
 					System.out.println("Error is: "+error);
-				}
+				}*/
 				System.out.println();
 			}
 		};

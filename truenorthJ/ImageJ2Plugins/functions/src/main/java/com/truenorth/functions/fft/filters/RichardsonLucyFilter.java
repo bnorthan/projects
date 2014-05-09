@@ -11,7 +11,7 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
 
-/**
+/**  
  * Implementation of Richardson Lucy algorithm
  * 
  * @author bnorthan

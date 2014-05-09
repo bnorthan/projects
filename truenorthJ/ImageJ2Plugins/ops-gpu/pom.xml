@@ -52,12 +52,6 @@
 		<scope>test</scope>
 	</dependency>
 	
-	<dependency>
-		<groupId>${junit-benchmarks.groupId}</groupId>
-		<artifactId>junit-benchmarks</artifactId>
-		<version>${junit-benchmarks.version}</version>
-		<scope>test</scope>
-	</dependency>
 
  </dependencies>
 </project>

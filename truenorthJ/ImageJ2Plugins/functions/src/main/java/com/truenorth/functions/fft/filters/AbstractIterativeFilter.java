@@ -350,13 +350,13 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		
 		Img<T> mask = imgFactory.create(image, type);
 			
-		// size of the measurment space
+		// size of the measurement window
 		Point size=new Point(3);
 		size.setPosition(k[0], 0); //192
 		size.setPosition(k[1], 1); //192
 		size.setPosition(k[2], 2); //64
 	
-		// starting point of the measurement space
+		// starting point of the measurement window when it is centered in fft space
 		Point start=new Point(3);
 		start.setPosition((fft_n[0]-k[0])/2, 0); //72
 		start.setPosition((fft_n[1]-k[1])/2, 1); //84
@@ -374,7 +374,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		maskStart.setPosition((fft_n[1]-n[1])/2+1, 1); //21
 		maskStart.setPosition((fft_n[2]-n[2])/2+1, 2); //11
 	
-		// draw a cube the size of the measurment space
+		// draw a cube the size of the measurement space
 		Phantoms.drawCube(normalization, start, size, 1.0);
 		
 		// draw a cube the size of the object space

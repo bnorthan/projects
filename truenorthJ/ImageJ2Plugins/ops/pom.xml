@@ -34,13 +34,6 @@
 	</dependency>
 	
 	<dependency>
-		<groupId>${junit-benchmarks.groupId}</groupId>
-		<artifactId>junit-benchmarks</artifactId>
-		<version>${junit-benchmarks.version}</version>
-		<scope>test</scope>
-	</dependency>
-
-	<dependency>
 		<groupId>com.truenorth</groupId>
 		<artifactId>functions</artifactId>
 		<version>1.0.0-SNAPSHOT</version>

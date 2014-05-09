@@ -189,9 +189,9 @@ public abstract class AbstractVolumeProcessorCommand<T extends RealType<T> & Nat
 					inputChannel = Views.hyperSlice(inputTimepoint, channelPosition, c);
 					outputChannel = Views.hyperSlice(outputTimepoint, channelPosition, c);
 					
-					for (RandomAccessibleInterval<T> channel:arrExtractedTimePoints)
+					for (RandomAccessibleInterval<T> time:arrExtractedTimePoints)
 					{
-						arrExtractedChannels.add(Views.hyperSlice(channel, channelPosition, c));
+						arrExtractedChannels.add(Views.hyperSlice(time, channelPosition, c));
 					}
 				}
 				// otherwise there is just one channel so no need to extract the hyperslice

@@ -90,6 +90,50 @@ public class StaticFunctions
 		}
 		
 	}
+	
+	/*
+	 * multiply inputOutput by input and place the result in input
+	 */
+	public static<T extends RealType<T>> double DotProduct(final Img<T> image1, final Img<T> image2)
+	{
+		final Cursor<T> cursorImage1 = image1.cursor();
+		final Cursor<T> cursorImage2 = image2.cursor();
+		
+		double dotProduct=0.0d;
+		
+		while (cursorImage1.hasNext())
+		{
+			cursorImage1.fwd();
+			cursorImage2.fwd();
+			dotProduct+=cursorImage1.get().getRealDouble()*cursorImage2.get().getRealDouble();
+		}
+		
+		
+		return dotProduct;
+	}
+	
+	/*
+	 * multiply inputOutput by input and place the result in input
+	 */
+	public static<T extends RealType<T>> double DotProductLog(final Img<T> image1, final Img<T> image2)
+	{
+		final Cursor<T> cursorImage1 = image1.cursor();
+		final Cursor<T> cursorImage2 = image2.cursor();
+		
+		double dotProduct=0.0d;
+		
+		while (cursorImage1.hasNext())
+		{
+			cursorImage1.fwd();
+			cursorImage2.fwd();
+			
+			
+			dotProduct+=Math.log(cursorImage1.get().getRealDouble())*Math.log(cursorImage2.get().getRealDouble());
+		}
+		
+		
+		return dotProduct;
+	}
 		
 	/*
 	 * divide numerator by denominatorOutput and place result in denominatorOutput
@@ -221,7 +265,7 @@ public class StaticFunctions
 			random.setPosition(tmpPosition);
 			
 			double value = random.get().getRealDouble();
-			http://tweg.com/?v=sos_webinar	
+				
 			cursor.get().setReal(value);
 		}
 		return cropped;
@@ -251,6 +295,96 @@ public class StaticFunctions
 		
 		return out;
 	}
+	
+	/*
+	 * divide img2 from img1 and return the result
+	 */
+	public static <T extends RealType<T>> Img<T> Divide(final Img<T> img1, final Img<T> img2)
+	{
+		Img<T> out = img1.factory().create(img1, img1.firstElement());
+		
+		final Cursor<T> cursor1 = img1.cursor();
+		final Cursor<T> cursor2 = img2.cursor();
+		final Cursor<T> cursorOut = out.cursor();
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			cursorOut.fwd();
+			
+			float num = cursor1.get().getRealFloat();
+			float div = cursor2.get().getRealFloat();
+			float res =0;
+			
+			if (div>0)
+			{
+				res = num/div;
+			}
+			else
+			{ 
+				res = 0;
+			}
+			
+			cursorOut.get().setReal(res);
+			
+		}
+		
+		return out;
+	}
+	
+	/*
+	 * add img1 plus a*img2 and return the result
+	 */
+	public static <T extends RealType<T>> Img<T> AddAndScale(final Img<T> img1, final Img<T> img2, final float a)
+	{
+		Img<T> out = img1.factory().create(img1, img1.firstElement());
+		
+		final Cursor<T> cursor1 = img1.cursor();
+		final Cursor<T> cursor2 = img2.cursor();
+		final Cursor<T> cursorOut = out.cursor();
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			cursorOut.fwd();
+			
+			cursorOut.get().set(cursor1.get());
+			cursor2.get().mul(a);
+			cursorOut.get().add(cursor2.get());
+		}
+		
+		return out;
+	}
+	
+	/*
+	 * 
+	 */
+	public static <T extends RealType<T>> Img<T> MulAndExponent(final Img<T> img1, final Img<T> img2, final float a)
+	{
+		Img<T> out = img1.factory().create(img1, img1.firstElement());
+		
+		final Cursor<T> cursor1 = img1.cursor();
+		final Cursor<T> cursor2 = img2.cursor();
+		final Cursor<T> cursorOut = out.cursor();
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			cursorOut.fwd();
+			
+			double val1=cursor1.get().getRealDouble();
+			
+			double val2=cursor2.get().getRealDouble();
+			val2=Math.pow(val2, a);
+			cursorOut.get().setReal(val1*val2);
+		}
+		
+		return out;
+	}
+
 	
 	/*
 	 * add img1 and img2 and return the result
@@ -540,7 +674,7 @@ public class StaticFunctions
 		  // if (access1.get().getRealDouble()>200)
 		 /*  if (currentSlice!=i1.getFloatPosition(2))
 		   {
-			   System.out.println("currentSlice "+currentSlice);
+			   ("currentSlice "+currentSlice);
 			   System.out.println("dimension z "+i1.dimension(2));
 			   System.out.print("I1 at: ");
 			   for (int n=0;n<i1.numDimensions();n++)

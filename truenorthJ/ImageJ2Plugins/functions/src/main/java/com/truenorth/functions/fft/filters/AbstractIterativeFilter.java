@@ -17,6 +17,11 @@ import net.imglib2.view.Views;
 
 import net.imglib2.Point;
 
+import com.truenorth.functions.acceleration.Accelerator;
+
+import com.truenorth.functions.acceleration.VectorAccelerator;
+import com.truenorth.functions.acceleration.MultiplicativeAccelerator;
+
 /**
  * Base class for an iterative deconvolution filter
  * 
@@ -36,7 +41,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	 * BLURRED_INPUT - blurred version of the measured input image
 	 * USER_IMAGE - user specifies first guess
 	 */
-	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_MEASURED, USER_INPUT};
+	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_MEASURED, USER_INPUT, INVERSE_FILTER};
 	
 	/**
 	 * convolution strategy
@@ -108,7 +113,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	
 	int maxIterations = 10;
 	
-	int computeStatsInterval = 50;
+	int computeStatsInterval = 1;
 			
 	IterativeFilterCallback<T> callback=null;
 	
@@ -125,6 +130,8 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	long[] k;
 	
 	Img<T> normalization=null;
+	
+	//Accelerator accelerator=null;
 	
 	/**
 	 * perform the initial ffts, set first guess
@@ -182,7 +189,27 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 				StaticFunctions.set(iterableEstimate, constant);
 						
 				createReblurred();
+			}
+			else if (firstGuessType==FirstGuessType.INVERSE_FILTER)
+			{
+				try
+				{
+					WienerFilter<T, S> wiener=new WienerFilter<T,S>(image,
+							kernel, 
+							imgFactory,
+							kernelImgFactory);
 				
+					wiener.setRegularizationFactor(0.01);
+					
+					System.out.println("Wiener");
+					wiener.process();
+					
+					setEstimate(wiener.getResult());
+				}
+				catch(Exception ex)
+				{
+					// TODO handle exception
+				}
 			}
 		}
 		
@@ -231,6 +258,10 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	{
 		boolean result=true;
 		
+		// for testing set accelerator
+		// TODO: set accelerator from outside
+		Accelerator accelerator=new MultiplicativeAccelerator();
+		
 		while (iteration<n)
 		{
 			Img<T> oldEstimate=null;
@@ -252,6 +283,20 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			}
 			
 			long iterationTime=System.currentTimeMillis()-startTime;
+			
+			System.out.println("estimate stats before acceleration");
+			StaticFunctions.showStats(estimate);
+			System.out.println();
+			
+			if ( (iteration>0)&&(accelerator!=null))
+			{
+				estimate=accelerator.Accelerate(estimate);
+				createReblurred();
+			}
+			
+			System.out.println("estimate stats after acceleration");
+			StaticFunctions.showStats(estimate);
+			System.out.println();
 			
 			// if a callback has been set
 			if (callback!=null)

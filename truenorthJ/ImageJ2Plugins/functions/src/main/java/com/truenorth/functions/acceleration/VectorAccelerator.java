@@ -30,6 +30,13 @@ public class VectorAccelerator <T extends RealType<T>> implements Accelerator<T>
 			accelerationFactor=computeAccelerationFactor(yk_iterated, yk_prediction);
 			
 			System.out.println(accelerationFactor);
+			
+			if ( (accelerationFactor<0) )
+			{
+				xkm1_previous=null;
+				gkm1=null;
+				accelerationFactor=0.0;
+			}
 		}
 		
 		// current estimate for x is yk_iterated
@@ -41,7 +48,7 @@ public class VectorAccelerator <T extends RealType<T>> implements Accelerator<T>
 			hk_vector=StaticFunctions.Subtract(xk_estimate, xkm1_previous);
 			
 			// make the next prediction
-			yk_prediction=StaticFunctions.AddAndScale(xk_estimate, hk_vector, (float)accelerationFactor);
+			yk_prediction=AddAndScale(xk_estimate, hk_vector, (float)accelerationFactor);
 		}
 		else
 		{
@@ -63,16 +70,69 @@ public class VectorAccelerator <T extends RealType<T>> implements Accelerator<T>
 		
 		if (gkm1!=null)
 		{
-			double numerator=StaticFunctions.DotProduct(gk, gkm1);
-			double denominator=StaticFunctions.DotProduct(gkm1, gkm1);
+			double numerator=DotProduct(gk, gkm1);
+			double denominator=DotProduct(gkm1, gkm1);
 			
-			return numerator/denominator; 
+			gkm1=gk.copy();
+			
+			return numerator/denominator;
+			
+			
 		}
 		
-		gkm1=gk;
+		gkm1=gk.copy();
 		
-		return 0.0f;
+		return 0.0;
+		
+		
 	}
 	
+	/*
+	 * multiply inputOutput by input and place the result in input
+	 */
+	public double DotProduct(final Img<T> image1, final Img<T> image2)
+	{
+		final Cursor<T> cursorImage1 = image1.cursor();
+		final Cursor<T> cursorImage2 = image2.cursor();
+		
+		double dotProduct=0.0d;
+		
+		while (cursorImage1.hasNext())
+		{
+			cursorImage1.fwd();
+			cursorImage2.fwd();
+			
+			float val1=cursorImage1.get().getRealFloat();
+			float val2=cursorImage2.get().getRealFloat();
+			
+			dotProduct+=val1*val2;
+		}
+			
+		return dotProduct;
+	}
 	
+	public Img<T> AddAndScale(final Img<T> img1, final Img<T> img2, final float a)
+	{
+		Img<T> out = img1.factory().create(img1, img1.firstElement());
+		
+		final Cursor<T> cursor1 = img1.cursor();
+		final Cursor<T> cursor2 = img2.cursor();
+		final Cursor<T> cursorOut = out.cursor();
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			cursorOut.fwd();
+			
+			float val1=cursor1.get().getRealFloat();
+			float val2=cursor2.get().getRealFloat();
+			
+			float val3=Math.max(val1+a*val2, 0.0001f);
+			
+			cursorOut.get().setReal(val3);
+		}
+		
+		return out;
+	}
 }

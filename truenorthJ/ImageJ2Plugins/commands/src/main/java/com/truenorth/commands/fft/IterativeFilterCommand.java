@@ -6,7 +6,7 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.RandomAccessibleInterval;
 
-//import imagej.ui.UIService;
+//import imagej.ui.UIService;   
 
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Attr;
@@ -17,7 +17,8 @@ import com.truenorth.functions.fft.filters.FrequencyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 import com.truenorth.functions.fft.filters.IterativeFilterCallback;
 import com.truenorth.functions.fft.filters.IterativeFilter;
-import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
+import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
+import com.truenorth.functions.fft.filters.IterativeFilter.AccelerationStrategy;
 
 import net.imagej.Dataset;
 
@@ -38,11 +39,14 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 		@Parameter(required=false, persist=false)
 		protected Dataset firstGuess=null;
 		
-		@Parameter(label="first guess", choices = {Constants.FirstGuess.measuredImage, Constants.FirstGuess.constant, Constants.FirstGuess.blurredMeasured, Constants.FirstGuess.input})
+		@Parameter(label="first guess", choices = {Constants.FirstGuess.measuredImage, Constants.FirstGuess.constant, Constants.FirstGuess.blurredMeasured, Constants.FirstGuess.input, Constants.FirstGuess.inverse})
 		protected String firstGuessType;
 		
-		@Parameter(required=false, persist=false, label="convolution strategy", choices = {Constants.ConvolutionStrategy.circulant, Constants.ConvolutionStrategy.noncirculant})
+		@Parameter(required=false, persist=false, label="convolution strategy", choices = {Constants.ConvolutionStrategy.circulant, Constants.ConvolutionStrategy.noncirculant, Constants.ConvolutionStrategy.seminoncirculant})
 		protected String convolutionStrategy=Constants.ConvolutionStrategy.circulant;
+		
+		@Parameter(label="acceleration", choices = {Constants.AccelerationStrategy.vector, Constants.AccelerationStrategy.multiplicative, Constants.AccelerationStrategy.none})
+		protected String accelerationStrategy=Constants.AccelerationStrategy.vector;
 		
 		// TODO: Think through how to configure for non-circulant mode.   
 		
@@ -111,12 +115,29 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 					iterativeFilter.setFirstGuessType(FirstGuessType.MEASURED);
 				}
 			}
+			else if (this.firstGuessType.equals(Constants.FirstGuess.inverse))
+			{
+				iterativeFilter.setFirstGuessType(FirstGuessType.INVERSE_FILTER);
+			}
+			
+			if (this.accelerationStrategy.equals(Constants.AccelerationStrategy.vector))
+			{
+				iterativeFilter.setAccelerationType(AccelerationStrategy.VECTOR);
+			}
+			else if (this.accelerationStrategy.equals(Constants.AccelerationStrategy.multiplicative))
+			{
+				iterativeFilter.setAccelerationType(AccelerationStrategy.MULTIPLICATIVE_VECTOR);
+			}
+			else
+			{
+				iterativeFilter.setAccelerationType(AccelerationStrategy.NONE);
+			}
 			
 			System.out.println("convolution strategy: "+this.convolutionStrategy);
 			
 			if (this.convolutionStrategy.equals(Constants.ConvolutionStrategy.noncirculant))
 			{
-				System.out.println("noncirculant convolution strategy detected");
+				System.out.println("noncirculant convolution strategy");
 				
 				System.out.println("image window x "+imageWindowX);
 				System.out.println("image window y "+imageWindowY);
@@ -138,6 +159,21 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				
 				iterativeFilter.setNonCirculantConvolutionStrategy(k, l);
 			}
+			if (this.convolutionStrategy.equals(Constants.ConvolutionStrategy.seminoncirculant))
+			{
+				System.out.println("seminoncirculant deconvolution strategy");
+				
+				System.out.println("image window x "+imageWindowX);
+				System.out.println("image window y "+imageWindowY);
+				System.out.println("image window z "+imageWindowZ);
+				
+				long[] k=new long[3];
+				k[0]=imageWindowX;
+				k[1]=imageWindowY;
+				k[2]=imageWindowZ;
+			
+				iterativeFilter.setSemiNonCirculantConvolutionStrategy(k);
+			}
 			
 			return iterativeFilter;
 		}
@@ -150,7 +186,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 				System.out.println();
 				
 	//			uiService.getStatusService().showStatus(iteration, iterations, "Iteration: "+iteration);
-				stats.CalculateStats(iteration, image, estimate, reblurred, null, null, null, true);
+			//	stats.CalculateStats(iteration, image, estimate, reblurred, null, null, null, true);
 				
 			/*	if (truth!=null)
 				{
@@ -175,7 +211,7 @@ public abstract class IterativeFilterCommand<T extends RealType<T> & NativeType<
 					
 					double error=StaticFunctions.squaredErrorWithOffset(truthImg, estimate, start);
 					System.out.println("Error is: "+error);
-				}*/
+				} */
 				System.out.println();
 			}
 		};

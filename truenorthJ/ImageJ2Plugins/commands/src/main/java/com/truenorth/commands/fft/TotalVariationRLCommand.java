@@ -6,10 +6,8 @@ import net.imglib2.type.NativeType;
 
 import net.imglib2.exception.IncompatibleTypeException;
 
-import com.truenorth.commands.Constants;
 import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.TotalVariationRL;
-import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
 
 import net.imglib2.img.Img;
 

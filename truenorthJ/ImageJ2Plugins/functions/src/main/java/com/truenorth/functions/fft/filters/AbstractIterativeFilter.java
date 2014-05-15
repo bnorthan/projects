@@ -33,33 +33,7 @@ import com.truenorth.functions.acceleration.MultiplicativeAccelerator;
 public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends RealType<S>> extends AbstractFrequencyFilter<T,S> 
 	implements IterativeFilter<T, S>
 {
-	/**
-	 * first guess types 
-	 *
-	 * MEASURED - the measured image (the input image)  
-	 * CONSTANT - flat sheet
-	 * BLURRED_INPUT - blurred version of the measured input image
-	 * USER_IMAGE - user specifies first guess
-	 */
-	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_MEASURED, USER_INPUT, INVERSE_FILTER};
 	
-	/**
-	 * convolution strategy
-	 *
-	 * circulant - convolution and correlation performed using circulant model
-	 * 
-	 * noncirculant - images have been zero extended as to avoid circular deconvolution.  
-	 * 	http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
-	 */
-	public static enum ConvolutionStrategy{CIRCULANT, NON_CIRCULANT};
-
-	/**
-	 * @param image
-	 * @param kernel
-	 * @param imgFactory
-	 * @param kernelImgFactory
-	 * @param fftImgFactory
-	 */
 	public AbstractIterativeFilter( final RandomAccessibleInterval<T> image, final RandomAccessibleInterval<S> kernel,
 			   final ImgFactory<T> imgFactory, final ImgFactory<S> kernelImgFactory,
 			   final ImgFactory<ComplexFloatType> fftImgFactory )
@@ -121,17 +95,9 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	
 	FirstGuessType firstGuessType=FirstGuessType.MEASURED;
 	
-	ConvolutionStrategy convolutionStrategy=ConvolutionStrategy.CIRCULANT;
-	
-	// size of PSF space
-	long[] l;
-	
-	// size of measured image space
-	long[] k;
-	
 	Img<T> normalization=null;
 	
-	//Accelerator accelerator=null;
+	Accelerator accelerator=null;
 	
 	/**
 	 * perform the initial ffts, set first guess
@@ -216,7 +182,11 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		// create normalization if needed
 		if(this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
 		{
-			this.CreateNormalizationImage();
+			this.CreateNormalizationImageNonCirculant();
+		}
+		else if (this.convolutionStrategy==ConvolutionStrategy.SEMI_NONCIRCULANT)
+		{
+			this.CreateNormalizationImageSemiNonCirculant();
 		}
 					
 		if (!result)
@@ -257,11 +227,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	public boolean performIterations(int n)  
 	{
 		boolean result=true;
-		
-		// for testing set accelerator
-		// TODO: set accelerator from outside
-		Accelerator accelerator=new MultiplicativeAccelerator();
-		
+			
 		while (iteration<n)
 		{
 			Img<T> oldEstimate=null;
@@ -286,17 +252,25 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			
 			System.out.println("estimate stats before acceleration");
 			StaticFunctions.showStats(estimate);
-			System.out.println();
+		//	System.out.println();
 			
-			if ( (iteration>0)&&(accelerator!=null))
+			if ( (iteration>0)&&(iteration<n-1)&&(accelerator!=null))
 			{
+				startTime=System.currentTimeMillis();
+				
 				estimate=accelerator.Accelerate(estimate);
-				createReblurred();
+				
+				long accelerationTime=System.currentTimeMillis()-startTime;
+				
+				System.out.println("iteration time: "+iterationTime);
+				System.out.println("acceleration time: "+accelerationTime);
 			}
+			
+			createReblurred();
 			
 			System.out.println("estimate stats after acceleration");
 			StaticFunctions.showStats(estimate);
-			System.out.println();
+		//	System.out.println();
 			
 			// if a callback has been set
 			if (callback!=null)
@@ -314,7 +288,7 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			iterationTime=System.currentTimeMillis()-startTime;
 			
 			System.out.println("Iteration:"+iteration);
-			System.out.println();
+		//	System.out.println();
 			
 			output=estimate;
 			
@@ -366,12 +340,14 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		return true;
 	}
 	
+	
+	
 	/**
-	 *  create the normalization image needed for the model described here 
+	 *  create the normalization image needed for full noncirculant model described here 
 	 *	http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
 	 *	Richardson Lucy with the noncirculant model is described in the RLdeblur3D.m script
 	 */
-	protected void CreateNormalizationImage() 
+	protected void CreateNormalizationImageNonCirculant() 
 	{
 		int length=k.length;
 	
@@ -444,6 +420,90 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 		// fft space can be slightly larger then the object space so so use a mask to get
 		// rid of any values outside the object space.   
 		StaticFunctions.InPlaceMultiply(normalization, mask);
+		
+		//StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalfirst_.tif");	
+	}
+	
+	
+	/**
+	 *  create the normalization image needed for semi noncirculant model
+	 */
+	protected void CreateNormalizationImageSemiNonCirculant() 
+	{
+		// k is the window size (valid image region)
+		int length=k.length;
+	
+		long[] n=new long[length];
+		long[] fft_n;
+		
+		// n is the valid image size plus the extended region
+		// also referred to as object space size
+		for (int d=0;d<length;d++)
+		{
+			n[d]=image.dimension(d);
+		}
+		
+		// get size of fft space- may not be same size as object space due to fft padding
+		fft_n=SimpleFFTFactory.GetPaddedInputSizeLong(n);
+		
+		// create the normalization image
+		final T type = Util.getTypeFromInterval(image);
+		normalization = imgFactory.create(image, type);
+		
+	//	Img<T> mask = imgFactory.create(image, type);
+			
+		// size of the measurement window
+		Point size=new Point(3);
+		size.setPosition(k[0], 0); 
+		size.setPosition(k[1], 1); 
+		size.setPosition(k[2], 2); 
+		
+		// starting point of the measurement window when it is centered in fft space
+		Point start=new Point(3);
+		start.setPosition((fft_n[0]-k[0])/2, 0); 
+		start.setPosition((fft_n[1]-k[1])/2, 1); 
+		start.setPosition((fft_n[2]-k[2])/2, 2); 
+	
+		// size of the object space
+		Point maskSize=new Point(3);
+		maskSize.setPosition(n[0], 0); 
+		maskSize.setPosition(n[1], 1); 
+		maskSize.setPosition(n[2], 2); 
+		
+		// starting point of the object space within the fft space
+		Point maskStart=new Point(3);
+		maskStart.setPosition((fft_n[0]-n[0])/2+1, 0);
+		maskStart.setPosition((fft_n[1]-n[1])/2+1, 1); 
+		maskStart.setPosition((fft_n[2]-n[2])/2+1, 2); 
+		
+		for (int i=0;i<3;i++)
+		{
+			System.out.println(n[i]+""+fft_n[i]);
+			System.out.println(maskStart.getIntPosition(i)+" "+maskSize.getIntPosition(i));
+			System.out.println("---------------------------------------------------------");
+		}
+	
+		// draw a cube the size of the measurement space
+		Phantoms.drawCube(normalization, start, size, 1.0);
+		
+		// draw a cube the size of the object space
+	//	Phantoms.drawCube(mask, maskStart, maskSize, 1.0);
+	
+		// forward FFT
+		SimpleFFT<T, ComplexFloatType> fftTemp = 
+				new SimpleImgLib2FFT<T, ComplexFloatType>(normalization, imgFactory, fftImgFactory, new ComplexFloatType() );
+		Img<ComplexFloatType> temp1FFT= fftTemp.forward(normalization);
+		
+		// complex conjugate multiply fft of output of step 2 and fft of psf to get normalization factor
+		// as done in RLdeblur3D.m script from EPFL
+		StaticFunctions.InPlaceComplexConjugateMultiply(temp1FFT, kernelFFT);
+		
+		// inverse fft
+		normalization = fftTemp.inverse(temp1FFT);
+		
+		// fft space can be slightly larger then the object space so so use a mask to get
+		// rid of any values outside the object space.   
+	//	StaticFunctions.InPlaceMultiply(normalization, mask);
 		
 		//StaticFunctions.SaveImg(normalization, "/home/bnorthan/Brian2014/Images/General/Deconvolution/Grand_Challenge/EvaluationData/Extended/testFeb10/normalfirst_.tif");	
 	}
@@ -521,6 +581,25 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 	public void setFirstGuessType(FirstGuessType firstGuessType)
 	{
 		this.firstGuessType=firstGuessType;
+	}
+	
+	/**
+	 * set the acceleration type
+	 */
+	public void setAccelerationType(AccelerationStrategy accelerationStrategy)
+	{
+		if (accelerationStrategy==AccelerationStrategy.VECTOR)
+		{
+			accelerator=new VectorAccelerator();
+		}
+		else if (accelerationStrategy==AccelerationStrategy.MULTIPLICATIVE_VECTOR)
+		{
+			accelerator=new MultiplicativeAccelerator();
+		}
+		else
+		{
+			accelerator=null;
+		}
 	}
 	
 	/**

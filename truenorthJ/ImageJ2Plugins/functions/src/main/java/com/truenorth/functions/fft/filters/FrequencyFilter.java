@@ -26,8 +26,13 @@ public interface FrequencyFilter<T extends RealType<T>, S extends RealType<S>>
 	
 	/**
 	 * 
-	 * @param flipKernel (flip PSF quadrants, needs to be done to put PSF center at 0,0,0)
+	 * @param flipKernel (flag indicating wether to flip PSF quadrants, needs to be done to put PSF center at 0,0,0)
 	 */
 	public void setFlipKernel(boolean flipKernel);
+	
+	/**
+	 * @param set up for semi noncirculant convolution with window size of k 
+	 */
+	public void setSemiNonCirculantConvolutionStrategy(long[] k);
 }
 

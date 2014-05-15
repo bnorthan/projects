@@ -3,6 +3,7 @@ package com.truenorth.functions.fft.filters;
 import com.truenorth.functions.StaticFunctions;
 import com.truenorth.functions.fft.SimpleFFT;
 import com.truenorth.functions.fft.SimpleFFTFactory;
+import com.truenorth.functions.fft.filters.IterativeFilter.ConvolutionStrategy;
 import com.truenorth.functions.psf.FlipPsfQuadrants;
 
 import net.imglib2.RandomAccessibleInterval;
@@ -50,6 +51,16 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 	long processingTime;
 	
 	boolean preConditionPsf=true;
+	
+	int windowSize[];
+	
+	ConvolutionStrategy convolutionStrategy=ConvolutionStrategy.CIRCULANT;
+	
+	// size of PSF space
+	long[] l;
+		
+	// size of measured image space
+	long[] k;
 	
 	public AbstractFrequencyFilter(final RandomAccessibleInterval<T> image, 
 			final RandomAccessibleInterval<S> kernel,
@@ -221,5 +232,14 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 	public void setFlipKernel(boolean flipKernel)
 	{
 		this.flipKernel=flipKernel;
+	}
+	
+	/**
+	 * @param  . 
+	 */
+	public void setSemiNonCirculantConvolutionStrategy(long[] k)
+	{
+		this.convolutionStrategy=ConvolutionStrategy.SEMI_NONCIRCULANT;
+		this.k=k;
 	}
 }

@@ -3,8 +3,6 @@ package com.truenorth.functions.fft.filters;
 
 import net.imglib2.RandomAccessibleInterval;
 
-import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
-
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 
@@ -18,6 +16,37 @@ import net.imglib2.type.numeric.RealType;
  */
 public interface IterativeFilter<T extends RealType<T>, S extends RealType<S>> extends FrequencyFilter<T, S>
 {
+	/**
+	 * first guess types 
+	 *
+	 * MEASURED - the measured image (the input image)  
+	 * CONSTANT - flat sheet
+	 * BLURRED_INPUT - blurred version of the measured input image
+	 * USER_IMAGE - user specifies first guess
+	 */
+	public static enum FirstGuessType{MEASURED, CONSTANT, BLURRED_MEASURED, USER_INPUT, INVERSE_FILTER};
+	
+	/**
+	 * convolution strategy
+	 *
+	 * circulant - convolution and correlation performed using circulant model
+	 * 
+	 * noncirculant - images have been zero extended as to avoid circular deconvolution.  
+	 * 	http://bigwww.epfl.ch/deconvolution/challenge/index.html?p=documentation/overview
+	 * 
+	 * seminoncirculant - images have been zero extended as to avoid circular deconvolution
+	 * 		from the highest intensity region of the PSF.  
+	 */
+	public static enum ConvolutionStrategy{CIRCULANT, NON_CIRCULANT, SEMI_NONCIRCULANT};
+	
+	/**
+	 * 
+	 * 
+	 * @author bnorthan
+	 *
+	 */
+	public static enum AccelerationStrategy{NONE, VECTOR, MULTIPLICATIVE_VECTOR};
+
 	/**
 	 * return the current estimate
 	 */
@@ -47,6 +76,11 @@ public interface IterativeFilter<T extends RealType<T>, S extends RealType<S>> e
 	 * set first guess type
 	 */
 	public void setFirstGuessType(FirstGuessType firstGuessType);
+	
+	/**
+	 * set acceleration strategy
+	 */
+	public void setAccelerationType(AccelerationStrategy accelerationStrategy);
 	
 	/**
 	 * set known "truth" image.  This is useful for evaluating results when using a simulation 

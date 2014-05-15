@@ -27,6 +27,11 @@
 			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2-algorithms-gpl</artifactId>
 		</dependency>
+		
+		<dependency>
+		<groupId>net.imagej</groupId>
+		<artifactId>imagej-ops</artifactId>
+	</dependency>
 
 		<dependency>
 			<groupId>io.scif</groupId>
@@ -37,6 +42,12 @@
   			<artifactId>uncommons-maths</artifactId>
   		<version>1.2.2a</version>
   	</dependency>
+	
+	<dependency>
+<groupId>net.sf.jafama</groupId>
+<artifactId>JaFaMa</artifactId>
+<version>1.2</version>
+</dependency>
  </dependencies>
 
 </project>

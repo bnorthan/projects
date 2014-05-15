@@ -12,13 +12,10 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
 import net.imglib2.view.Views;
-
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
-
 import net.imglib2.algorithm.stats.ComputeMinMax;
 import net.imglib2.algorithm.gradient.PartialDerivative;
-
 import net.imglib2.iterator.LocalizingZeroMinIntervalIterator;
 
 import io.scif.SCIFIO;
@@ -28,7 +25,9 @@ import java.text.NumberFormat;
 
 import java.io.*;  
 
-/*z*
+
+
+/*
  * class to be used for quick implementation and prototyping of math and utility functions
  * 
  * @author bnorthan
@@ -107,8 +106,7 @@ public class StaticFunctions
 			cursorImage2.fwd();
 			dotProduct+=cursorImage1.get().getRealDouble()*cursorImage2.get().getRealDouble();
 		}
-		
-		
+			
 		return dotProduct;
 	}
 	
@@ -160,7 +158,6 @@ public class StaticFunctions
 			else
 			{ 
 				res = 0;
-				// Todo: handle divide by zero??
 			}
 				
 			cursorDenominatorOutput.get().setReal(res);
@@ -174,12 +171,10 @@ public class StaticFunctions
 		IterableInterval<T> numeratorIterator=Views.iterable(numerator);
 		
 		Cursor<T> numeratorCursor=numeratorIterator.cursor();
-	//	numeratorAccess.
 		 
 		while (cursorDenominatorOutput.hasNext())
 		{
 			cursorDenominatorOutput.fwd();
-		//	numeratorAccess.setPosition(cursorDenominatorOutput);
 			numeratorCursor.fwd();
 			
 			float num = numeratorCursor.get().getRealFloat();
@@ -193,7 +188,6 @@ public class StaticFunctions
 			else
 			{ 
 				res = 0;
-				// Todo: handle divide by zero??
 			}
 				
 			cursorDenominatorOutput.get().setReal(res);
@@ -229,7 +223,6 @@ public class StaticFunctions
 			else
 			{ 
 				res = 0;
-				// Todo: handle divide by zero??
 			}
 				
 			cursorNumeratorOutput.get().setReal(res);
@@ -376,9 +369,38 @@ public class StaticFunctions
 			cursorOut.fwd();
 			
 			double val1=cursor1.get().getRealDouble();
-			
 			double val2=cursor2.get().getRealDouble();
-			val2=Math.pow(val2, a);
+			
+			
+			
+		//	val2=Math.pow(val2, a);
+			val2=net.jafama.StrictFastMath.pow(val2, a);
+		//	net.jafama.StrictFastMath.powQuick(val2,a);
+		//	net.jafama.FastMath.pow(val2, a);
+			
+			cursorOut.get().setReal(val1*val2);
+		}
+		
+		return out;
+	}
+		
+	public static <T extends RealType<T>> Img<T> Mul(final Img<T> img1, final Img<T> img2)
+	{
+		Img<T> out = img1.factory().create(img1, img1.firstElement());
+		
+		final Cursor<T> cursor1 = img1.cursor();
+		final Cursor<T> cursor2 = img2.cursor();
+		final Cursor<T> cursorOut = out.cursor();
+		
+		while (cursor1.hasNext())
+		{
+			cursor1.fwd();
+			cursor2.fwd();
+			cursorOut.fwd();
+			
+			double val1=cursor1.get().getRealDouble();
+			double val2=cursor2.get().getRealDouble();
+			
 			cursorOut.get().setReal(val1*val2);
 		}
 		
@@ -645,8 +667,7 @@ public class StaticFunctions
 		Double temp;
 		
 		LocalizingZeroMinIntervalIterator i1 = new LocalizingZeroMinIntervalIterator(rnd1);
-		//LocalizingZeroMinIntervalIterator i2 = new LocalizingZeroMinIntervalIterator(rnd2);
-		
+
 		RandomAccess<T> access1 = rnd1.randomAccess();
 		RandomAccess<T> access2 = rnd2.randomAccess();
 		
@@ -666,46 +687,9 @@ public class StaticFunctions
 			   r2Pos[j]=(long)(i1.getFloatPosition(j))+offset[j];
 		   }
 		   
-		//   i2.fwd();
 		   access1.setPosition(i1);
 		   access2.setPosition(r2Pos);
-		   
-		 //  if (access2.get().getRealDouble()>150)	
-		  // if (access1.get().getRealDouble()>200)
-		 /*  if (currentSlice!=i1.getFloatPosition(2))
-		   {
-			   ("currentSlice "+currentSlice);
-			   System.out.println("dimension z "+i1.dimension(2));
-			   System.out.print("I1 at: ");
-			   for (int n=0;n<i1.numDimensions();n++)
-			   {
-				   System.out.print(i1.getFloatPosition(n)+" ");
-			   }
-			   
-			   System.out.println();
-			   //System.out.print("I2 at: ");
-			  // for (int n=0;n<i2.numDimensions();n++)
-			   //{
-				//   System.out.print(i2.getFloatPosition(n)+" ");
-			   //}
-			   
-			   System.out.println("check1 "+check1);
-			   System.out.println("check2 "+check2);
-			   
-				   StaticFunctions.Pause();
-				   
-				   check1=0;
-				   check2=0;
-				   currentSlice=(int)(i1.getFloatPosition(2));
-			   
-			  
-			   System.out.println();
-			   //System.out.print("vals: "+access1.get().getRealDouble()+" "+access2.get().getRealDouble());
-			   System.out.println();
-			   
-			   //StaticFunctions.Pause();
-		   }*/
-			   
+		   	   
 		   check1=check1+access1.get().getRealDouble();
 		   check2=check2+access2.get().getRealDouble();
 		   
@@ -748,27 +732,7 @@ public class StaticFunctions
 		
 		System.out.println("squared error center in progress... "+img1.dimension(0)+" "+img2.dimension(0));
 		
-	//	RandomAccessibleInterval<T> interval=
-		
 		return squaredError;
-		
-		
-		/*Cursor<T> cursor1 = img1.cursor();
-		Cursor<T> cursor2 = img2.cursor();
-		
-		double error;
-		
-		while (cursor1.hasNext())
-		{
-			cursor1.fwd();
-			cursor2.fwd();
-			
-			error=cursor1.get().getRealDouble()-cursor2.get().getRealDouble();
-			
-			squaredError += error*error;
-		}
-		
-		return squaredError;*/
 	}
 	
 	/*
@@ -822,7 +786,7 @@ public class StaticFunctions
 	}
 	
 	/*
-	 * return the absoluate change normalized by the total sum of img1'
+	 * return the absolute change normalized by the total sum of img1
 	 * (Todo: should be squared sum??)
 	 */
 	public static<T extends RealType<T>> double relativeChange(final Img<T> img1, final Img<T> img2)

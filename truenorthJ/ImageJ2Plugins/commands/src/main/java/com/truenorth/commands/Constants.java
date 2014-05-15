@@ -8,7 +8,7 @@ import com.truenorth.functions.psf.PsfGenerator.PsfModel;
  * 
  * Mostly deconvolution related at this point
  * 
- * Todo: As it grows the inner classes should be put in their own file
+ * TODO: As it grows the inner classes should be put in their own file
  * 
  * @author bnorthan
  *
@@ -34,7 +34,15 @@ public class Constants
 	public class ConvolutionStrategy
 	{
 		public static final String circulant="circulant";
+		public static final String seminoncirculant="seminoncirculant";
 		public static final String noncirculant="noncirculant";
+	}
+	
+	public class AccelerationStrategy
+	{
+		public static final String vector="vector";
+		public static final String multiplicative="multiplicative";
+		public static final String none="none";
 	}
 	
 	public class FirstGuess
@@ -43,6 +51,7 @@ public class Constants
 		public static final String constant="constant";
 		public static final String blurredMeasured="blurred measured image";
 		public static final String input="input";
+		public static final String inverse="inverse";
 	}
 	
 	public class PsfTypeStrings

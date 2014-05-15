@@ -16,10 +16,10 @@
 
 	<modules>
 		<module>functions</module>
-		<!--<module>ops</module>-->
+		<module>ops</module>
 		<module>commands</module>
 		<module>gui</module>
-		<module>DeconvolutionTest</module>		
+		<!--<module>DeconvolutionTest</module>-->		
 		<module>FuzzyDeconvolution</module>
 		<module>ScriptTest</module>
     	<!--<module>ops-gpu</module>-->
@@ -32,5 +32,6 @@
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
+	
 	</repositories>
 </project>

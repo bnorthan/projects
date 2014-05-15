@@ -114,7 +114,8 @@ public class RichardsonLucyFilter <T extends RealType<T>, S extends RealType<S>>
 		ComputeEstimate(correlation);
 		
 		// normalize for non-circulant deconvolution 
-		if (this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
+		if ( (this.convolutionStrategy==ConvolutionStrategy.NON_CIRCULANT)
+				|| (this.convolutionStrategy==ConvolutionStrategy.SEMI_NONCIRCULANT) )
 		{
 			StaticFunctions.InPlaceDivide2(normalization, estimate);
 		}

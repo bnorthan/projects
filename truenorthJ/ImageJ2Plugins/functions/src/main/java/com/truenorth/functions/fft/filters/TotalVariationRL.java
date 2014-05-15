@@ -100,7 +100,7 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 	@Override
 	protected void ComputeEstimate(Img<T> correlation)
 	{
-		/*long start=System.currentTimeMillis();
+	/*	long start=System.currentTimeMillis();
 		Img<T> dv_estimate = div_unit_grad();
 		long finish=System.currentTimeMillis();
 		
@@ -119,17 +119,22 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 		long dv_fast_thread_time=finish-start;
 		
 		System.out.println("dv_estimate: time was: "+dv_estimate_time);
-		StaticFunctions.showStats(dv_estimate);
+	//	StaticFunctions.showStats(dv_estimate);
 		
 		System.out.println("dv_fast: time was: "+dv_fast_time);
-		StaticFunctions.showStats(dv_fast);
+	//	StaticFunctions.showStats(dv_fast);
 		
 		System.out.println("dv_fast_thread: time was: "+dv_fast_thread_time);
-		StaticFunctions.showStats(dv_fast_thread);
+	//	StaticFunctions.showStats(dv_fast_thread);*/
+	
 		
-		StaticFunctions.Pause();*/
+		long start=System.currentTimeMillis();
 		
 		Img<T> dv_estimate = div_unit_grad_fast_thread();
+		
+		long fasttime=System.currentTimeMillis()-start;
+			
+		System.out.println("variation time: "+fasttime);
 		
 		final Cursor<T> cursorCorrelation = correlation.cursor();
 		final Cursor<T> cursorDV_estimate = dv_estimate.cursor();
@@ -148,7 +153,8 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 
 	static double hypot3(double a, double b, double c)
 	{
-	  return java.lang.Math.sqrt(a*a + b*b + c*c);
+	  return net.jafama.FastMath.sqrtQuick(a*a + b*b + c*c);
+	 // return java.lang.Math.sqrt();
 	}
 	
 	static double m(double a, double b)
@@ -186,9 +192,13 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 		 
 		 final AtomicInteger ai = new AtomicInteger( 0 );
 		 final Thread[] threads = SimpleMultiThreading.newThreads( getNumThreads() );
+		 
 		 final int numThreads=getNumThreads();
 		 
 		 final int zChunkSize=Nz/threads.length;
+		 
+		 System.out.println("numThreads: "+numThreads);
+		 System.out.println("zChunkSize "+zChunkSize);
 		 
 		 for ( int ithread = 0; ithread < threads.length; ++ithread )
 		 {
@@ -197,6 +207,8 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 				 @Override
 				 public void run()
 				 {
+					 long starttime=System.currentTimeMillis();
+					 
 					 final RandomAccess<T> outRandom = out.randomAccess();
 					 
 					// Thread ID
@@ -367,7 +379,7 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 				      				fipkmCursor.fwd();
 				      				fipCursor.fwd();
 				      			}
-				   	    
+				      			
 				      			 try
 				      			 {
 				      				 
@@ -415,8 +427,7 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 				      			 Dxpf = (fipjm - fjm) / hx;
 				      			 Dxmf = (fjm - fimjm) / hx;
 				      			 Dypf = (fijk - fjm) / hy;
-				      			 Dzpf = (fjmkp - fjm) / hz;
-				      			 Dzmf = (fjm - fjmkm) / hz;
+				      			Dzmf = (fjm - fjmkm) / hz;
 				      			 bjm = hypot3(Dypf, m(Dxpf, Dxmf), m(Dzpf, Dzmf));
 
 				      			 bjm = (bjm>FLOAT32_EPS?Dypf/bjm:0.0);
@@ -448,7 +459,9 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 				      		 }// end i
 					    }// end j
 					}// end k
-
+					 long totaltime=System.currentTimeMillis()-starttime;
+					 
+					 System.out.println("time for me ("+myNumber+") is: "+totaltime);
 				 }// end run
 			 });
 		 }

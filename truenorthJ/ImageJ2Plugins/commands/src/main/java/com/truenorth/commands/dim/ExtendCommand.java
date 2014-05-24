@@ -13,6 +13,9 @@ import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 
 import net.imglib2.img.Img;
+import net.imglib2.img.ImgFactory;
+import net.imglib2.img.cell.CellImgFactory;
+import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 
@@ -164,8 +167,11 @@ public abstract class ExtendCommand<T extends RealType<T> & NativeType<T>> exten
 				= new OutOfBoundsConstantValueFactory<T, RandomAccessibleInterval<T>>(t);
 		}
 		
+	//	new ImgFactory<T>();
+		
 		// call the extend routine on the volume
-		Img<T> extended=ExtendImage.Extend(volume, imgInput.factory(), finalExtendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
+	//	Img<T> extended=ExtendImage.Extend(volume, imgInput.factory(), finalExtendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
+		Img<T> extended=ExtendImage.Extend(volume, new ArrayImgFactory<T>(), finalExtendedVolumeDimensions, outOfBoundsFactory, imgInput.firstElement());
 		
 		return extended;
 	}

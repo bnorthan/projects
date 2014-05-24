@@ -23,7 +23,7 @@ import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 import com.truenorth.functions.fft.filters.DeconvolutionStats;
 
 import com.truenorth.functions.fft.filters.IterativeFilterFactory;
-import com.truenorth.functions.fft.filters.AbstractIterativeFilter.FirstGuessType;
+import com.truenorth.functions.fft.filters.IterativeFilter.FirstGuessType;
 import com.truenorth.functions.fft.filters.IterativeFilterFactory.IterativeFilterType;
 
 /**
@@ -526,6 +526,16 @@ public class FuzzyIterativeDeconvolutionFilter <T extends RealType<T>, S extends
 	public boolean initialize()
 	{
 		return false;
+	}
+	
+	public void setAccelerationType(IterativeFilter.AccelerationStrategy strategy)
+	{
+		
+	}
+	
+	public void setSemiNonCirculantConvolutionStrategy(long[] k)
+	{
+		
 	}
 		
 	public boolean performIterations(int n)

@@ -4,7 +4,7 @@ import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.view.Views;
 
-import org.uncommons.maths.number.NumberGenerator;
+//import org.uncommons.maths.number.NumberGenerator;
 
 // TODO: This code was cut and pasted from https://github.com/StephanPreibisch/multiview-simulation/tree/master/src/main/java/simulation
 // doesn't look like it is in a maven repository yet but need to link through maven when that option is available. 
@@ -17,6 +17,8 @@ import org.uncommons.maths.number.NumberGenerator;
 *
 * @param <T>
 */
+
+/*
 public class NumberGeneratorImage< T extends RealType< T > > implements NumberGenerator< Double >
 {
 	final Cursor< T > cursor;
@@ -28,9 +30,7 @@ public class NumberGeneratorImage< T extends RealType< T > > implements NumberGe
 		this.multiplicativeFactor = multiplicativeFactor;
 	}
 
-	/**
-	 * Otherwise it gets out of sync for some reason
-	 */
+	
 	public void fwd()
 	{
 		cursor.fwd();
@@ -46,6 +46,6 @@ public class NumberGeneratorImage< T extends RealType< T > > implements NumberGe
 	{
 		return cursor.get().getRealDouble() * multiplicativeFactor;
 	}
-}
+}*/
 
 

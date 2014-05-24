@@ -237,7 +237,7 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 					  double Dxpf, Dxmf, Dypf, Dymf, Dzpf, Dzmf;
 					  double Dxma, Dymb, Dzmc;
 					  
-					  hx=1;hy=1;hz=1;
+					  hx=1;hy=1;hz=3;
 					  hx2 = 2*hx;  hy2 = 2*hy;  hz2 = 2*hz;
 					 
 					 
@@ -478,7 +478,7 @@ public class TotalVariationRL <T extends RealType<T>, S extends RealType<S>> ext
 	 * This implemenation is not effecient but the code is easier to read and I want to keep it 
 	 * in for future testing and verification purposes.
 	 * 
-	 * @return
+	 * @return   
 	 */
 	Img<T> div_unit_grad()
 	{

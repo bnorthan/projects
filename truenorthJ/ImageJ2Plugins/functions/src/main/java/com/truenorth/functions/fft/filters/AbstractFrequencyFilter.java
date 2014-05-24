@@ -103,7 +103,7 @@ public abstract class AbstractFrequencyFilter<T extends RealType<T>, S extends R
 			final ImgFactory<T> imgFactory,
 			final ImgFactory<S> kernelImgFactory) throws IncompatibleTypeException
 	{
-		this(image, kernel, imgFactory, kernelImgFactory, imgFactory.imgFactory(new ComplexFloatType()));
+		this(image, kernel, imgFactory, kernelImgFactory, kernelImgFactory.imgFactory(new ComplexFloatType()));
 	}
 	
 	public AbstractFrequencyFilter( final Img<T> image, final Img<S> kernel ) throws IncompatibleTypeException

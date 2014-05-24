@@ -250,8 +250,8 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			
 			long iterationTime=System.currentTimeMillis()-startTime;
 			
-			System.out.println("estimate stats before acceleration");
-			StaticFunctions.showStats(estimate);
+		//	System.out.println("estimate stats before acceleration");
+		//	StaticFunctions.showStats(estimate);
 		//	System.out.println();
 			
 			if ( (iteration>0)&&(iteration<n-1)&&(accelerator!=null))
@@ -268,8 +268,8 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			
 			createReblurred();
 			
-			System.out.println("estimate stats after acceleration");
-			StaticFunctions.showStats(estimate);
+		//	System.out.println("estimate stats after acceleration");
+		//	StaticFunctions.showStats(estimate);
 		//	System.out.println();
 			
 			// if a callback has been set

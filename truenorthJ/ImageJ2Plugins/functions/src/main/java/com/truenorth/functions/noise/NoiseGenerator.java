@@ -56,12 +56,15 @@ import net.imglib2.IterableInterval;
 import net.imglib2.Cursor;
 
 import java.util.Random;
-import com.truenorth.functions.noise.NumberGeneratorImage;
-import org.uncommons.maths.random.PoissonGenerator;
+//import com.truenorth.functions.noise.NumberGeneratorImage;
+//import org.uncommons.maths.random.PoissonGenerator;
 
 import net.imglib2.type.numeric.RealType;
 
 import net.imglib2.view.Views;
+
+// TODO: uncommons math has an outdated version of JFreeChart thus need to 
+// comment out some Noise Generator code... need to fix the reference. 
 
 public class NoiseGenerator
 {
@@ -116,15 +119,18 @@ public class NoiseGenerator
 		// based on an average intensity of 5, a multiplicator of 1 corresponds to a SNR of 2.23 = sqrt( 5 );
 		final double mul = Math.pow( SNR / Math.sqrt( 5 ), 2 );
 
-		final NumberGeneratorImage< T> ng = new NumberGeneratorImage< T>( img, mul );
-		final PoissonGenerator pg = new PoissonGenerator( ng, rnd );
+		//final NumberGeneratorImage< T> ng = new NumberGeneratorImage< T>( img, mul );
+	
+		// TODO: comment back in when uncommonsmath JFreechart conflict is resolved
+		
+		/*	final PoissonGenerator pg = new PoissonGenerator( ng, rnd );
 
 		for ( final T v : Views.iterable( img ) )
 		{
 			ng.fwd();
 			
 			v.setReal( pg.nextValue().floatValue() );
-		}
+		}*/
 	}
 	
 	public static int poissonValue(double lambda)

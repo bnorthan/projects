@@ -1,7 +1,6 @@
 package com.truenorth.commands.dim;
 
 import org.scijava.command.Command;
-
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.Menu;
@@ -9,6 +8,7 @@ import org.scijava.menu.MenuConstants;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
+import net.imglib2.meta.Axes;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.meta.AxisType;
 import net.imglib2.type.NativeType;
@@ -28,11 +28,7 @@ import com.truenorth.functions.StaticFunctions;
  *
  * @param <T>
  */
-@Plugin(type=Command.class, menu = {
-    @Menu(label = MenuConstants.PLUGINS_LABEL,
-            weight = MenuConstants.PLUGINS_WEIGHT,
-            mnemonic = MenuConstants.PLUGINS_MNEMONIC),
-        @Menu(label = "Truenorth", mnemonic = 't'), @Menu(label = "Crop354", weight = 1) })
+@Plugin(type = ExtendCommand.class, menuPath = "Plugins>Dimensions>Crop")
 public class CropCommand<T extends RealType<T> & NativeType<T>> extends AbstractVolumeProcessorCommand<T>
 {
 	@Parameter 
@@ -45,9 +41,10 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
 	int zSize;
 	
 	int[] dimensions;
-	
 	long[] newDimensions;
-	long[] start;
+	
+	long[] volumeCroppedDimensions;
+	long[] volumeCroppedStart;
 	
 	/**
 	 * fills an array with the new dimensions and calculates the starting point for cropping
@@ -55,29 +52,39 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
 	@Override 
 	protected void preProcess()
 	{
-		newDimensions = new long[3];
+		volumeCroppedDimensions = new long[3];
 		
-		newDimensions[0]=xSize;
-		newDimensions[1]=ySize;
-		newDimensions[2]=zSize;
+		volumeCroppedDimensions[0]=xSize;
+		volumeCroppedDimensions[1]=ySize;
+		volumeCroppedDimensions[2]=zSize;
 		
-		dimensions = new int[input.numDimensions()];
-     	start=new long[input.numDimensions()];
+		newDimensions=new long[input.numDimensions()];
+     	volumeCroppedStart=new long[input.numDimensions()];
      	
      	AxisType[] axes=new AxisType[input.numDimensions()];
      	ImgPlus<T> imgPlusInput=(ImgPlus<T>)(input.getImgPlus());
      	
-     	for (int i=0;i<input.numDimensions();i++)
+     	int v=0;
+     	
+     	for (int d=0;d<input.numDimensions();d++)
      	{
-     		dimensions[i]=(int)input.dimension(i);
-     		start[i]=(dimensions[i]-newDimensions[i])/2;
+     		if ( (input.axis(d).type()==Axes.X) ||(input.axis(d).type()==Axes.Y)||(input.axis(d).type()==Axes.Z) ) 
+			{
+     			newDimensions[d]=volumeCroppedDimensions[v];
+     			
+				volumeCroppedStart[v]=(input.dimension(d)-volumeCroppedDimensions[v])/2;
+	     		
+				v++;
+			}	
+     		else
+     		{
+     			newDimensions[d]=(int)input.dimension(d);
+     		}
      		
-     		axes[i]=imgPlusInput.axis(i).type();
+     		axes[d]=imgPlusInput.axis(d).type();
      	}
      	
-     	Img<T> imgInput=(Img<T>)(imgPlusInput.getImg());
-     	
-     	
+     	Img<T> imgInput=(Img<T>)(imgPlusInput.getImg());  	
      	
      	output=datasetService.create(imgInput.firstElement(), newDimensions, "cropped", axes);
 	}
@@ -87,6 +94,6 @@ public class CropCommand<T extends RealType<T> & NativeType<T>> extends Abstract
 	{
 		Img<T> imgInput=(Img<T>)(input.getImgPlus().getImg());
 		
-		return StaticFunctions.crop(volume, imgInput.factory(), imgInput.firstElement(),  start, newDimensions);
+		return StaticFunctions.crop(volume, imgInput.factory(), imgInput.firstElement(),  volumeCroppedStart, volumeCroppedDimensions);
 	}
 }

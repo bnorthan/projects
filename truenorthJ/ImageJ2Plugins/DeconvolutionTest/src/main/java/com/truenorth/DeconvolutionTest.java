@@ -2,6 +2,8 @@ package com.truenorth;
 
 import net.imglib2.meta.ImgPlus;
 
+import net.imglib2.img.ImagePlusAdapter;
+
 import io.scif.img.ImgIOException;
 import com.truenorth.functions.StaticFunctions;
 
@@ -72,6 +74,8 @@ public class DeconvolutionTest
 		}
 		
 	
+	//	ImagePlusAdapter test=new ImagePlusAdapter();
+		
 		
         System.out.println("Number of arguments: "+args.length);
     

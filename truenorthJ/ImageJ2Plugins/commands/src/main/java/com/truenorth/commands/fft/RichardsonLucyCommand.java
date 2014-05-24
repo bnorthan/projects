@@ -2,7 +2,10 @@ package com.truenorth.commands.fft;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.type.Type;
 import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.real.FloatType;
+import net.imglib2.type.numeric.complex.ComplexFloatType;
 
 import net.imglib2.exception.IncompatibleTypeException;
 
@@ -11,6 +14,7 @@ import com.truenorth.functions.fft.filters.IterativeFilter;
 import com.truenorth.functions.fft.filters.RichardsonLucyFilter;
 
 import net.imglib2.img.Img;
+import net.imglib2.img.ImgFactory;
 
 import org.scijava.plugin.Plugin;
 
@@ -35,7 +39,7 @@ public class RichardsonLucyCommand<T extends RealType<T> & NativeType<T>> extend
 					psfImg, 
 					inputImg.factory(), 
 					psfImg.factory());
-			
+		
 			// return the filter
 			return richardsonLucy;
 		}

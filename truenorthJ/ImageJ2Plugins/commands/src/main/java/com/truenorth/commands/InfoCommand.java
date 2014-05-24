@@ -4,7 +4,6 @@ import net.imagej.Dataset;
 import net.imagej.DatasetService;
 
 import org.scijava.plugin.Parameter;
-
 import org.scijava.command.Command;
 
 import net.imglib2.meta.ImgPlus;
@@ -46,6 +45,16 @@ public class InfoCommand implements Command
 	@Override
 	public void run()
 	{
+		long freeMemory=Runtime.getRuntime().freeMemory();
+		System.out.println("free memory "+freeMemory);
+		
+		long maxMemory=Runtime.getRuntime().maxMemory();
+		System.out.println("max memory"+maxMemory);
+		
+		long totalMemory=Runtime.getRuntime().totalMemory();
+		
+		long presumableFreeMemory = Runtime.getRuntime().maxMemory() - totalMemory;
+		
 		for(int d=0;d<input.numDimensions();d++)
 		{ 	
 			System.out.println("axes "+d+" is: "+input.axis(d).type());

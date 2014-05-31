@@ -1,6 +1,6 @@
 package com.truenorth.functions.parallel;
 
-import net.imglib2.Cursor;
+/*import net.imglib2.Cursor;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 
@@ -11,7 +11,7 @@ import net.imagej.ops.chunker.Chunker;
 
 import net.imagej.ops.OpService;
 
-/*public class ParallelFunctions 
+public class ParallelFunctions 
 {
 	public static<T extends RealType<T>> long getLength(Img<T> img)
 	{

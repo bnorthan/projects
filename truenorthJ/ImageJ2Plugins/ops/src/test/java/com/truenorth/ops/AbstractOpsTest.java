@@ -43,6 +43,7 @@ import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.type.numeric.integer.ByteType;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
+import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.util.Intervals;
 
 import org.junit.After;
@@ -132,4 +133,20 @@ public abstract class AbstractOpsTest {
 
 		return ArrayImgs.unsignedBytes(array, dims);
 	}
+	
+	public Img<DoubleType> generateDoubleTestImg(final boolean fill,
+			final long... dims)
+		{
+			final double[] array =
+				new double[(int) Intervals.numElements(new FinalInterval(dims))];
+
+			if (fill) {
+				seed = 17;
+				for (int i = 0; i < array.length; i++) {
+					array[i] = (double) pseudoRandom();
+				}
+			}
+
+			return ArrayImgs.doubles(array, dims);
+		}
 }

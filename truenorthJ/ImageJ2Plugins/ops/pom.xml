@@ -25,18 +25,20 @@
 		<groupId>net.imagej</groupId>
 		<artifactId>imagej-ops</artifactId>
 	</dependency>
-     
-    <dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>${junit.version}</version>
-		<scope>test</scope>
-	</dependency>
 	
 	<dependency>
 		<groupId>com.truenorth</groupId>
 		<artifactId>functions</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</dependency>
+	
+	<!-- Testing scope -->
+	
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
  </dependencies>
 </project>

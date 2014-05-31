@@ -162,7 +162,7 @@ public class InverseFilter<T extends RealType<T>, S extends RealType<S>> extends
 		super( image, kernel );
 	}
 	
-	double threshold=0.001;
+	double threshold=0.00000001;
 	
 	/**
 	 * Naive inverse filter -- just division in Fourier Space

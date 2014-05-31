@@ -40,13 +40,10 @@ public class MultiplicativeAccelerator <T extends RealType<T>> implements Accele
 	
 	public Img<T> Accelerate(Img<T> yk_iterated)
 	{
-		// use the iterated prediciton and the previous value of the prediciton
+		// use the iterated prediction and the previous value of the prediction
 		// to calculate the acceleration factor
 		if (yk_prediction!=null)
 		{
-			//StaticFunctions.showStats(yk_iterated);
-			//StaticFunctions.showStats(yk_prediction);
-			
 			long startTime=System.currentTimeMillis();
 			
 			accelerationFactor=computeAccelerationFactorMultiplicative(yk_iterated, yk_prediction, yk_iterated, xkm1_previous);
@@ -56,7 +53,7 @@ public class MultiplicativeAccelerator <T extends RealType<T>> implements Accele
 			System.out.println("acceleration factor is: "+accelerationFactor);
 			System.out.println("acceleration factor time is: "+endTime);
 			
-			// if acceleration factor is negative or above 1 restart the acceleration process
+			// if acceleration factor is negative restart the acceleration process
 			if ( (accelerationFactor<0) )
 			{
 				xkm1_previous=null;
@@ -69,7 +66,6 @@ public class MultiplicativeAccelerator <T extends RealType<T>> implements Accele
 				accelerationFactor=1.0f;
 			}
 			
-			//accelerationFactor*=2.0;
 		}
 		
 		// current estimate for x is yk_iterated

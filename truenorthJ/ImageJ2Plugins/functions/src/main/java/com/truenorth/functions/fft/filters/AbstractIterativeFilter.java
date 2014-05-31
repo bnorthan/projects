@@ -256,14 +256,18 @@ public abstract class AbstractIterativeFilter<T extends RealType<T>, S extends R
 			
 			if ( (iteration>0)&&(iteration<n-1)&&(accelerator!=null))
 			{
-				startTime=System.currentTimeMillis();
+				long accelerationStartTime=System.currentTimeMillis();
 				
 				estimate=accelerator.Accelerate(estimate);
 				
-				long accelerationTime=System.currentTimeMillis()-startTime;
+				long accelerationTime=System.currentTimeMillis()-accelerationStartTime;
+				
+				long totalTime=System.currentTimeMillis()-startTime;
 				
 				System.out.println("iteration time: "+iterationTime);
 				System.out.println("acceleration time: "+accelerationTime);
+				System.out.println("total time: "+totalTime);
+				
 			}
 			
 			createReblurred();

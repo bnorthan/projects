@@ -1,28 +1,33 @@
 package com.truenorth.functions;
 
 import net.imglib2.Cursor;
+import net.imglib2.FinalInterval;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessible;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
+import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
+import net.imglib2.type.numeric.integer.ByteType;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
+import net.imglib2.type.numeric.real.DoubleType;
+import net.imglib2.type.numeric.real.FloatType;
+import net.imglib2.util.Intervals;
 import net.imglib2.view.Views;
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 import net.imglib2.algorithm.stats.ComputeMinMax;
 import net.imglib2.algorithm.gradient.PartialDerivative;
 import net.imglib2.iterator.LocalizingZeroMinIntervalIterator;
-
 import io.scif.SCIFIO;
 import io.scif.img.ImgSaver;
 
 import java.text.NumberFormat;
-
 import java.io.*;  
 
 
@@ -310,7 +315,7 @@ public class StaticFunctions
 			float div = cursor2.get().getRealFloat();
 			float res =0;
 			
-			if (div>0)
+			if (div!=0)
 			{
 				res = num/div;
 			}
@@ -1087,5 +1092,75 @@ public class StaticFunctions
 					
 		return buffer;
 	}
+	
+	private static int pseudoRandom(int seed) {
+		return 3170425 * seed + 132102;
+	}
+	
+	public static<T extends RealType<T>> Img<UnsignedByteType> generateUnsignedByteTestImg(int seed, final boolean fill, final long... dims)
+	{
+		final byte[] array =
+				new byte[(int) Intervals.numElements(new FinalInterval(dims))];
+
+		if (fill) 
+		{
+			
+			for (int i = 0; i < array.length; i++) 
+			{
+				seed=pseudoRandom(seed);
+				array[i] = (byte)seed; 
+			}
+		}
+
+		return ArrayImgs.unsignedBytes(array, dims);
+	}
+	
+	public static Img<ByteType> generateByteTestImg(int seed, final boolean fill,
+			final long... dims)
+		{
+			final byte[] array =
+				new byte[(int) Intervals.numElements(new FinalInterval(dims))];
+
+			if (fill) {
+				for (int i = 0; i < array.length; i++) {
+					seed=pseudoRandom(seed);
+					array[i] = (byte) seed;
+				}
+			}
+
+			return ArrayImgs.bytes(array, dims);
+		}
+	
+	public static Img<DoubleType> generateDoubleTestImg(int seed, final boolean fill,
+			final long... dims)
+		{
+			final double[] array =
+				new double[(int) Intervals.numElements(new FinalInterval(dims))];
+
+			if (fill) {
+				for (int i = 0; i < array.length; i++) {
+					seed=pseudoRandom(seed);
+					array[i] = (double) seed;
+				}
+			}
+
+			return ArrayImgs.doubles(array, dims);
+		}
+	
+	public static Img<FloatType> generateFloatTestImg(int seed, final boolean fill,
+			final long... dims)
+		{
+			final float[] array =
+				new float[(int) Intervals.numElements(new FinalInterval(dims))];
+
+			if (fill) {
+				for (int i = 0; i < array.length; i++) {
+					seed=pseudoRandom(seed);
+					array[i] = (float) seed;
+				}
+			}
+
+			return ArrayImgs.floats(array, dims);
+		}
 }
 

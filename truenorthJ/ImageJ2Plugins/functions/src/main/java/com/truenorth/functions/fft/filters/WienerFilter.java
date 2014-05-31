@@ -198,7 +198,7 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 			float abs = normB.getRealFloat()+normB.getImaginaryFloat();
 			abs = (float)java.lang.Math.sqrt(abs);
 			
-			if (abs>0.001)
+		//	if (abs>0.0)
 			{
 				ComplexFloatType ratio = Pn.copy();
 				ratio.div(Pf);
@@ -207,7 +207,7 @@ public class WienerFilter<T extends RealType<T>, S extends RealType<S>> extends 
 				conjB.div(normB);
 				cursorA.get().mul(conjB);
 			}
-			else
+		//	else
 			{
 				cursorA.get().set(zero);
 			}

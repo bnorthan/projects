@@ -28,6 +28,11 @@
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>in-project</id>
+			<name>In project repo</name>
+			<url>file://lib</url>
+			</repository>
 	</repositories>
  
 </project>

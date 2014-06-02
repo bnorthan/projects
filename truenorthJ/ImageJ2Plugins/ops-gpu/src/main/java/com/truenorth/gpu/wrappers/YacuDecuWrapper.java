@@ -1,5 +1,7 @@
 package com.truenorth.gpu.wrappers;
 
+
+
 /**
  * Wrapper for YacuDecu deconvolution.  JNI is used to generate the c-header file.
  * 
@@ -31,6 +33,22 @@ public class YacuDecuWrapper
 	 */
 	public void LoadLib()
 	{
-		System.loadLibrary("YacuDecuWrapper");
+		try
+		{
+			System.loadLibrary("YacuDecu");
+		}
+		catch (Exception ex)
+		{
+			
+		}
+		
+		try
+		{
+			System.loadLibrary("YacuDecuJavaSwig");
+		}
+		catch (Exception ex)
+		{
+			
+		}
 	}
 }

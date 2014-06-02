@@ -35,10 +35,11 @@ from PSFAberrated import PSFAberrated
 
 homeDirectory="/home/bnorthan/Brian2014/Images/General/Deconvolution/Phantoms/"
 
-experiment=RandomSpheresZRatio(256, 256, 50, 129, 129, 101, homeDirectory)
+#experiment=RandomSpheresZRatio(256, 256, 50, 129, 129, 101, homeDirectory)
+experiment=Spheres2(192, 192, 64, 129, 129, 127, homeDirectory)
 directory=experiment.directory
 
-psf=PSF_NA14_DAPI_65_200_coverslip(directory)
+psf=PSFExample(directory)
 psfDirectory=psf.directory
 
 print directory

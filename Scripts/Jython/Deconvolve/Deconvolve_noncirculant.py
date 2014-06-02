@@ -21,13 +21,14 @@ rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
 
 inputDir=rootImageDir+"/Phantoms/2Spheres3/"
 psfDir=inputDir
-outputDir=rootImageDir+"/Tests/2Spheres3/noncirculantrltv/"
+outputDir=rootImageDir+"/Tests/2Spheres3/noncirculantrltv_noaccel/"
 algorithm="rltv_tn_nc"
 
 if not os.path.exists(outputDir):
     os.makedirs(outputDir)
 
-inputName="phantom_.image.ome.tif"
+inputName="phantom_.image.noisy.ome.tif"
+truthName="phantom_cropped.ome.tif"
 generatePSF=False
 
 outputBase="phantom"
@@ -44,7 +45,10 @@ else:
 
 # open and display the input image
 inputData=data.open(inputDir+inputName)
-display.createDisplay(inputData.getName(), inputData);	
+display.createDisplay(inputData.getName(), inputData);
+
+# open the truth image
+truthData=data.open(inputDir+truthName)	
 
 # size of the measurement 
 measurementSizeX=inputData.dimension(inputData.dimensionIndex(Axes.X));
@@ -63,7 +67,7 @@ objectSizeX=measurementSizeX+psfSizeX-1
 objectSizeY=measurementSizeY+psfSizeY-1
 objectSizeZ=measurementSizeZ+psfSizeZ-1
 
-iterations=200
+iterations=20
 regularizationFactor=0.002
 
 extendedName=outputDir+outputBase+".extended.ome.tif"
@@ -82,7 +86,7 @@ psfExtended=command.run("com.truenorth.commands.dim.ExtendCommandDimension", Tru
 io.save(psfExtended, extendedPsfName);
 
 # call RL
-deconvolved = command.run("com.truenorth.commands.fft.TotalVariationRLCommand", True, "input", extended, "psf", psfExtended, "truth", None,"firstGuess", None, "iterations", iterations, "firstGuessType", "constant", "convolutionStrategy", "noncirculant", "regularizationFactor", regularizationFactor, "imageWindowX", measurementSizeX, "imageWindowY", measurementSizeY, "imageWindowZ", measurementSizeZ, "psfWindowX", psfSizeX, "psfWindowY", psfSizeY, "psfWindowZ", psfSizeZ).get().getOutputs().get("output");
+deconvolved = command.run("com.truenorth.commands.fft.TotalVariationRLCommand", True, "input", extended, "psf", psfExtended, "truth", truthData,"firstGuess", None, "iterations", iterations, "firstGuessType", "constant", "convolutionStrategy", "noncirculant", "regularizationFactor", regularizationFactor, "imageWindowX", measurementSizeX, "imageWindowY", measurementSizeY, "imageWindowZ", measurementSizeZ, "psfWindowX", psfSizeX, "psfWindowY", psfSizeY, "psfWindowZ", psfSizeZ).get().getOutputs().get("output");
 io.save(deconvolved, deconvolvedName);
 
 # crop back down to image window size

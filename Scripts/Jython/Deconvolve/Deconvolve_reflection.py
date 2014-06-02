@@ -18,7 +18,7 @@ rootImageDir="/home/bnorthan/Brian2014/Images/General/Deconvolution/"
 #outputBase="phantom"
 
 inputDir=rootImageDir+"/Phantoms/2Spheres3/"
-outputDir=rootImageDir+"/Tests/2Spheres3/reflection_fullextension/"
+outputDir=rootImageDir+"/Tests/2Spheres3/reflection_accelerated/"
 algorithm="rltv"
 
 if not os.path.exists(outputDir):
@@ -39,16 +39,16 @@ psf=data.open(inputDir+psfName)
 display.createDisplay(psf.getName(), psf);
 
 # desired dimensions of the image
-desiredSizeX=340
-desiredSizeY=340
-desiredSizeZ=200
+desiredSizeX=210
+desiredSizeY=210
+desiredSizeZ=70
 
 # original size of the image
 sizeX=192
 sizeY=192
 sizeZ=64
 
-iterations=200
+iterations=50
 regularizationFactor=0.002
 
 extendedName=outputDir+outputBase+".extended.ome.tif"
@@ -69,7 +69,7 @@ io.save(psfExtended, extendedPsfName);
 # if cropping required 
 
 # call RL with total variation
-deconvolved = command.run("com.truenorth.commands.fft.RichardsonLucyCommand", True, "input", extended, "psf", psfExtended, "truth", None,"firstGuess", None, "iterations", iterations, "firstGuessType", "constant", "convolutionStrategy", "circulant", "regularizationFactor", regularizationFactor, "imageWindowX", 0, "imageWindowY", 0, "imageWindowZ", 0, "psfWindowX", 0, "psfWindowY", 0, "psfWindowZ", 0).get().getOutputs().get("output");
+deconvolved = command.run("com.truenorth.commands.fft.TotalVariationRLCommand", True, "input", extended, "psf", psfExtended, "truth", None,"firstGuess", None, "iterations", iterations, "firstGuessType", "constant", "convolutionStrategy", "circulant", "regularizationFactor", regularizationFactor, "imageWindowX", 0, "imageWindowY", 0, "imageWindowZ", 0, "psfWindowX", 0, "psfWindowY", 0, "psfWindowZ", 0).get().getOutputs().get("output");
 io.save(deconvolved, deconvolvedName);
 
 # crop back down to image window size

@@ -15,6 +15,8 @@ import com.truenorth.functions.psf.FlipPsfQuadrants;
 
 import com.truenorth.gpu.wrappers.YacuDecuWrapper;
 
+import com.deconware.wrappers.YacuDecu_swig;
+
 /**
  * Op tha calls Yacu Decu deconvolution
  * @author bnorthan
@@ -33,7 +35,7 @@ public class YacuDecuWrapperOp<T extends RealType<T>, S extends RealType<S>>
 	protected Img<T> kernel;
 	
 	@Parameter
-	protected int numIterations;
+	protected int numIterations    		;
 	
 	@Parameter(type = ItemIO.OUTPUT, required=false)
 	protected Img<T> output;
@@ -74,7 +76,8 @@ public class YacuDecuWrapperOp<T extends RealType<T>, S extends RealType<S>>
     	// try calling the wrapper
     	try
     	{
-    		int test=wrapper.runYacuDecu(numIterations, dimensions[0], dimensions[1], dimensions[2], inputBuffer, kernelBuffer, outputBuffer);
+    		YacuDecu_swig.deconv_device((long)numIterations, (long)dimensions[0], (long)dimensions[1], (long)dimensions[2], inputBuffer, kernelBuffer, outputBuffer);
+    		//int test=wrapper.runYacuDecu(numIterations, dimensions[0], dimensions[1], dimensions[2], inputBuffer, kernelBuffer, outputBuffer);
     	}
     	catch (Exception ex)
     	{
